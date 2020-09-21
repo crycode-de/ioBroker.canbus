@@ -1,0 +1,73 @@
+/* You can delete those if you want. I just found them very helpful */
+* {
+    box-sizing: border-box
+}
+.m {
+    /* Don't cut off dropdowns! */
+    overflow: initial;
+}
+
+.m .input-field-checkbox {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.msg-block,
+.parser-block {
+  position: relative;
+  border-bottom: 1px solid #5552;
+}
+
+.msg-block:nth-last-of-type(1),
+.parser-block:nth-last-of-type(1) {
+  position: relative;
+  border-bottom: none;
+}
+
+.msg-block:hover,
+.parser-block:hover {
+  background-color: #5551;
+}
+
+.parsers-block {
+  margin-left: 20px;
+}
+
+.m .msg-block .right-icon,
+.m .parser-block .right-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.m h2 {
+  font-size: 1.5em;
+}
+
+.m h3 {
+  font-size: 1.2em;
+}
+
+.m .parser-block .row {
+  margin-bottom: auto;
+}
+
+.m .error-msg {
+  display: block;
+  color: #f00;
+}
+
+.m .bitmask-wrapper + label {
+	position: absolute;
+	top: -26px;
+	font-size: .8rem;
+}
+
+.m .bitmask-wrapper [type="checkbox"] + span:not(.lever) {
+	padding-left: 25px;
+	padding-right: 5px;
+}
+
+div.loading img {
+  max-width: 200px;
+}

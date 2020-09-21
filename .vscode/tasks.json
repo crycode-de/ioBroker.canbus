@@ -1,0 +1,60 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Adapter+Admin and Install",
+      "group": "build",
+      "dependsOn": ["Build Adapter+Admin", "Install Adapter"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Admin and Install",
+      "group": "build",
+      "dependsOn": ["Build Admin", "Install Adapter"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Adapter and Install",
+      "group": "build",
+      "dependsOn": ["Build Adapter", "Install Adapter"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "Install Adapter",
+      "type": "shell",
+      "group": "build",
+      "command": "NPM_PACK=$(npm pack) && /opt/iobroker/iobroker url \"$(pwd)/$NPM_PACK\" --debug && rm \"$NPM_PACK\"",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "build",
+      "label": "Build Adapter+Admin"
+    },
+    {
+      "type": "npm",
+      "script": "build:ts",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "build",
+      "label": "Build Adapter"
+    },
+    {
+      "type": "npm",
+      "script": "build:parcel",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "build",
+      "label": "Build Admin"
+    }
+  ]
+}

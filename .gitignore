@@ -1,0 +1,21 @@
+.cache
+.git
+.idea
+*.code-workspace
+node_modules
+nbproject
+
+# npm package files
+iobroker.*.tgz
+
+Thumbs.db
+
+# i18n intermediate files
+admin/i18n/flat.txt
+admin/i18n/*/flat.txt
+
+# words are loaded from admin/i18n/*/translations.json in admin/src/words.ts
+admin/words.js
+
+#build/
+#admin/build/

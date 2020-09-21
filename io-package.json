@@ -1,0 +1,103 @@
+{
+    "common": {
+        "name": "canbus",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "CAN-Bus",
+        "titleLang": {
+            "en": "CAN-Bus",
+            "de": "CAN-Bus",
+            "ru": "CAN-Bus",
+            "pt": "Ônibus pode",
+            "nl": "CAN-bus",
+            "fr": "CAN-Bus",
+            "it": "CAN-Bus",
+            "es": "Puede transportar",
+            "pl": "Magistrala CAN",
+            "zh-cn": "CAN总线"
+        },
+        "desc": {
+            "en": "CAN Bus integration",
+            "de": "CAN-Bus-Integration",
+            "ru": "Интеграция с шиной CAN",
+            "pt": "Integração de barramento CAN",
+            "nl": "CAN Bus-integratie",
+            "fr": "Intégration CAN Bus",
+            "it": "Integrazione CAN Bus",
+            "es": "Integración de bus CAN",
+            "pl": "Integracja z magistralą CAN",
+            "zh-cn": "CAN总线集成"
+        },
+        "authors": [
+            "Peter Müller <peter@crycode.de>"
+        ],
+        "keywords": [
+            "can",
+            "bus",
+            "can-bus",
+            "network"
+        ],
+        "license": "GPL-3.0",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "canbus.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/crycode-de/ioBroker.canbus/master/admin/canbus.png",
+        "readme": "https://github.com/crycode-de/ioBroker.canbus/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "hardware",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "interface": "can0",
+        "autoAddSeenMessages": false,
+        "deleteUnconfiguredMessages": false,
+        "messages": {}
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Socketcan is connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
