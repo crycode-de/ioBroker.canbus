@@ -1,4 +1,5 @@
 import * as utils from '@iobroker/adapter-core';
+import { autobind } from 'core-decorators';
 import { CanMessage } from 'socketcan';
 
 import { CanInterface } from './can-interface';
@@ -9,14 +10,18 @@ import {
   PARSER_ID_REGEXP,
   PARSER_ID_RESERVED
 } from './consts';
-import { autobind } from 'core-decorators';
 
 export class CanBusAdapter extends utils.Adapter {
   //private readonly namespace: string;
 
   private canInterface: CanInterface | null = null;
 
-  private canId2Message: Record<number, MessageConfig> = {};
+  /**
+   * Mapping of CAN hex message IDs to the message configs.
+   * The IDs must be hex strings (3 or 8 chars) to differentiate between
+   * stanard frame and extended frame messages.
+   */
+  private canId2Message: Record<string, MessageConfig> = {};
 
   constructor(options: Partial<utils.AdapterOptions> = {}) {
     super({
@@ -24,20 +29,18 @@ export class CanBusAdapter extends utils.Adapter {
       name: 'canbus',
     });
 
-    this.on('ready', this.onReady.bind(this));
-    this.on('objectChange', this.onObjectChange.bind(this));
-    this.on('stateChange', this.onStateChange.bind(this));
-    // this.on('message', this.onMessage.bind(this));
-    this.on('unload', this.onUnload.bind(this));
-
+    this.on('ready', this.onReady);
+    this.on('objectChange', this.onObjectChange);
+    this.on('stateChange', this.onStateChange);
+    //this.on('message', this.onMessage);
+    this.on('unload', this.onUnload);
   }
 
   /**
-     * Is called when databases are connected and adapter received configuration.
-     */
+   * Is called when databases are connected and adapter received configuration.
+   */
+  @autobind
   private async onReady(): Promise<void> {
-    // Initialize your adapter here
-
     // Reset the connection indicator during startup
     this.setState('info.connection', false, true);
 
@@ -52,11 +55,14 @@ export class CanBusAdapter extends utils.Adapter {
     if (this.canInterface.start()) {
       this.setState('info.connection', true, true);
     }
+
+    this.subscribeStatesAsync('*');
   }
 
   /**
-     * Is called when adapter shuts down - callback has to be called under any circumstances!
-     */
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   */
+  @autobind
   private onUnload(callback: () => void): void {
     try {
       if (this.canInterface) {
@@ -71,8 +77,10 @@ export class CanBusAdapter extends utils.Adapter {
   }
 
   /**
-     * Is called if a subscribed object changes
-     */
+   * Is called if a subscribed object changes
+   * TODO: needed?
+   */
+  @autobind
   private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
     if (obj) {
       // The object was changed
@@ -84,15 +92,132 @@ export class CanBusAdapter extends utils.Adapter {
   }
 
   /**
-     * Is called if a subscribed state changes
-     */
-  private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+   * Is called if a subscribed state changes.
+   *
+   * This will trigger the sending of messages and conversion from parser states
+   * into message json states if configured.
+   */
+  @autobind
+  private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
     if (state) {
       // The state was changed
-      this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+      this.log.debug(`state ${id} changed: ${JSON.stringify(state)}`);
+
+      // don't do anything if the state is acked
+      if (state.ack) return;
+
+      const [,, msgId, stateId] = id.split('.');
+
+      // we only want states of a message objects
+      if (!msgId || !stateId || !msgId.match(MESSAGE_ID_REGEXP)) return;
+
+      const msg = this.canId2Message[msgId];
+
+      // we need a message and the message must be configured for sending
+      if (!msg || !msg.send) return;
+
+      switch (stateId) {
+        case 'send':
+          if (state.val !== true) return;
+
+          // send the current json data
+          if (await this.sendMessageJsonData(msg)) {
+            // set ack flag on the send state if the message was sent
+            await this.setStateAsync(`${msg.id}.send`, {
+              ...state,
+              ack: true
+            });
+          }
+
+          break;
+
+        case 'json':
+          if (!msg.autosend) return;
+
+          // send current json data
+          this.sendMessageJsonData(msg, state);
+          break;
+
+        case 'rtr':
+          // nothing to do here
+          break;
+
+        default:
+          if (!stateId.match(PARSER_ID_REGEXP)) return;
+          // TODO: parsers!
+      }
+
     } else {
       // The state was deleted
-      this.log.info(`state ${id} deleted`);
+      this.log.debug(`state ${id} deleted`);
+    }
+  }
+
+  /**
+   * Send the data of a message present in it's json state.
+   * For the json and rtr states of the message the ack flag will be set if the message is sent.
+   * @param msg The `MessageConfig` of the message for which we should send the data.
+   * @param state Optional state to use for sending. If not set, the current state of the object will be read.
+   * @return `true` if the message was sent.
+   */
+  private async sendMessageJsonData (msg: MessageConfig, state?: ioBroker.State | null | undefined): Promise<boolean> {
+    if (!this.canInterface || !this.canInterface.isReady()) {
+      this.log.warn(`Could not send data of ${msg.id}.json because CAN interface is not ready.`);
+      return false;
+    }
+
+    // read the state if not given by argument
+    if (!state) {
+      state = await this.getStateAsync(`${msg.id}.json`);
+      if (!state) {
+        this.log.warn(`No state found to send for ${this.namespace}.${msg.id}.json`);
+        return false;
+      }
+    }
+
+    // parse and check the json data
+    let parsedJson: unknown;
+    try {
+      parsedJson = JSON.parse(state.val as string);
+    } catch (err) {
+      this.log.warn(`Failed parsing JSON from ${this.namespace}.${msg.id}.json: ${err}`);
+      return false;
+    }
+
+    if (!Array.isArray(parsedJson)) {
+      this.log.warn(`JSON data in ${this.namespace}.${msg.id}.json is not an array!`);
+      return false;
+    }
+    if (parsedJson.length > 8) {
+      this.log.warn(`Array length of JSON data in ${this.namespace}.${msg.id}.json is greater than 8. Only up to 8 data bytes are supportet!`);
+      return false;
+    }
+
+    // get rtr flag from state
+    const rtrState = await this.getStateAsync(`${msg.id}.rtr`);
+    const rtr = rtrState && !!rtrState.val || false;
+
+    // send the message
+    if (this.canInterface.send(msg.idNum, msg.ext, Buffer.from(parsedJson), rtr)) {
+      // set ack flag on json if the message was send and not already acked
+      if (!state.ack) {
+        await this.setStateAsync(`${msg.id}.json`, {
+          ...state,
+          ack: true
+        });
+      }
+
+      // set ack on rtr if not already acked
+      if (rtrState && !rtrState.ack) {
+        await this.setStateAsync(`${msg.id}.rtr`, {
+          ...rtrState,
+          ack: true
+        });
+      }
+
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -111,6 +236,7 @@ export class CanBusAdapter extends utils.Adapter {
       const msgCfg: MessageConfig = {
         ...msg,
         idNum: parseInt(msg.id, 16),
+        ext: msg.id.length > 3,
         uuid: msgUuid
       };
 
@@ -147,7 +273,12 @@ export class CanBusAdapter extends utils.Adapter {
     }
   }
 
-  private getObjectTypeFromDataType(dataType: ioBroker.AdapterConfigDataType): ioBroker.CommonType {
+  /**
+   * Translate a configured data type to the corresponding ioBroker common type.
+   * @param dataType Data type from the config.
+   * @return The ioBroker common type.
+   */
+  private getCommonTypeFromDataType(dataType: ioBroker.AdapterConfigDataType): ioBroker.CommonType {
     switch (dataType) {
       case 'int8':
       case 'uint8':
@@ -173,11 +304,25 @@ export class CanBusAdapter extends utils.Adapter {
     }
   }
 
+  /**
+   * Handler for received CAN messages.
+   * @param msg The received CAN message.
+   */
   @autobind
   private async handleCanMsg (msg: CanMessage): Promise<void> {
-    if (this.canId2Message[msg.id]) {
+    // TODO: maybe need to check the nummeric ID against a Set of known IDs for
+    //       a better performance on systems with verry high message load?
+
+    const msgIdHex = getHexId(msg.id, !!msg.ext);
+
+    if (this.canId2Message[msgIdHex]) {
       // it's a known can message
-      const msgCfg = this.canId2Message[msg.id];
+      const msgCfg = this.canId2Message[msgIdHex];
+
+      // do nothing if the message isn't configured for receiving
+      if (!msgCfg.receive) return;
+
+      // set raw states
       this.setStateAsync(`${msgCfg.id}.json`, JSON.stringify([...msg.data]), true);
       this.setStateAsync(`${msgCfg.id}.rtr`, !!msg.rtr, true);
 
@@ -186,12 +331,12 @@ export class CanBusAdapter extends utils.Adapter {
     } else if (this.config.autoAddSeenMessages) {
       // it's not known but we should add it
       this.log.debug(`auto adding new message`);
-      const idHex = getHexId(msg.id, !!msg.ext);
       const msgCfg: MessageConfig = {
-        id: idHex,
+        id: msgIdHex,
         idNum: msg.id,
+        ext: msgIdHex.length > 3,
         uuid: null,
-        name: `CAN-Message 0x${idHex}`,
+        name: `CAN-Message 0x${msgIdHex}`,
         autosend: false,
         send: false,
         receive: true,
@@ -207,6 +352,11 @@ export class CanBusAdapter extends utils.Adapter {
     }
   }
 
+  /**
+   * Create/update all needed/configured objects for a message.
+   * @param msgUuid UUID of the message or `null` if it is an unconfigured message.
+   * @param msgCfg The message config containing the information about the message.
+   */
   private async createMessageObjects(msgUuid: string | null, msgCfg: MessageConfig): Promise<void> {
     this.log.debug(`create/update message id: ${msgCfg.id}, uuid: ${msgUuid}`);
 
@@ -247,16 +397,16 @@ export class CanBusAdapter extends utils.Adapter {
       native: {}
     });
 
-    // create/update or delete "send" state depending on "autosend" option
-    if (msgCfg.send && !msgCfg.autosend) {
+    // create/update or delete "send" state depending on "send" option
+    if (msgCfg.send) {
       await this.extendObjectAsync(`${msgCfg.id}.send`, {
         type: 'state',
         common: {
-          name: `Send current data`,
+          name: msgCfg.autosend ? 'Manually send current data' : 'Send current data',
           role: 'button',
           type: 'boolean',
           read: false,
-          write: msgCfg.send // allow write only if the message is configured for sending
+          write: true
         },
         native: {}
       });
@@ -284,7 +434,7 @@ export class CanBusAdapter extends utils.Adapter {
         common: {
           name: parser.name || `Parser ${parser.id}`,
           //role: 'state', // don't set the role here to let the user change it in admin
-          type: this.getObjectTypeFromDataType(parser.dataType),
+          type: this.getCommonTypeFromDataType(parser.dataType),
           unit: parser.dataUnit,
           read: true,
           write: msgCfg.send // allow write only if the message is configured for sending
@@ -320,7 +470,7 @@ export class CanBusAdapter extends utils.Adapter {
     }
 
     // save to our canId->msg mapping
-    this.canId2Message[msgCfg.idNum] = msgCfg;
+    this.canId2Message[msgCfg.id] = msgCfg;
   }
 }
 

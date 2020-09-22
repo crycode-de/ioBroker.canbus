@@ -17,7 +17,7 @@ function uuidv4() {
 }
 exports.uuidv4 = uuidv4;
 function getHexId(id, ext = false) {
-    let str = id.toString(16);
+    let str = id.toString(16).toUpperCase();
     str = str.padStart(ext ? 8 : 3, '0');
     return str;
 }

@@ -316,7 +316,7 @@ export class Messages extends React.PureComponent<MessagesProps, MessagesState> 
     // add it to the unknown messages
     unconfMessages[idParts[2]] = {
       id: idParts[2],
-      name: obj.common.name,
+      name: obj.common.name as string,
       receive: true,
       send: false,
       autosend: false,

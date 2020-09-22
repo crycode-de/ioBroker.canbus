@@ -5,6 +5,11 @@ declare interface MessageConfig extends ioBroker.AdapterConfigMessage {
   idNum: number;
 
   /**
+   * If the ID is in extened frame format.
+   */
+  ext: boolean;
+
+  /**
    * The uuid of this message if it is configured.
    * `null` if this message is automatically added.
    */

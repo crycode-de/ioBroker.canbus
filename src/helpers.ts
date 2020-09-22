@@ -14,7 +14,7 @@ export function uuidv4(): string {
 }
 
 export function getHexId(id: number, ext: boolean = false): string {
-  let str = id.toString(16);
+  let str = id.toString(16).toUpperCase();
   str = str.padStart(ext ? 8 : 3, '0');
   return str;
 }
