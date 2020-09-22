@@ -25,8 +25,7 @@ import * as zhcn from '../i18n/zh-cn/translations.json';
 declare global {
   namespace ioBroker {
     type AdminWords = keyof typeof en;
-    type AdminSystemDictionaryLanguages = 'en' | 'de' | 'ru' | 'pt' | 'nl' | 'fr' | 'it' | 'es' | 'pl' | 'zh-cn';
-    type AdminSystemDictionary = Record<AdminWords, Record<AdminSystemDictionaryLanguages, string>>;
+    type AdminSystemDictionary = Record<AdminWords, Record<ioBroker.Languages, string>>;
   }
 }
 /* eslint-enable @typescript-eslint/no-unused-vars,@typescript-eslint/no-namespace */

@@ -1,4 +1,4 @@
-declare let systemDictionary: Record<ioBroker.AdminWords, Record<ioBroker.AdminSystemDictionaryLanguages, string>>;
+declare let systemDictionary: Record<ioBroker.AdminWords, Record<ioBroker.Languages, string>>;
 
 declare let load: (
   settings: ioBroker.AdapterConfig,
@@ -50,7 +50,7 @@ interface ioBrokerSocket {
   emit(
     event: 'getObjectView',
     view: 'system',
-    type: 'device' | 'state' | 'channel',
+    type: ioBroker.ObjectType,
     options: Record<string, unknown>, //{},
     callback: (
       err: string | undefined,
