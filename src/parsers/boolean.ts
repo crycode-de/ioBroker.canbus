@@ -25,7 +25,7 @@ export class ParserBoolean extends ParserBase {
       ret = (val > 0);
     } else {
       // check the bitmask
-      ret = ((val & this.cfg.booleanMask) > 0);
+      ret = ((val & this.cfg.booleanMask) === this.cfg.booleanMask);
     }
 
     // invert?
@@ -58,7 +58,7 @@ export class ParserBoolean extends ParserBase {
       if (val) {
         buf[this.cfg.dataOffset] = (buf[this.cfg.dataOffset] | this.cfg.booleanMask);
       } else {
-        buf[this.cfg.dataOffset] = (buf[this.cfg.dataOffset] & ~this.cfg.booleanMask);
+        buf[this.cfg.dataOffset] = (buf[this.cfg.dataOffset] & ~(this.cfg.booleanMask));
       }
     }
 
