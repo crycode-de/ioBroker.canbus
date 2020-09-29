@@ -47,7 +47,7 @@ interface InputTextProps {
   /**
    * Optional transforming of input.
    */
-  transform?: 'lowerCase' | 'upperCase';
+  transform?: 'lowerCase' | 'upperCase' | ((newValue: string, oldValue: string) => string);
 }
 
 interface InputTextState {
@@ -107,13 +107,17 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
   private handleChange (event: React.ChangeEvent<HTMLInputElement>): void {
     let value = event.target.value;
 
-    switch (this.props.transform) {
-      case 'lowerCase':
-        value = value.toLowerCase();
-        break;
-      case 'upperCase':
-        value = value.toUpperCase();
-        break;
+    if (typeof this.props.transform === 'function') {
+      value = this.props.transform(value, this.state.value);
+    } else {
+      switch (this.props.transform) {
+        case 'lowerCase':
+          value = value.toLowerCase();
+          break;
+        case 'upperCase':
+          value = value.toUpperCase();
+          break;
+      }
     }
 
     this.setState({

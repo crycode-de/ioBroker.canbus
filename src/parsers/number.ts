@@ -5,7 +5,7 @@ import { ParserBase } from './base';
  */
 export class ParserNumber extends ParserBase {
 
-  protected static handledDataTypes: ioBroker.AdapterConfigDataType[] = [
+  protected static readonly handledDataTypes: ioBroker.AdapterConfigDataType[] = [
     'int8',
     'uint8',
     'int16_be',

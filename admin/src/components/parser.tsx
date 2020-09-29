@@ -120,7 +120,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             className='s6 m2 l1'
             value={this.state.dataEncoding}
             onChange={(v) => this.handleChange('dataEncoding', v as ioBroker.AdapterConfigDataEncoding)}
-            options={['latin1', 'utf8', 'utf16le']}
+            options={['ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le']}
           />}
 
           {!this.state.disabledDataUnit &&

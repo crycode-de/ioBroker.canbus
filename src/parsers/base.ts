@@ -13,7 +13,7 @@ export abstract class ParserBase {
   /**
    * Array of data types this parser can handle.
    */
-  protected static handledDataTypes: string[] = [];
+  protected static readonly handledDataTypes: string[] = [];
 
   constructor(parserConfig: ioBroker.AdapterConfigMessageParser) {
     this.cfg = parserConfig;

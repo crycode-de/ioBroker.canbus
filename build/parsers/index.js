@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.knownParsers = void 0;
+const boolean_1 = require("./boolean");
 const number_1 = require("./number");
+const string_1 = require("./string");
 /**
  * Array of all known parsers.
  */ /*
@@ -10,5 +12,7 @@ const number_1 = require("./number");
 * No need to add new parsers somewhere else than here.
 */
 exports.knownParsers = [
-    number_1.ParserNumber
+    boolean_1.ParserBoolean,
+    number_1.ParserNumber,
+    string_1.ParserString
 ];
