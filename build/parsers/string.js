@@ -11,15 +11,16 @@ class ParserString extends base_1.ParserBase {
     }
     read(buf) {
         try {
-            return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataLength);
+            return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
         }
         catch (err) {
             return err;
         }
     }
     write(buf, val) {
+        const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
         try {
-            buf.write(val, this.cfg.dataOffset, val.length, this.cfg.dataEncoding);
+            buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
         }
         catch (err) {
             return err;

@@ -15,15 +15,16 @@ export class ParserString extends ParserBase {
 
   public read(buf: Buffer): string | Error {
     try {
-      return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataLength);
+      return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
     } catch (err) {
       return err;
     }
   }
 
   public write(buf: Buffer, val: string): true | Error {
+    const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
     try {
-      buf.write(val, this.cfg.dataOffset, val.length, this.cfg.dataEncoding);
+      buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
     } catch (err) {
       return err;
     }
