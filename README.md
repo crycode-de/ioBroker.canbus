@@ -12,7 +12,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.canbus.png?downloads=true)](https://nodei.co/npm/iobroker.canbus/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/crycode-de/ioBroker.canbus/master.svg)](https://travis-ci.org/crycode-de/ioBroker.canbus)
+**Tests:** [![Travis-CI](http://img.shields.io/travis/crycode-de/ioBroker.canbus/master.svg)](https://travis-ci.org/crycode-de/ioBroker.canbus)
 
 ## canbus adapter for ioBroker
 

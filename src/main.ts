@@ -488,7 +488,7 @@ export class CanBusAdapter extends utils.Adapter {
       }
     }
 
-    // setup parser opbjects
+    // setup parser objects
     for (const parserUuid in msgCfg.parsers) {
       const parser = msgCfg.parsers[parserUuid];
       if (PARSER_ID_RESERVED.includes(parser.id)) {

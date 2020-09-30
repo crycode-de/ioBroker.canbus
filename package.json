@@ -77,7 +77,7 @@
     "watch:parcel": "parcel admin/src/index.tsx -d admin/build --hmr-port 1235",
     "watch:ts": "tsc -p tsconfig.build.json --watch",
     "watch": "npm run watch:ts",
-    "test:ts": "mocha src/**/*.test.ts",
+    "test:ts": "mocha --config .mocharc.ts.json src/**/*.test.ts",
     "test:package": "mocha test/package --exit",
     "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
