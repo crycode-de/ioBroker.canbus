@@ -1,5 +1,6 @@
 import { ParserBase } from './base';
 import { ParserBoolean } from './boolean';
+import { ParserCustom } from './custom';
 import { ParserNumber } from './number';
 import { ParserString } from './string';
 
@@ -24,5 +25,6 @@ interface ParserLike extends ParserBaseClass { }
 export const knownParsers: ParserLike[] = [
   ParserBoolean,
   ParserNumber,
-  ParserString
+  ParserString,
+  ParserCustom
 ];

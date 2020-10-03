@@ -35,9 +35,19 @@ interface InputTextProps {
   disabled?: boolean;
 
   /**
+   * If the input should be a textarea.
+   */
+  area?: boolean;
+
+  /**
    * Maximum length for the text.
    */
   maxLength?: number;
+
+  /**
+   * Placeholder to show if no value exists.
+   */
+  placeholder?: string;
 
   /**
    * Error message to display in case of e.g. validation errors.
@@ -59,6 +69,8 @@ interface InputTextState {
  * A text input.
  */
 export class InputText extends React.PureComponent<InputTextProps, InputTextState> {
+  private textArea: HTMLTextAreaElement | null | undefined;
+
   constructor(props: InputTextProps) {
     super(props);
 
@@ -87,15 +99,27 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
     }
     return (
       <div className={className}>
-        <input
-          type='text'
-          className='value'
-          id={this.state.id}
-          value={this.state.value}
-          onChange={this.handleChange}
-          maxLength={this.props.maxLength}
-          disabled={this.props.disabled}
-        />
+        {this.props.area ?
+          <textarea
+            className='materialize-textarea custom-script'
+            id={this.state.id}
+            onChange={this.handleChange}
+            placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
+            ref={(me) => this.textArea = me}
+          >{this.state.value}</textarea>
+          :
+          <input
+            type='text'
+            className='value'
+            id={this.state.id}
+            value={this.state.value}
+            onChange={this.handleChange}
+            maxLength={this.props.maxLength}
+            placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
+          />
+        }
         <label htmlFor={this.state.id}>{this.props.label}</label>
         {this.props.errorMsg && <span className='error-msg'>{this.props.errorMsg}</span>}
         {this.props.children}
@@ -104,7 +128,7 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
   }
 
   @autobind
-  private handleChange (event: React.ChangeEvent<HTMLInputElement>): void {
+  private handleChange (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
     let value = event.target.value;
 
     if (typeof this.props.transform === 'function') {

@@ -24,7 +24,8 @@ const DATA_TYPE_OPTIONS: Record<ioBroker.AdapterConfigDataType, string> = {
   double64_be: 'double64 BE',
   double64_le: 'double64 LE',
   boolean: 'boolean',
-  string: 'string'
+  string: 'string',
+  custom: 'custom'
 };
 
 interface ParserProps {
@@ -44,6 +45,7 @@ interface ParserState extends ioBroker.AdapterConfigMessageParser {
   disabledDataLengths: string[];
   disabledDataEncoding: boolean;
   disabledDataUnit: boolean;
+  disabledDataOffsetAndLength: boolean;
 }
 
 /**
@@ -60,7 +62,8 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       disabledDataLengths: [],
       disabledDataOffsets: [],
       disabledDataEncoding: false,
-      disabledDataUnit: false
+      disabledDataUnit: false,
+      disabledDataOffsetAndLength: false
     }));
   }
 
@@ -98,22 +101,24 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             onChange={(v) => this.handleChange('dataType', v as ioBroker.AdapterConfigDataType)}
             options={DATA_TYPE_OPTIONS}
           />
-          <InputSelect
-            label={_('Offset')}
-            className='s6 m2 l1'
-            value={this.state.dataOffset.toString()}
-            onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
-            options={['0', '1', '2', '3', '4', '5', '6', '7']}
-            disabledOptions={this.state.disabledDataOffsets}
-          />
-          <InputSelect
-            label={_('Length')}
-            className='s6 m2 l1'
-            value={this.state.dataLength.toString()}
-            onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
-            options={['1', '2', '3', '4', '5', '6', '7', '8']}
-            disabledOptions={this.state.disabledDataLengths}
-          />
+          {!this.state.disabledDataOffsetAndLength && <>
+            <InputSelect
+              label={_('Offset')}
+              className='s6 m2 l1'
+              value={this.state.dataOffset.toString()}
+              onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
+              options={['0', '1', '2', '3', '4', '5', '6', '7']}
+              disabledOptions={this.state.disabledDataOffsets}
+            />
+            <InputSelect
+              label={_('Length')}
+              className='s6 m2 l1'
+              value={this.state.dataLength.toString()}
+              onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
+              options={['1', '2', '3', '4', '5', '6', '7', '8']}
+              disabledOptions={this.state.disabledDataLengths}
+            />
+          </>}
           {!this.state.disabledDataEncoding &&
           <InputSelect
             label={_('Encoding')}
@@ -155,6 +160,30 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             <span>{_('Invert the boolean value')}</span>
           </InputCheckbox>
         </div>}
+
+        {this.state.dataType === 'custom' &&
+        <div className='row'>
+          <InputText
+            label={_('Custom script read')}
+            className='s12 m6'
+            area={true}
+            value={this.state.customScriptRead}
+            onChange={(v) => this.handleChange('customScriptRead', v)}
+            placeholder='// example:&#10;value = buffer[0] + buffer[1];'
+          >
+            <span dangerouslySetInnerHTML={{__html: _('Script to read the value from the buffer. The buffer is availiable as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
+          </InputText>
+          <InputText
+            label={_('Custom script write')}
+            className='s12 m6'
+            area={true}
+            value={this.state.customScriptWrite}
+            onChange={(v) => this.handleChange('customScriptWrite', v)}
+            placeholder='// example:&#10;buffer[0] = value & 0xff;&#10;buffer[1] = (value >> 8);'
+          >
+            <span dangerouslySetInnerHTML={{ __html: _('Script to write the value to the buffer. The buffer is availiable as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
+          </InputText>
+        </div>}
       </div>
     );
   }
@@ -172,7 +201,9 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       dataUnit: this.state.dataUnit,
       dataEncoding: this.state.dataEncoding,
       booleanMask: this.state.booleanMask,
-      booleanInvert: this.state.booleanInvert
+      booleanInvert: this.state.booleanInvert,
+      customScriptRead: this.state.customScriptRead,
+      customScriptWrite: this.state.customScriptWrite
     });
   }
 
@@ -210,6 +241,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataLength = 1;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = true;
+        state.disabledDataOffsetAndLength = false;
         state.dataUnit = '';
         break;
       case 'int8':
@@ -219,6 +251,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataLength = 1;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
+        state.disabledDataOffsetAndLength = false;
         break;
       case 'int16_be':
       case 'int16_le':
@@ -229,6 +262,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataLength = 2;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
+        state.disabledDataOffsetAndLength = false;
         break;
       case 'int32_be':
       case 'int32_le':
@@ -241,6 +275,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataLength = 4;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
+        state.disabledDataOffsetAndLength = false;
         break;
       case 'double64_be':
       case 'double64_le':
@@ -249,12 +284,14 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataLength = 8;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
+        state.disabledDataOffsetAndLength = false;
         break;
       case 'string':
         state.disabledDataOffsets = [];
         state.disabledDataLengths = [];
         state.disabledDataEncoding = false;
         state.disabledDataUnit = true;
+        state.disabledDataOffsetAndLength = false;
         state.dataUnit = '';
 
         // disable data lengths depending on the selected offset
@@ -268,6 +305,15 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             state.disabledDataLengths.push(i.toString());
           }
         }
+        break;
+      case 'custom':
+        state.disabledDataOffsets = [];
+        state.disabledDataLengths = [];
+        state.dataOffset = 0;
+        state.dataLength = 8;
+        state.disabledDataEncoding = true;
+        state.disabledDataUnit = false;
+        state.disabledDataOffsetAndLength = true;
         break;
     }
 

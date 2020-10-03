@@ -44,13 +44,15 @@ declare global {
       dataUnit: string;
       booleanMask: number;
       booleanInvert: boolean;
+      customScriptRead: string;
+      customScriptWrite: string;
     }
 
     type AdapterConfigMessageParsers = {
       [uuid: string]: AdapterConfigMessageParser;
     };
 
-    type AdapterConfigDataType = 'int8' | 'uint8' | 'int16_be' | 'int16_le' | 'uint16_be' | 'uint16_le' | 'int32_be' | 'int32_le' | 'uint32_be' | 'uint32_le' | 'float32_be' | 'float32_le' | 'double64_be' | 'double64_le' | 'boolean' | 'string';
+    type AdapterConfigDataType = 'int8' | 'uint8' | 'int16_be' | 'int16_le' | 'uint16_be' | 'uint16_le' | 'int32_be' | 'int32_le' | 'uint32_be' | 'uint32_le' | 'float32_be' | 'float32_le' | 'double64_be' | 'double64_le' | 'boolean' | 'string' | 'custom';
     type AdapterConfigDataEncoding = 'latin1' | 'ascii' | 'utf8' | 'utf16le' | 'base64' | 'hex';
   }
 }

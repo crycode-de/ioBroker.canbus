@@ -7,8 +7,9 @@ exports.ParserBase = void 0;
  * methods and set its `handledDataTypes`.
  */
 class ParserBase {
-    constructor(parserConfig) {
+    constructor(adapter, parserConfig) {
         this.cfg = parserConfig;
+        this.adapter = adapter;
     }
     /**
      * Check if this parser can handle a data type.

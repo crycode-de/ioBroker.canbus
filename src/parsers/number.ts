@@ -1,3 +1,4 @@
+import { CanBusAdapter } from '../main';
 import { ParserBase } from './base';
 
 /**
@@ -22,11 +23,11 @@ export class ParserNumber extends ParserBase {
     'double64_le'
   ];
 
-  constructor(parserConfig: ioBroker.AdapterConfigMessageParser) {
-    super(parserConfig);
+  constructor(adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
+    super(adapter, parserConfig);
   }
 
-  public read(buf: Buffer): number | Error {
+  public async read(buf: Buffer): Promise<number | Error> {
     try {
       switch (this.cfg.dataType) {
         case 'int8':        return buf.readInt8(this.cfg.dataOffset);
@@ -50,7 +51,7 @@ export class ParserNumber extends ParserBase {
     }
   }
 
-  public write(buf: Buffer, val: number): true | Error {
+  public async write(buf: Buffer, val: number): Promise<Buffer | Error> {
     try {
       switch (this.cfg.dataType) {
         case 'int8':        buf.writeInt8(val, this.cfg.dataOffset); break;
@@ -72,6 +73,6 @@ export class ParserNumber extends ParserBase {
     } catch (err) {
       return err;
     }
-    return true;
+    return buf;
   }
 }

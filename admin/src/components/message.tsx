@@ -221,7 +221,9 @@ export class Message extends React.PureComponent<MessageProps, MessageState> {
       dataUnit: '',
       dataEncoding: 'latin1',
       booleanMask: 0,
-      booleanInvert: false
+      booleanInvert: false,
+      customScriptRead: '',
+      customScriptWrite: ''
     };
 
     this.setState((prevState) => {

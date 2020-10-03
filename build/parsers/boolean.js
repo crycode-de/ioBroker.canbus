@@ -6,10 +6,10 @@ const base_1 = require("./base");
  * Parser for handling of boolean values.
  */
 class ParserBoolean extends base_1.ParserBase {
-    constructor(parserConfig) {
-        super(parserConfig);
+    constructor(adapter, parserConfig) {
+        super(adapter, parserConfig);
     }
-    read(buf) {
+    async read(buf) {
         if (this.cfg.dataOffset >= buf.length) {
             return new Error('Data is too short for given offset');
         }
@@ -29,7 +29,7 @@ class ParserBoolean extends base_1.ParserBase {
         }
         return ret;
     }
-    write(buf, val) {
+    async write(buf, val) {
         if (this.cfg.dataOffset >= buf.length) {
             return new Error('Data is too short for given offset');
         }
@@ -55,7 +55,7 @@ class ParserBoolean extends base_1.ParserBase {
                 buf[this.cfg.dataOffset] = (buf[this.cfg.dataOffset] & ~(this.cfg.booleanMask));
             }
         }
-        return true;
+        return buf;
     }
 }
 exports.ParserBoolean = ParserBoolean;

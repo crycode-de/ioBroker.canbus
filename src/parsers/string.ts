@@ -1,3 +1,4 @@
+import { CanBusAdapter } from '../main';
 import { ParserBase } from './base';
 
 /**
@@ -9,11 +10,11 @@ export class ParserString extends ParserBase {
     'string'
   ];
 
-  constructor(parserConfig: ioBroker.AdapterConfigMessageParser) {
-    super(parserConfig);
+  constructor(adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
+    super(adapter, parserConfig);
   }
 
-  public read(buf: Buffer): string | Error {
+  public async read(buf: Buffer): Promise<string | Error> {
     try {
       return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
     } catch (err) {
@@ -21,13 +22,13 @@ export class ParserString extends ParserBase {
     }
   }
 
-  public write(buf: Buffer, val: string): true | Error {
+  public async write(buf: Buffer, val: string): Promise<Buffer | Error> {
     const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
     try {
       buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
     } catch (err) {
       return err;
     }
-    return true;
+    return buf;
   }
 }

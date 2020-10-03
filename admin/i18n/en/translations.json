@@ -38,5 +38,9 @@
     "Boolean invert": "Boolean invert",
     "Invert the boolean value": "Invert the boolean value",
     "This ID is reserved and can't be used": "This ID is reserved and can't be used",
-    "There are some errors in you configuration. Please check!": "There are some errors in you configuration. Please check!"
+    "There are some errors in you configuration. Please check!": "There are some errors in you configuration. Please check!",
+    "Custom script read": "Custom script read",
+    "Custom script write": "Custom script write",
+    "Script to read the value from the buffer. The buffer is availiable as %s and the value has to be written into %s.": "Script to read the value from the buffer. The buffer is availiable as %s and the value has to be written into %s.",
+    "Script to write the value to the buffer. The buffer is availiable as %s and the value as %s.": "Script to write the value to the buffer. The buffer is availiable as %s and the value as %s."
 }

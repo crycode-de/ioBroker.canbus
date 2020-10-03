@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.knownParsers = void 0;
 const boolean_1 = require("./boolean");
+const custom_1 = require("./custom");
 const number_1 = require("./number");
 const string_1 = require("./string");
 /**
@@ -14,5 +15,6 @@ const string_1 = require("./string");
 exports.knownParsers = [
     boolean_1.ParserBoolean,
     number_1.ParserNumber,
-    string_1.ParserString
+    string_1.ParserString,
+    custom_1.ParserCustom
 ];

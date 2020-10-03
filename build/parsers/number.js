@@ -6,10 +6,10 @@ const base_1 = require("./base");
  * Parser for handling of well known number values.
  */
 class ParserNumber extends base_1.ParserBase {
-    constructor(parserConfig) {
-        super(parserConfig);
+    constructor(adapter, parserConfig) {
+        super(adapter, parserConfig);
     }
-    read(buf) {
+    async read(buf) {
         try {
             switch (this.cfg.dataType) {
                 case 'int8': return buf.readInt8(this.cfg.dataOffset);
@@ -33,7 +33,7 @@ class ParserNumber extends base_1.ParserBase {
             return err;
         }
     }
-    write(buf, val) {
+    async write(buf, val) {
         try {
             switch (this.cfg.dataType) {
                 case 'int8':
@@ -84,7 +84,7 @@ class ParserNumber extends base_1.ParserBase {
         catch (err) {
             return err;
         }
-        return true;
+        return buf;
     }
 }
 exports.ParserNumber = ParserNumber;

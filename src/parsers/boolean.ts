@@ -1,3 +1,4 @@
+import { CanBusAdapter } from '../main';
 import { ParserBase } from './base';
 
 /**
@@ -9,11 +10,11 @@ export class ParserBoolean extends ParserBase {
     'boolean'
   ];
 
-  constructor(parserConfig: ioBroker.AdapterConfigMessageParser) {
-    super(parserConfig);
+  constructor(adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
+    super(adapter, parserConfig);
   }
 
-  public read(buf: Buffer): boolean | Error {
+  public async read(buf: Buffer): Promise<boolean | Error> {
     if (this.cfg.dataOffset >= buf.length) {
       return new Error('Data is too short for given offset');
     }
@@ -36,7 +37,7 @@ export class ParserBoolean extends ParserBase {
     return ret;
   }
 
-  public write(buf: Buffer, val: boolean): true | Error {
+  public async write(buf: Buffer, val: boolean): Promise<Buffer | Error> {
     if (this.cfg.dataOffset >= buf.length) {
       return new Error('Data is too short for given offset');
     }
@@ -62,6 +63,6 @@ export class ParserBoolean extends ParserBase {
       }
     }
 
-    return true;
+    return buf;
   }
 }

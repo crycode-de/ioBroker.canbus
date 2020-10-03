@@ -6,10 +6,10 @@ const base_1 = require("./base");
  * Parser for handling of string values.
  */
 class ParserString extends base_1.ParserBase {
-    constructor(parserConfig) {
-        super(parserConfig);
+    constructor(adapter, parserConfig) {
+        super(adapter, parserConfig);
     }
-    read(buf) {
+    async read(buf) {
         try {
             return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
         }
@@ -17,7 +17,7 @@ class ParserString extends base_1.ParserBase {
             return err;
         }
     }
-    write(buf, val) {
+    async write(buf, val) {
         const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
         try {
             buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
@@ -25,7 +25,7 @@ class ParserString extends base_1.ParserBase {
         catch (err) {
             return err;
         }
-        return true;
+        return buf;
     }
 }
 exports.ParserString = ParserString;

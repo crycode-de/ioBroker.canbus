@@ -129,14 +129,19 @@ class CanBusAdapter extends utils.Adapter {
                         if (parser.instance) {
                             // load the current json from state
                             const jsonState = await this.getStateAsync(`${msgCfg.id}.json`);
-                            const data = this.getBufferFromJsonState(jsonState, msgCfg.id);
+                            let data = this.getBufferFromJsonState(jsonState, msgCfg.id);
                             if (data === null) {
                                 return;
                             }
-                            // check if the parser has read a value (null indecates an error)
-                            const writeResult = parser.instance.write(data, state.val);
-                            if (writeResult instanceof Error) {
-                                this.log.warn(`Parser writing data for message ID ${msgCfg.id} parser ID ${parser.id} failed: ${writeResult}`);
+                            // write to data using the parser
+                            data = await parser.instance.write(data, state.val);
+                            // check the write result
+                            if (data instanceof Error) {
+                                this.log.warn(`Parser writing data for message ID ${msgCfg.id} parser ID ${parser.id} failed: ${data}`);
+                                continue;
+                            }
+                            if (!(data instanceof Buffer)) {
+                                this.log.warn(`Parser writing data for message ID ${msgCfg.id} parser ID ${parser.id} failed: Did not return a buffer`);
                                 continue;
                             }
                             // set the new json state with ack=false
@@ -293,7 +298,7 @@ class CanBusAdapter extends utils.Adapter {
                 return 'boolean';
             case 'string':
                 return 'string';
-            default: // should never be reached
+            default: // e.g. for custom
                 return 'mixed';
         }
     }
@@ -319,7 +324,7 @@ class CanBusAdapter extends utils.Adapter {
                 // check if the parser is initialized
                 const parser = msgCfg.parsers[parserUuid];
                 if (parser.instance) {
-                    const readResult = parser.instance.read(msg.data);
+                    const readResult = await parser.instance.read(msg.data);
                     // check if the parser has read a value (null indecates an error)
                     if (readResult instanceof Error) {
                         this.log.warn(`Parser reading from received data for ${msgCfg.id} failed: ${readResult}`);
@@ -415,7 +420,7 @@ class CanBusAdapter extends utils.Adapter {
                 await this.delObjectAsync(`${msgCfg.id}.send`);
             }
         }
-        // setup parser opbjects
+        // setup parser objects
         for (const parserUuid in msgCfg.parsers) {
             const parser = msgCfg.parsers[parserUuid];
             if (consts_1.PARSER_ID_RESERVED.includes(parser.id)) {
@@ -471,7 +476,7 @@ class CanBusAdapter extends utils.Adapter {
         for (const parserUuid in msgCfg.parsers) {
             for (const Parser of parsers_1.knownParsers) {
                 if (Parser.canHandle(msgCfg.parsers[parserUuid].dataType)) {
-                    msgCfg.parsers[parserUuid].instance = new Parser(msgCfg.parsers[parserUuid]);
+                    msgCfg.parsers[parserUuid].instance = new Parser(this, msgCfg.parsers[parserUuid]);
                     break;
                 }
             }

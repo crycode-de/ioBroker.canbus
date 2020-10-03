@@ -68,6 +68,23 @@
 	padding-right: 5px;
 }
 
+.m textarea.materialize-textarea.custom-script {
+  height: 120px;
+  overflow: auto;
+  border-left: 1px solid #5552;
+  border-top: 1px solid #5552;
+  border-right: 1px solid #5552;
+  font-family: monospace;
+  resize: vertical;
+  word-wrap: normal;
+}
+
+.m textarea.materialize-textarea.custom-script::placeholder,
+.m textarea.materialize-textarea.custom-script::-moz-placeholder,
+.m textarea.materialize-textarea.custom-script::-webkit-input-placeholder {
+  color: #333;
+}
+
 div.loading img {
   max-width: 200px;
 }

@@ -1,3 +1,5 @@
+import { CanBusAdapter } from '../main';
+
 /**
  * Abstract base class for all parsers.
  * Each parser must extend this base class, implement the `read()` and `write()`
@@ -10,13 +12,16 @@ export abstract class ParserBase {
    */
   protected readonly cfg: Readonly<ioBroker.AdapterConfigMessageParser>;
 
+  protected readonly adapter: CanBusAdapter;
+
   /**
    * Array of data types this parser can handle.
    */
   protected static readonly handledDataTypes: string[] = [];
 
-  constructor(parserConfig: ioBroker.AdapterConfigMessageParser) {
+  constructor(adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
     this.cfg = parserConfig;
+    this.adapter = adapter;
   }
 
   /**
@@ -33,13 +38,13 @@ export abstract class ParserBase {
    * @param buf The buffer to read from.
    * @return The value or an `Error` if the value could not be read.
    */
-  public abstract read(buf: Buffer): boolean | number | string | Error;
+  public abstract async read(buf: Buffer): Promise<boolean | number | string | unknown | Error>;
 
   /**
    * Write a value to the buffer.
    * @param buf The buffer to write to.
    * @param val The value to write.
-   * @return `true` if the value has been written or an `Error` if the value could not be written.
+   * @return The new/modufied buffer if the value has been written or an `Error` if the value could not be written.
    */
-  public abstract write(buf: Buffer, val: unknown): true | Error;
+  public abstract async write(buf: Buffer, val: unknown): Promise<Buffer | Error>;
 }
