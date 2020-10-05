@@ -14,10 +14,27 @@
 
 **Tests:** [![Travis-CI](http://img.shields.io/travis/crycode-de/ioBroker.canbus/master.svg)](https://travis-ci.org/crycode-de/ioBroker.canbus)
 
-## canbus adapter for ioBroker
+## CAN bus adapter for ioBroker
 
-CAN Bus integration
+This adapter connects ioBroker to a Controller Area Network (CAN bus).
 
+## Features
+
+* Receive and send raw messages using standard frames and extended frames
+* Each message may be configured for receiving and/or sending data
+* Ability to automatically add objects for seen CAN messages which are not already configured
+* Configure parsers for each message to read/write data from/to the raw message buffer
+  * Nummeric types
+  * Booleans including bitmask support
+  * Strings in differenct character encodings
+  * Custom scripts to read/write from/to the buffer of raw data
+* Support for the RTR flag
+
+## Requirements
+
+* Linux operating system (because of the used socketcan library)
+* CAN Hardware which creates an interface like `can0`
+* Some knowledge about the messages send on you CAN bus
 
 ## Changelog
 
