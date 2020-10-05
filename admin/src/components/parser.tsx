@@ -171,7 +171,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             onChange={(v) => this.handleChange('customScriptRead', v)}
             placeholder='// example:&#10;value = buffer[0] + buffer[1];'
           >
-            <span dangerouslySetInnerHTML={{__html: _('Script to read the value from the buffer. The buffer is availiable as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
+            <span dangerouslySetInnerHTML={{__html: _('Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
           </InputText>
           <InputText
             label={_('Custom script write')}
@@ -181,7 +181,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             onChange={(v) => this.handleChange('customScriptWrite', v)}
             placeholder='// example:&#10;buffer[0] = value & 0xff;&#10;buffer[1] = (value >> 8);'
           >
-            <span dangerouslySetInnerHTML={{ __html: _('Script to write the value to the buffer. The buffer is availiable as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
+            <span dangerouslySetInnerHTML={{ __html: _('Script to write the value to the buffer. The buffer is available as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
           </InputText>
         </div>}
       </div>

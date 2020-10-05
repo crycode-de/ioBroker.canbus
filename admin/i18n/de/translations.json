@@ -42,6 +42,6 @@
     "Reload": "Neu laden",
     "Custom script read": "Eigenes Skript zum lesen",
     "Custom script write": "Eigenes Skript zum schreiben",
-    "Script to read the value from the buffer. The buffer is availiable as %s and the value has to be written into %s.": "Skript um den Wert vom Buffer zu lesen. Der Buffer ist verfügbar als %s und der Wert muss in %s geschrieben werden.",
-    "Script to write the value to the buffer. The buffer is availiable as %s and the value as %s.": "Skript um den Wert in den Buffer zu schreiben. Der Buffer ist verfügbar als %s und der Wert als %s."
+    "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Skript um den Wert vom Buffer zu lesen. Der Buffer ist verfügbar als %s und der Wert muss in %s geschrieben werden.",
+    "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Skript um den Wert in den Buffer zu schreiben. Der Buffer ist verfügbar als %s und der Wert als %s."
 }
