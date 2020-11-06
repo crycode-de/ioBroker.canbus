@@ -1,5 +1,15 @@
-import { autobind } from 'core-decorators';
 import * as React from 'react';
+
+import {
+  Grid,
+  FormControl,
+  FormHelperText,
+  Select,
+  MenuItem,
+  InputLabel
+} from '@material-ui/core';
+import { GridSize } from '@material-ui/core/Grid';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';
 
@@ -55,8 +65,7 @@ interface InputSelectState {
 /**
  * A select input.
  */
-export class InputSelect extends React.PureComponent<InputSelectProps, InputSelectState> {
-  private selectElement: HTMLSelectElement | null | undefined;
+export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputSelectProps, InputSelectState> {
 
   constructor(props: InputSelectProps) {
     super(props);
@@ -76,57 +85,43 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
     };
   }
 
-  public componentDidMount (): void {
-    if (this.selectElement) {
-      M.FormSelect.init(this.selectElement);
-    }
-  }
-
   public componentDidUpdate (prevProps: InputSelectProps): void {
     if (prevProps.value !== this.props.value) {
       this.setState({
         value: this.props.value
-      }, () => {
-        if (this.selectElement) {
-          M.FormSelect.init(this.selectElement);
-        }
       });
-    }
-
-    if (this.selectElement && (prevProps.disabled !== this.props.disabled || JSON.stringify(prevProps.disabledOptions) !== JSON.stringify(this.props.disabledOptions))) {
-      M.FormSelect.init(this.selectElement);
     }
   }
 
   public render(): JSX.Element {
-    let className = 'input-field col s12';
-    if (this.props.className) {
-      className = 'input-field col ' + this.props.className;
-    }
     return (
-      <div className={className}>
-        <select id={this.state.id} onChange={this.handleChange} disabled={this.props.disabled} ref={me => this.selectElement = me}>
-          {Object.keys(this.state.options).map((key) => {
-            const attrs: React.OptionHTMLAttributes<HTMLOptionElement> = {};
-            if (key === this.state.value) {
-              attrs.selected = true;
-            }
-            if (this.props.disabledOptions && this.props.disabledOptions.includes(key)) {
-              attrs.disabled = true;
-            }
-            return <option key={key} value={key} {...attrs}>{this.state.options[key]}</option>;
-          })}
-        </select>
-        <label htmlFor={this.state.id}>{this.props.label}</label>
-        {this.props.children}
-      </div>
+      <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
+        <FormControl fullWidth>
+          <InputLabel id={`${this.state.id}_label`}>{this.props.label}</InputLabel>
+          <Select
+            id={this.state.id}
+            labelId={`${this.state.id}_label`}
+            value={this.state.value}
+            fullWidth
+            disabled={this.props.disabled}
+            onChange={(e) => this.handleChange(e.target.value as string)}
+          >
+            {Object.keys(this.state.options).map((k) => (
+              <MenuItem
+                key={k}
+                value={k}
+                disabled={this.props.disabledOptions && this.props.disabledOptions.includes(k)}
+              >{this.state.options[k]}</MenuItem>
+            ))}
+          </Select>
+
+          {this.props.children && <FormHelperText>{this.props.children}</FormHelperText>}
+        </FormControl>
+      </Grid>
     );
   }
 
-  @autobind
-  private handleChange (event: React.ChangeEvent<HTMLSelectElement>): void {
-    const value = event.target.value;
-
+  private handleChange (value: string): void {
     this.setState({
       value: value
     }, () => {

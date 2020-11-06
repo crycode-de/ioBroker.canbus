@@ -1,5 +1,14 @@
-import { autobind } from 'core-decorators';
 import * as React from 'react';
+
+import {
+  Grid,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Checkbox
+} from '@material-ui/core';
+import { GridSize } from '@material-ui/core/Grid';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';
 
@@ -14,20 +23,13 @@ interface InputCheckboxProps {
 
   /**
    * Label for this input.
-   * Will be translatable.
    */
-  label: string | JSX.Element;
+  label: string;
 
   /**
    * The value of the input.
    */
   value: boolean;
-
-  /**
-   * Additional class names.
-   * Default: `s12`
-   */
-  className?: string;
 
   /**
    * If the input element should be completeley disabled.
@@ -43,7 +45,7 @@ interface InputCheckboxState {
 /**
  * A single checkbox input.
  */
-export class InputCheckbox extends React.PureComponent<InputCheckboxProps, InputCheckboxState> {
+export class InputCheckbox extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputCheckboxProps, InputCheckboxState> {
 
   constructor(props: InputCheckboxProps) {
     super(props);
@@ -63,28 +65,23 @@ export class InputCheckbox extends React.PureComponent<InputCheckboxProps, Input
   }
 
   public render(): JSX.Element {
-    let className = 'input-field-checkbox col s12';
-    if (this.props.className) {
-      className = 'input-field-checkbox col ' + this.props.className;
-    }
     return (
-      <div className={className}>
-        <label>
-          <input type='checkbox' id={this.state.id} checked={this.state.value} onChange={this.handleChange} disabled={this.props.disabled} />
-          <span>{this.props.label}</span>
-        </label>
-        {this.props.children && <>
-          <br />
-          {this.props.children}
-        </>}
-      </div>
+      <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
+        <FormControl>
+          <FormControlLabel
+            control={<Checkbox checked={this.state.value} onChange={(e) => this.handleChange(e.target.checked)} />}
+            label={this.props.label}
+          />
+
+          {this.props.children && <FormHelperText>{this.props.children}</FormHelperText>}
+        </FormControl>
+      </Grid>
     );
   }
 
-  @autobind
-  private handleChange (): void {
+  private handleChange (checked: boolean): void {
     this.setState({
-      value: !this.state.value
+      value: checked
     }, () => {
       this.props.onChange(this.state.value);
     });

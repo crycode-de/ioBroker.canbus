@@ -1,5 +1,15 @@
-import { autobind } from 'core-decorators';
 import * as React from 'react';
+
+import {
+  Grid,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Checkbox,
+  InputLabel
+} from '@material-ui/core';
+import { GridSize } from '@material-ui/core/Grid';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';
 
@@ -14,9 +24,8 @@ interface InputBitmaskProps {
 
   /**
    * Label for this input.
-   * Will be translatable.
    */
-  label: string | JSX.Element;
+  label: string;
 
   /**
    * Number of bits in this bitmask.
@@ -27,12 +36,6 @@ interface InputBitmaskProps {
    * The value of the bitmask.
    */
   value: number;
-
-  /**
-   * Additional class names.
-   * Default: `s12`
-   */
-  className?: string;
 }
 
 interface InputBitmaskState {
@@ -44,7 +47,7 @@ interface InputBitmaskState {
 /**
  * Checkbox inputs for a bitmask.
  */
-export class InputBitmask extends React.PureComponent<InputBitmaskProps, InputBitmaskState> {
+export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputBitmaskProps, InputBitmaskState> {
 
   constructor(props: InputBitmaskProps) {
     super(props);
@@ -74,34 +77,29 @@ export class InputBitmask extends React.PureComponent<InputBitmaskProps, InputBi
     }
   }
 
-  public render(): JSX.Element {
-    let className = 'input-field-checkbox col s12';
-    if (this.props.className) {
-      className = 'input-field-checkbox col ' + this.props.className;
-    }
-
+  public render(): React.ReactNode {
     return (
-      <div className={className}>
-        <div className='bitmask-wrapper'>
-          {this.state.bits.map((bitValue, idx) => {
-            return (
-              <label key={idx}>
-                <input type='checkbox' checked={bitValue} onChange={() => this.changeBit(idx)} />
-                <span>{idx}</span>
-              </label>
-            );
-          })}
-          {this.props.children && <>
-            <br />
-            {this.props.children}
-          </>}
-        </div>
-        <label>{this.props.label}</label>
-      </div>
+      <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
+        <FormControl>
+          <InputLabel shrink={true} style={{ marginTop: '-5px'}}>{this.props.label}</InputLabel>
+          <div>
+            {this.state.bits.map((bitValue, idx) => {
+              return (
+                <FormControlLabel
+                  key={idx}
+                  control={<Checkbox checked={bitValue} onChange={() => this.changeBit(idx)} />}
+                  label={idx}
+                />
+              );
+            })}
+          </div>
+
+          {this.props.children && <FormHelperText>{this.props.children}</FormHelperText>}
+        </FormControl>
+      </Grid>
     );
   }
 
-  @autobind
   private changeBit (idx: number): void {
     const bits = [...this.state.bits];
     bits[idx] = !bits[idx];

@@ -24,6 +24,7 @@ declare global {
        */
       id: string;
       name: string;
+      dlc: number;
       receive: boolean;
       send: boolean;
       autosend: boolean;

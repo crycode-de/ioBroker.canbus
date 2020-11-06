@@ -7,84 +7,26 @@
     overflow: initial;
 }
 
-.m .input-field-checkbox {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.msg-block,
-.parser-block {
+.m.adapter-container,
+.m.adapter-container > div.App {
+  /* Fix layout/scrolling issues with tabs */
+  height: 100%;
+  width: 100%;
   position: relative;
-  border-bottom: 1px solid #5552;
 }
 
-.msg-block:nth-last-of-type(1),
-.parser-block:nth-last-of-type(1) {
-  position: relative;
-  border-bottom: none;
+.m .select-wrapper+label {
+  /* The positioning for dropdown labels is messed up */
+  transform: none !important;
 }
 
-.msg-block:hover,
-.parser-block:hover {
-  background-color: #5551;
+label>i[title] {
+  /* Display the help cursor for the tooltip icons and fix their positioning */
+  cursor: help;
+  margin-left: 0.25em;
 }
 
-.parsers-block {
-  margin-left: 20px;
-}
-
-.m .msg-block .right-icon,
-.m .parser-block .right-icon {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-}
-
-.m h2 {
-  font-size: 1.5em;
-}
-
-.m h3 {
-  font-size: 1.2em;
-}
-
-.m .parser-block .row {
-  margin-bottom: auto;
-}
-
-.m .error-msg {
-  display: block;
-  color: #f00;
-}
-
-.m .bitmask-wrapper + label {
-	position: absolute;
-	top: -26px;
-	font-size: .8rem;
-}
-
-.m .bitmask-wrapper [type="checkbox"] + span:not(.lever) {
-	padding-left: 25px;
-	padding-right: 5px;
-}
-
-.m textarea.materialize-textarea.custom-script {
-  height: 120px;
-  overflow: auto;
-  border-left: 1px solid #5552;
-  border-top: 1px solid #5552;
-  border-right: 1px solid #5552;
-  font-family: monospace;
-  resize: vertical;
-  word-wrap: normal;
-}
-
-.m textarea.materialize-textarea.custom-script::placeholder,
-.m textarea.materialize-textarea.custom-script::-moz-placeholder,
-.m textarea.materialize-textarea.custom-script::-webkit-input-placeholder {
-  color: #333;
-}
-
-div.loading img {
-  max-width: 200px;
+.dropdown-content {
+  /* Don't wrap text in dropdowns */
+  white-space: nowrap;
 }

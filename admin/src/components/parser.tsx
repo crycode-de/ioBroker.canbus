@@ -1,12 +1,16 @@
 import * as React from 'react';
 
-import { Button } from './button';
+import { Grid, Fab } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete'
+import I18n from '@iobroker/adapter-react/i18n';
+
 import { InputText } from './input-text';
 import { InputCheckbox } from './input-checkbox';
 import { InputSelect } from './input-select';
 import { InputBitmask } from './input-bitmask';
 
 import { PARSER_ID_REGEXP, PARSER_ID_RESERVED } from '../../../src/consts';
+import { AppContext } from '../common';
 
 const DATA_TYPE_OPTIONS: Record<ioBroker.AdapterConfigDataType, string> = {
   int8: 'int8',
@@ -29,15 +33,17 @@ const DATA_TYPE_OPTIONS: Record<ioBroker.AdapterConfigDataType, string> = {
 };
 
 interface ParserProps {
+  context: AppContext;
   onChange: (uuid: string, parser: ioBroker.AdapterConfigMessageParser) => void;
   onValidate: (uuid: string, isValid: boolean) => void;
   onDelete: (uuid: string) => void;
   msgId: string;
   uuid: string;
-  parser: ioBroker.AdapterConfigMessageParser;
+  config: ioBroker.AdapterConfigMessageParser;
+
+  classes: Record<string, string>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ParserState extends ioBroker.AdapterConfigMessageParser {
   idError: string | null;
 
@@ -57,7 +63,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     super(props);
 
     this.state = this.validateState(this.updateDependedEletents({
-      ...this.props.parser,
+      ...this.props.config,
       idError: null,
       disabledDataLengths: [],
       disabledDataOffsets: [],
@@ -67,52 +73,67 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     }));
   }
 
-  public render() : JSX.Element {
+  public render(): React.ReactNode {
+    const { classes } = this.props;
     return (
-      <div className='parser-block'>
-        <Button title={_('Remove')} onClick={() => this.props.onDelete(this.props.uuid)} iconName='delete' className='right-icon' />
+      <>
+        {this.props.onDelete && (
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='delete'
+            className={classes.fabTopRight}
+            title={I18n.t('Remove')}
+            onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
+          >
+            <DeleteIcon />
+          </Fab>
+        )}
 
-        <div className='row'>
+        <Grid container spacing={3}>
           <InputText
-            label={_('Parser ID')}
-            className='s6 m4 l2'
+            sm={6} md={4} lg={4}
+            label={I18n.t('Parser ID')}
             value={this.state.id}
             onChange={(v) => this.handleChange('id', v)}
             errorMsg={this.state.idError}
             transform='lowerCase'
             maxLength={64}
           >
-            <span><code>{adapter}.{instance}.{this.props.msgId || '<msgID>'}.{this.state.id || '<parserID>'}</code></span>
+            <code>{this.props.context.adapterName}.{this.props.context.instance}.{this.props.msgId || '<msgID>'}.{this.state.id || '<parserID>'}</code>
           </InputText>
 
           <InputText
-            label={_('Name')}
-            className='s6 m4 l2'
+            sm={6} md={6} lg={4}
+            label={I18n.t('Name')}
             value={this.state.name}
             onChange={(v) => this.handleChange('name', v)}
           >
-            <span>{_('e.g.')} <code>{_('Temperature')}</code></span>
+            {I18n.t('e.g.')} <code>{I18n.t('Temperature')}</code>
           </InputText>
+        </Grid>
 
+        <Grid container spacing={3}>
           <InputSelect
-            label={_('Data type')}
-            className='s6 m4 l2'
+            sm={6} md={4} lg={2}
+            label={I18n.t('Data type')}
             value={this.state.dataType}
             onChange={(v) => this.handleChange('dataType', v as ioBroker.AdapterConfigDataType)}
             options={DATA_TYPE_OPTIONS}
           />
+
           {!this.state.disabledDataOffsetAndLength && <>
             <InputSelect
-              label={_('Offset')}
-              className='s6 m2 l1'
+              sm={6} md={2} lg={1}
+              label={I18n.t('Offset')}
               value={this.state.dataOffset.toString()}
               onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
               options={['0', '1', '2', '3', '4', '5', '6', '7']}
               disabledOptions={this.state.disabledDataOffsets}
             />
             <InputSelect
-              label={_('Length')}
-              className='s6 m2 l1'
+              sm={6} md={2} lg={1}
+              label={I18n.t('Length')}
               value={this.state.dataLength.toString()}
               onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
               options={['1', '2', '3', '4', '5', '6', '7', '8']}
@@ -120,71 +141,74 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             />
           </>}
           {!this.state.disabledDataEncoding &&
-          <InputSelect
-            label={_('Encoding')}
-            className='s6 m2 l1'
-            value={this.state.dataEncoding}
-            onChange={(v) => this.handleChange('dataEncoding', v as ioBroker.AdapterConfigDataEncoding)}
-            options={['ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le']}
-          />}
-
+            <InputSelect
+              sm={6} md={2} lg={1}
+              label={I18n.t('Encoding')}
+              value={this.state.dataEncoding}
+              onChange={(v) => this.handleChange('dataEncoding', v as ioBroker.AdapterConfigDataEncoding)}
+              options={['ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le']}
+            />
+          }
           {!this.state.disabledDataUnit &&
-          <InputText
-            label={_('Unit')}
-            className='s6 m2 l1'
-            value={this.state.dataUnit}
-            onChange={(v) => this.handleChange('dataUnit', v)}
-          >
-            <span>{_('e.g.')} <code>°C</code></span>
-          </InputText>}
-        </div>
+            <InputText
+              sm={6} md={2} lg={1}
+              label={I18n.t('Unit')}
+              value={this.state.dataUnit}
+              onChange={(v) => this.handleChange('dataUnit', v)}
+            >
+              {I18n.t('e.g.')} <code>°C</code>
+            </InputText>
+          }
+        </Grid>
 
         {this.state.dataType === 'boolean' &&
-        <div className='row'>
-          <InputBitmask
-            label={_('Boolean bitmask')}
-            className='s6 m6 l5'
-            bits={8}
-            value={this.state.booleanMask}
-            onChange={(v) => this.handleChange('booleanMask', v)}
-          >
-            <span dangerouslySetInnerHTML={{ __html: _('Bitmask to apply to detect/set a %s value. If no bits are selected any byte value greater than 0 will be interpreted as %s.', '<code>true</code>', '<code>true</code>')}} />
-          </InputBitmask>
+          <Grid container spacing={3}>
+            <InputBitmask
+              sm={12} md={12} lg={8}
+              label={I18n.t('Boolean bitmask')}
+              bits={8}
+              value={this.state.booleanMask}
+              onChange={(v) => this.handleChange('booleanMask', v)}
+            >
+              <span dangerouslySetInnerHTML={{ __html: I18n.t('Bitmask to apply to detect/set a %s value. If no bits are selected any byte value greater than 0 will be interpreted as %s.', '<code>true</code>', '<code>true</code>') }} />
+            </InputBitmask>
 
-          <InputCheckbox
-            label={_('Boolean invert')}
-            className='s6 m6 l3'
-            value={this.state.booleanInvert}
-            onChange={(v) => this.handleChange('booleanInvert', v)}
-          >
-            <span>{_('Invert the boolean value')}</span>
-          </InputCheckbox>
-        </div>}
+            <InputCheckbox
+              sm={12} md={6} lg={3}
+              label={I18n.t('Boolean invert')}
+              value={this.state.booleanInvert}
+              onChange={(v) => this.handleChange('booleanInvert', v)}
+            >
+              {I18n.t('Invert the boolean value')}
+            </InputCheckbox>
+          </Grid>
+        }
 
         {this.state.dataType === 'custom' &&
-        <div className='row'>
-          <InputText
-            label={_('Custom script read')}
-            className='s12 m6'
-            area={true}
-            value={this.state.customScriptRead}
-            onChange={(v) => this.handleChange('customScriptRead', v)}
-            placeholder='// example:&#10;value = buffer[0] + buffer[1];'
-          >
-            <span dangerouslySetInnerHTML={{__html: _('Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
-          </InputText>
-          <InputText
-            label={_('Custom script write')}
-            className='s12 m6'
-            area={true}
-            value={this.state.customScriptWrite}
-            onChange={(v) => this.handleChange('customScriptWrite', v)}
-            placeholder='// example:&#10;buffer[0] = value & 0xff;&#10;buffer[1] = (value >> 8);'
-          >
-            <span dangerouslySetInnerHTML={{ __html: _('Script to write the value to the buffer. The buffer is available as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>')}}></span>
-          </InputText>
-        </div>}
-      </div>
+          <Grid container spacing={3}>
+            <InputText
+              sm={12} md={6}
+              label={I18n.t('Custom script read')}
+              multiline={true}
+              value={this.state.customScriptRead}
+              onChange={(v) => this.handleChange('customScriptRead', v)}
+              placeholder='// example:&#10;value = buffer[0] + buffer[1];'
+            >
+              <span dangerouslySetInnerHTML={{ __html: I18n.t('Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>') }}></span>
+            </InputText>
+            <InputText
+              sm={12} md={6}
+              label={I18n.t('Custom script write')}
+              multiline={true}
+              value={this.state.customScriptWrite}
+              onChange={(v) => this.handleChange('customScriptWrite', v)}
+              placeholder='// example:&#10;buffer[0] = value & 0xff;&#10;buffer[1] = (value >> 8);'
+            >
+              <span dangerouslySetInnerHTML={{ __html: I18n.t('Script to write the value to the buffer. The buffer is available as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>') }}></span>
+            </InputText>
+          </Grid>
+        }
+      </>
     );
   }
 
@@ -330,10 +354,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     if (state.id !== undefined) {
       // check this
       if (PARSER_ID_RESERVED.includes(state.id)) {
-        state.idError = _('This ID is reserved and can\'t be used');
+        state.idError = I18n.t('This ID is reserved and can\'t be used');
         isValid = false;
       } else if (!state.id.match(PARSER_ID_REGEXP)) {
-        state.idError = _('Only allowed chars: %s', '0-9a-z-_');
+        state.idError = I18n.t('Only allowed chars: %s', '0-9a-z-_');
         isValid = false;
       } else {
         state.idError = null;

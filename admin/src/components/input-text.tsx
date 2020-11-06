@@ -1,5 +1,13 @@
-import { autobind } from 'core-decorators';
 import * as React from 'react';
+
+import {
+  Grid,
+  FormControl,
+  FormHelperText,
+  TextField
+} from '@material-ui/core';
+import { GridSize } from '@material-ui/core/Grid';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';
 
@@ -16,7 +24,7 @@ interface InputTextProps {
    * Label for this input.
    * Will be translatable.
    */
-  label: string | JSX.Element;
+  label: string;
 
   /**
    * The value of the input.
@@ -24,10 +32,14 @@ interface InputTextProps {
   value: string;
 
   /**
-   * Additional class names.
-   * Default: `s12`
+   * If `true`, the label is displayed as required and the `input` element` will be required.
    */
-  className?: string;
+  required?: boolean;
+
+  /**
+   * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
+   */
+  type?: React.InputHTMLAttributes<unknown>['type'];
 
   /**
    * If the input element should be completeley disabled.
@@ -35,9 +47,9 @@ interface InputTextProps {
   disabled?: boolean;
 
   /**
-   * If the input should be a textarea.
+   * If the input should be a multiline.
    */
-  area?: boolean;
+  multiline?: boolean;
 
   /**
    * Maximum length for the text.
@@ -68,7 +80,7 @@ interface InputTextState {
 /**
  * A text input.
  */
-export class InputText extends React.PureComponent<InputTextProps, InputTextState> {
+export class InputText extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputTextProps, InputTextState> {
   private textArea: HTMLTextAreaElement | null | undefined;
 
   constructor(props: InputTextProps) {
@@ -80,10 +92,6 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
     };
   }
 
-  public componentDidMount (): void {
-    M.updateTextFields();
-  }
-
   public componentDidUpdate (prevProps: InputTextProps): void {
     if (prevProps.value !== this.props.value) {
       this.setState({
@@ -93,44 +101,32 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
   }
 
   public render(): JSX.Element {
-    let className = 'input-field col s12';
-    if (this.props.className) {
-      className = 'input-field col ' + this.props.className;
-    }
     return (
-      <div className={className}>
-        {this.props.area ?
-          <textarea
-            className='materialize-textarea custom-script'
+      <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
+        <FormControl fullWidth>
+          <TextField
             id={this.state.id}
-            onChange={this.handleChange}
-            placeholder={this.props.placeholder}
-            disabled={this.props.disabled}
-            ref={(me) => this.textArea = me}
-          >{this.state.value}</textarea>
-          :
-          <input
-            type='text'
-            className='value'
-            id={this.state.id}
+            label={this.props.label}
             value={this.state.value}
-            onChange={this.handleChange}
-            maxLength={this.props.maxLength}
-            placeholder={this.props.placeholder}
+            required={this.props.required}
+            type={this.props.type || 'string'}
             disabled={this.props.disabled}
+            error={!!this.props.errorMsg}
+            helperText={this.props.errorMsg}
+            placeholder={this.props.placeholder}
+            InputLabelProps={this.props.placeholder ? { shrink: true } : undefined}
+            multiline={this.props.multiline}
+            fullWidth
+            onChange={(e) => this.handleChange(e.target.value)}
           />
-        }
-        <label htmlFor={this.state.id}>{this.props.label}</label>
-        {this.props.errorMsg && <span className='error-msg'>{this.props.errorMsg}</span>}
-        {this.props.children}
-      </div>
+
+          {this.props.children && <FormHelperText>{this.props.children}</FormHelperText>}
+        </FormControl>
+      </Grid>
     );
   }
 
-  @autobind
-  private handleChange (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    let value = event.target.value;
-
+  private handleChange (value: string): void {
     if (typeof this.props.transform === 'function') {
       value = this.props.transform(value, this.state.value);
     } else {
@@ -142,6 +138,10 @@ export class InputText extends React.PureComponent<InputTextProps, InputTextStat
           value = value.toUpperCase();
           break;
       }
+    }
+
+    if (this.props.maxLength && value.length > this.props.maxLength) {
+      value = value.slice(0, this.props.maxLength);
     }
 
     this.setState({
