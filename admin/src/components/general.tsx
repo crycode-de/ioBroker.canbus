@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 
-import { Grid } from '@material-ui/core';
-import I18n from '@iobroker/adapter-react/i18n';
+import Grid from '@material-ui/core/Grid';
 import Logo from '@iobroker/adapter-react/Components/Logo';
+
+import I18n from '../i18n';
 import { AppContext } from '../common';
 
 import { InputCheckbox } from './input-checkbox';

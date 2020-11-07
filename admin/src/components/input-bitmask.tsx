@@ -1,14 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 
-import {
-  Grid,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Checkbox,
-  InputLabel
-} from '@material-ui/core';
-import { GridSize } from '@material-ui/core/Grid';
+import Grid, { GridSize } from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
+import InputLabel from '@material-ui/core/InputLabel';
+
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';

@@ -1,10 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import { autobind } from 'core-decorators';
-import { Box, Button, Tab, Tabs, Theme } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import { Theme, withStyles } from '@material-ui/core/styles';
 import { CreateCSSProperties } from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add'
-import I18n from '@iobroker/adapter-react/i18n';
+
+import I18n from '../i18n';
+
 import { TabPanel } from './tab-panel';
 import { General } from './general';
 import { Message } from './message';
@@ -199,7 +205,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           className={classes.tabs}
         >
           <Tab
-            label={I18n.t('Main settings')}
+            label={I18n.t('General')}
             id='tab-0'
             className={classes.tab}
             style={{

@@ -1,14 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 
-import {
-  Grid,
-  FormControl,
-  FormHelperText,
-  Select,
-  MenuItem,
-  InputLabel
-} from '@material-ui/core';
-import { GridSize } from '@material-ui/core/Grid';
+import Grid, { GridSize } from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import { uuidv4 } from '../lib/helpers';

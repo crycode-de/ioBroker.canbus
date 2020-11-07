@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Box } from '@material-ui/core';
+import React from 'react';
+import Box from '@material-ui/core/Box';
 
 interface TabPanelProps {
   children?: React.ReactNode;

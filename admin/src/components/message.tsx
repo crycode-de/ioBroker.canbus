@@ -1,10 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 import { autobind } from 'core-decorators';
-import { Grid, Button, Fab, Tab, Tabs } from '@material-ui/core';
+
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import I18n from '@iobroker/adapter-react/i18n';
 import ConfirmDialog from '@iobroker/adapter-react/Dialogs/Confirm'
+
+import I18n from '../i18n';
 import { AppContext } from '../common';
 
 import { TabPanel } from './tab-panel';
@@ -16,7 +22,6 @@ import { Parser } from './parser';
 
 import { MESSAGE_ID_REGEXP } from '../../../src/consts';
 import { uuidv4 } from '../lib/helpers';
-
 
 interface MessageProps {
   onChange: (msgUuid: string, config: ioBroker.AdapterConfigMessage) => void;
@@ -224,7 +229,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
         {this.state.showRemoveConfirm &&
           <ConfirmDialog
             title={I18n.t('Remove this message?')}
-            text={I18n.t('Should this message really be removed? This will also remove all it\'s parsers.\nThe message will be treated as unconfigured and may be deleted on adapter restart.')}
+            text={I18n.t('Are you sure you want to remove this message? This will also remove all it\'s parsers. The message will be treated as unconfigured and may be deleted on adapter restart.')}
             onClose={(ok) => {
               if (ok && this.props.onDelete) {
                 this.props.onDelete(this.props.uuid);
@@ -291,14 +296,14 @@ export class Message extends React.Component<MessageProps, MessageState> {
       isValid = false;
     }
 
-    // TODO: check if parsers in current state are valid
-    /*if (this.state?.parsersValid) {
+    // check if parsers in current state are valid
+    if (this.state?.parsersValid) {
       for (const uuid in this.state.parsersValid) {
         if (!this.state.parsersValid[uuid]) {
           isValid = false;
         }
       }
-    }*/
+    }
 
     if (this.props.onValidate) {
       this.props.onValidate(this.props.uuid, isValid);
@@ -347,7 +352,12 @@ export class Message extends React.Component<MessageProps, MessageState> {
     return new Promise((resolve) => {
       this.setState({
         parsersValid: parsersValid
-      }, resolve);
+      }, () => {
+        // trigger own revalidate to proxy the parser validation state
+        this.validateState();
+
+        resolve();
+      });
     });
   }
 
