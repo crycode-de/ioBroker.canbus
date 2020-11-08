@@ -66,7 +66,7 @@ export class InputCheckbox extends React.PureComponent<Partial<Record<Breakpoint
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl>
           <FormControlLabel
-            control={<Checkbox checked={this.state.value} onChange={(e) => this.handleChange(e.target.checked)} />}
+            control={<Checkbox checked={this.state.value} disabled={this.props.disabled} onChange={(e) => this.handleChange(e.target.checked)} />}
             label={this.props.label}
           />
 

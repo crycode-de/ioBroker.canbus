@@ -44,6 +44,8 @@ interface ParserProps {
   config: ioBroker.AdapterConfigMessageParser;
 
   classes: Record<string, string>;
+
+  readonly?: boolean;
 }
 
 interface ParserState extends ioBroker.AdapterConfigMessageParser {
@@ -97,6 +99,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             sm={6} md={4} lg={4}
             label={I18n.t('Parser ID')}
             value={this.state.id}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('id', v)}
             errorMsg={this.state.idError}
             transform='lowerCase'
@@ -109,6 +112,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             sm={6} md={6} lg={4}
             label={I18n.t('Name')}
             value={this.state.name}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('name', v)}
           >
             {I18n.t('e.g.')} <code>{I18n.t('Temperature')}</code>
@@ -120,6 +124,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             sm={6} md={4} lg={2}
             label={I18n.t('Data type')}
             value={this.state.dataType}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('dataType', v as ioBroker.AdapterConfigDataType)}
             options={DATA_TYPE_OPTIONS}
           />
@@ -129,6 +134,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               sm={6} md={2} lg={1}
               label={I18n.t('Offset')}
               value={this.state.dataOffset.toString()}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
               options={['0', '1', '2', '3', '4', '5', '6', '7']}
               disabledOptions={this.state.disabledDataOffsets}
@@ -137,6 +143,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               sm={6} md={2} lg={1}
               label={I18n.t('Length')}
               value={this.state.dataLength.toString()}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
               options={['1', '2', '3', '4', '5', '6', '7', '8']}
               disabledOptions={this.state.disabledDataLengths}
@@ -147,6 +154,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               sm={6} md={2} lg={1}
               label={I18n.t('Encoding')}
               value={this.state.dataEncoding}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('dataEncoding', v as ioBroker.AdapterConfigDataEncoding)}
               options={['ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le']}
             />
@@ -156,6 +164,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               sm={6} md={2} lg={1}
               label={I18n.t('Unit')}
               value={this.state.dataUnit}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('dataUnit', v)}
             >
               {I18n.t('e.g.')} <code>°C</code>
@@ -170,6 +179,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               label={I18n.t('Boolean bitmask')}
               bits={8}
               value={this.state.booleanMask}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('booleanMask', v)}
             >
               <span dangerouslySetInnerHTML={{ __html: I18n.t('Bitmask to apply to detect/set a %s value. If no bits are selected any byte value greater than 0 will be interpreted as %s.', '<code>true</code>', '<code>true</code>') }} />
@@ -179,6 +189,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               sm={12} md={6} lg={3}
               label={I18n.t('Boolean invert')}
               value={this.state.booleanInvert}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('booleanInvert', v)}
             >
               {I18n.t('Invert the boolean value')}
@@ -193,6 +204,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               label={I18n.t('Custom script read')}
               multiline={true}
               value={this.state.customScriptRead}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('customScriptRead', v)}
               placeholder='// example:&#10;value = buffer[0] + buffer[1];'
             >
@@ -203,6 +215,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               label={I18n.t('Custom script write')}
               multiline={true}
               value={this.state.customScriptWrite}
+              disabled={this.props.readonly}
               onChange={(v) => this.handleChange('customScriptWrite', v)}
               placeholder='// example:&#10;buffer[0] = value & 0xff;&#10;buffer[1] = (value >> 8);'
             >

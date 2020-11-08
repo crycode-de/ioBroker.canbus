@@ -34,6 +34,11 @@ interface InputBitmaskProps {
    * The value of the bitmask.
    */
   value: number;
+
+  /**
+   * If the input element should be completeley disabled.
+   */
+  disabled?: boolean;
 }
 
 interface InputBitmaskState {
@@ -85,7 +90,7 @@ export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint,
               return (
                 <FormControlLabel
                   key={idx}
-                  control={<Checkbox checked={bitValue} onChange={() => this.changeBit(idx)} />}
+                  control={<Checkbox checked={bitValue} disabled={this.props.disabled} onChange={() => this.changeBit(idx)} />}
                   label={idx}
                 />
               );

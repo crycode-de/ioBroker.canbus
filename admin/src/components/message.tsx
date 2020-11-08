@@ -24,7 +24,7 @@ import { MESSAGE_ID_REGEXP } from '../../../src/consts';
 import { uuidv4 } from '../lib/helpers';
 
 interface MessageProps {
-  onChange: (msgUuid: string, config: ioBroker.AdapterConfigMessage) => void;
+  onChange?: (msgUuid: string, config: ioBroker.AdapterConfigMessage) => void;
 
   /**
    * The delete button was clicked.
@@ -35,6 +35,11 @@ interface MessageProps {
    * The message was validated.
    */
   onValidate?: (uuid: string, isValid: boolean) => void;
+
+  /**
+   * The add button was clicked.
+   */
+  onAdd?: (uuid: string) => void;
 
   context: AppContext;
 
@@ -49,6 +54,8 @@ interface MessageProps {
   config: ioBroker.AdapterConfigMessage;
 
   classes: Record<string, string>;
+
+  readonly?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -84,16 +91,8 @@ export class Message extends React.Component<MessageProps, MessageState> {
   }
 
   public componentDidMount(): void {
-    //const { socket, instanceId } = this.props.context;
-    //socket.subscribeState(instanceId + '.alive', false, this.handleAliveChange);
-
-    // TODO: revalidate parseres
-    //this.validateState();
-  }
-
-  public componentWillUnmount(): void {
-    //const { socket, instanceId } = this.props.context;
-    //socket.unsubscribeState(instanceId + '.alive', this.handleAliveChange);
+    // revalidate parseres
+    this.validateState();
   }
 
   public render(): React.ReactNode {
@@ -113,6 +112,19 @@ export class Message extends React.Component<MessageProps, MessageState> {
           </Fab>
         )}
 
+        {this.props.onAdd && (
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='add'
+            className={classes.fabTopRight}
+            title={I18n.t('Add')}
+            onClick={() => this.props.onAdd && this.props.onAdd(this.props.uuid)}
+          >
+            <AddIcon />
+          </Fab>
+        )}
+
         <h2>{I18n.t('Message')}</h2>
 
         <Grid container spacing={3}>
@@ -122,6 +134,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             value={this.state.id}
             required
             errorMsg={this.state.idError}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('id', v)}
           >
             {I18n.t('CAN message ID in hex')}, {I18n.t('e.g.')} <code>00A0123B</code> {I18n.t('or')} <code>1AB</code>
@@ -130,6 +143,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             sm={6} md={4} lg={4}
             label={I18n.t('Name')}
             value={this.state.name}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('name', v)}
           >
             {I18n.t('e.g.')} <code>{I18n.t('My super message')}</code>
@@ -150,6 +164,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
               '7': '7',
               '8': '8',
             }}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('dlc', parseInt(v, 10))}
           >
             {I18n.t('Optionally set a fixed data length for this message')}
@@ -160,6 +175,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             sm={12} md={4} lg={4}
             label={I18n.t('Receive')}
             value={this.state.receive}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('receive', v)}
           >
             {I18n.t('Receive messages with the given ID')}
@@ -168,6 +184,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             sm={12} md={4} lg={4}
             label={I18n.t('Send')}
             value={this.state.send}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('send', v)}
           >
             {I18n.t('Send messages with the given ID')}
@@ -176,6 +193,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             sm={12} md={4} lg={4}
             label={I18n.t('Autosend')}
             value={this.state.autosend}
+            disabled={this.props.readonly}
             onChange={(v) => this.handleChange('autosend', v)}
           >
             {I18n.t('Automatically send the message when some data part changed')}
@@ -205,9 +223,11 @@ export class Message extends React.Component<MessageProps, MessageState> {
               />
             ))}
 
-            <Button color='primary' startIcon={<AddIcon />} onClick={this.onParserAdd}>
-              {I18n.t('Add')}
-            </Button>
+            {!this.props.readonly &&
+              <Button color='primary' startIcon={<AddIcon />} onClick={this.onParserAdd}>
+                {I18n.t('Add')}
+              </Button>
+            }
           </Tabs>
 
           {Object.keys(this.state.parsers).map((parserUuid, i) => (
@@ -221,6 +241,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
                 onDelete={this.onParserDelete}
                 context={context}
                 classes={classes}
+                readonly={this.props.readonly}
               />
             </TabPanel>
           ))}
@@ -260,15 +281,17 @@ export class Message extends React.Component<MessageProps, MessageState> {
     this.validateState(newState);
 
     this.setState(newState, () => {
-      this.props.onChange(this.props.uuid, {
-        id: this.state.id,
-        name: this.state.name,
-        dlc: this.state.dlc,
-        receive: this.state.receive,
-        send: this.state.send,
-        autosend: this.state.autosend,
-        parsers: { ...this.state.parsers },
-      });
+      if (this.props.onChange) {
+        this.props.onChange(this.props.uuid, {
+          id: this.state.id,
+          name: this.state.name,
+          dlc: this.state.dlc,
+          receive: this.state.receive,
+          send: this.state.send,
+          autosend: this.state.autosend,
+          parsers: { ...this.state.parsers },
+        });
+      }
     });
   }
 
