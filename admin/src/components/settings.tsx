@@ -49,6 +49,7 @@ interface SettingsProps {
   context: AppContext;
 
   onChange: (attr: string, value: any) => void;
+  onValidate: (valid: boolean) => void;
 }
 
 interface SettingsState {
@@ -113,8 +114,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
   @autobind
   private onMessageChange(uuid: string, msg: ioBroker.AdapterConfigMessage): void {
-    console.log('onMessageChange()', uuid, msg);
-
     const msgs = { ...this.state.messages };
     msgs[uuid] = msg;
     this.onGeneralChange('messages', msgs);
@@ -144,7 +143,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     return new Promise((resolve) => {
       this.setState({
         generalValid: valid
-      }, resolve);
+      }, () => {
+        this.validate();
+        resolve();
+      });
     });
   }
 
@@ -156,8 +158,27 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     return new Promise((resolve) => {
       this.setState({
         messagesValid: msgsValid
-      }, resolve);
+      }, () => {
+        this.validate();
+        resolve();
+      });
     });
+  }
+
+  private validate (): boolean {
+    let isValid = this.state.generalValid;
+
+    if (isValid) {
+      for (const msgUuid in this.state.messagesValid) {
+        if (!this.state.messagesValid[msgUuid]) {
+          isValid = false;
+        }
+      }
+    }
+
+    this.props.onValidate(isValid);
+
+    return isValid;
   }
 
   /**

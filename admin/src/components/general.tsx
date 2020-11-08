@@ -51,7 +51,7 @@ export class General extends React.Component<GeneralProps, GeneralState> {
         <Logo
           common={this.props.common}
           native={this.props.native}
-          instance={this.context.instance}
+          instance={this.props.context.instance}
           classes={{} as any}
         />
         <Grid container spacing={3}>

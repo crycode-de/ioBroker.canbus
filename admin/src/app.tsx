@@ -5,9 +5,13 @@ import { StyleRules } from '@material-ui/styles';
 import GenericApp from '@iobroker/adapter-react/GenericApp';
 import { GenericAppProps, GenericAppSettings } from '@iobroker/adapter-react/types';
 
+import I18n from './i18n';
+
 import { AppContext } from './common';
 
 import Settings from './components/settings';
+
+import { compareObjects } from './lib/helpers';
 
 const styles = (_theme: Theme): StyleRules => ({
   root: {},
@@ -35,13 +39,17 @@ class App extends GenericApp {
 
   onConnectionReady(): void {
     // executed when connection is ready
+
+    // read the saved native config to allow compare in `getIsChanged()`
+    this.socket.getObject(this.instanceId)
+      .then((obj) => {
+        this.savedNative = obj?.native || {};
+      });
   }
 
-  onPrepareSave(settings: Record<string, any>): void {
-    super.onPrepareSave(settings);
-    // TODO: filter out not fully configured messages and parsers
-    //const messages: ioBroker.AdapterConfigMessages = {...settings.messages};
-    //settings.devices = devices.filter((d) => d.type && d.name);
+  getIsChanged(native?: Record<string, any>): boolean {
+    // use own implementation to compare the native objects
+    return !compareObjects(this.savedNative, native);
   }
 
   render(): React.ReactNode {
@@ -62,6 +70,7 @@ class App extends GenericApp {
           common={this.common}
           context={context}
           onChange={(attr, value) => this.updateNativeValue(attr, value)}
+          onValidate={(isValid) => this.setState({ isConfigurationError: isValid ? '' : I18n.t('Your configuration is invalid. Please check the settings marked in red.') })}
         />
         {this.renderError()}
         {this.renderToast()}

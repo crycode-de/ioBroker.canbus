@@ -50,5 +50,8 @@
     "Custom script read": "Custom script read",
     "Custom script write": "Custom script write",
     "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.",
-    "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Script to write the value to the buffer. The buffer is available as %s and the value as %s."
+    "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Script to write the value to the buffer. The buffer is available as %s and the value as %s.",
+    "Your configuration is invalid. Please check the settings marked in red.": "Your configuration is invalid. Please check the settings marked in red.",
+    "Save configuration to file": "Save configuration to file",
+    "Load configuration from file": "Load configuration from file"
 }

@@ -244,7 +244,6 @@ export class Message extends React.Component<MessageProps, MessageState> {
 
   @autobind
   private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
-    console.log(newValue);
     this.setState({ tabIndex: newValue });
   }
 
@@ -363,8 +362,6 @@ export class Message extends React.Component<MessageProps, MessageState> {
 
   @autobind
   private onParserChange(uuid: string, parser: ioBroker.AdapterConfigMessageParser): void {
-    console.log('onParserChange()', uuid, parser);
-
     const parsers = { ...this.state.parsers };
     parsers[uuid] = parser;
     this.handleChange('parsers', parsers);
