@@ -213,7 +213,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             {Object.keys(this.state.parsers).map((parserUuid, i) => (
               <Tab
                 key={`tab-${i}`}
-                label={`${this.state.parsers[parserUuid].id || I18n.t('ID missing')} ${this.state.parsers[parserUuid].name}`}
+                label={this.getParserTabLabel(this.state.parsers[parserUuid])}
                 id={`${this.props.uuid}-tab-${i}`}
                 className={classes.tab}
                 style={{
@@ -261,6 +261,18 @@ export class Message extends React.Component<MessageProps, MessageState> {
         }
       </>
     );
+  }
+
+  private getParserTabLabel (parser: ioBroker.AdapterConfigMessageParser): string {
+    if (!parser?.id) {
+      return I18n.t('ID missing');
+    }
+
+    if (!parser.name) {
+      return parser.id;
+    }
+
+    return `${parser.name} (${parser.id})`;
   }
 
   @autobind

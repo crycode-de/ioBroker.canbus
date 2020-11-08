@@ -294,7 +294,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             />
           ))}
 
-          {keysMessagesUnconfigured.length > 0 && <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>}
+          {keysMessagesUnconfigured.length > 0 &&
+            <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>
+          }
           {keysMessagesUnconfigured.map((id, i) => (
             <Tab
               key={`tab-unconf-${i}`}
@@ -319,9 +321,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             onValidate={this.onGeneralValidate}
           />
         </TabPanel>
+
         <TabPanel value={this.state.tabIndex} index={tabIndex++}>
           {/* dummy for messages divider */}
         </TabPanel>
+
         {keysMessages.map((msgUuid, i) => (
           <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
             <Message
@@ -337,9 +341,12 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           </TabPanel>
         ))}
 
-        <TabPanel value={this.state.tabIndex} index={tabIndex++}>
-          {/* dummy for unconfigured messages divider */}
-        </TabPanel>
+
+        {keysMessagesUnconfigured.length > 0 &&
+          <TabPanel value={this.state.tabIndex} index={tabIndex++}>
+            {/* dummy for unconfigured messages divider */}
+          </TabPanel>
+        }
 
         {keysMessagesUnconfigured.map((id, i) => (
           <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
