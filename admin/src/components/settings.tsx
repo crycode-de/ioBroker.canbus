@@ -130,189 +130,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     socket.unsubscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
   }
 
-  /**
-   * Handler for all changes.
-   * @param attr The name of the changed setting.
-   * @param value The new value.
-   */
-  @autobind
-  private async onGeneralChange(attr: string, value: any): Promise<void> {
-    this.props.onChange(attr, value);
-
-    if (attr === 'messages') {
-      if (Object.keys(value).length === 0) {
-        // activate the first tab if there are no messages
-        await new Promise((resolve) => {
-          this.setState({
-            messages: value,
-            tabIndex: 0
-          }, resolve);
-        });
-      } else {
-        await new Promise((resolve) => {
-          this.setState({
-            messages: value
-          }, resolve);
-        });
-      }
-    }
-  }
-
-  /**
-   * Handler for changed messages.
-   * @param uuid The UUID of the message.
-   * @param msg The new message config.
-   */
-  @autobind
-  private onMessageChange(uuid: string, msg: ioBroker.AdapterConfigMessage): void {
-    const msgs = { ...this.state.messages };
-    msgs[uuid] = msg;
-    this.onGeneralChange('messages', msgs);
-  }
-
-  /**
-   * Handler for message delete events.
-   * @param uuid The UUID of the message.
-   */
-  @autobind
-  private async onMessageDelete(uuid: string): Promise<void> {
-    const msgs = { ...this.state.messages };
-    delete msgs[uuid];
-    await this.onGeneralChange('messages', msgs);
-
-    this.setState({
-      tabIndex: this.state.tabIndex - 1
-    }, () => {
-      // need to set the tabIndex this way because otherwise the selected message
-      // will not be updated if the first message is deleted
-      if (this.state.tabIndex < 2) {
-        this.setState({ tabIndex: 0 });
-      }
-    });
-
-    // reload unconfigured messages since the deleted message may still exists as an object
-    this.loadUnfiguredMessages();
-  }
-
-  /**
-   * Handler for validation results of the general settings.
-   * @param valid If the general settings are valid.
-   */
-  @autobind
-  private async onGeneralValidate(valid: boolean): Promise<void> {
-    return new Promise((resolve) => {
-      this.setState({
-        generalValid: valid
-      }, () => {
-        this.validate();
-        resolve();
-      });
-    });
-  }
-
-  /**
-   * Handler for validation results of a message.
-   * @param uuid The UUID of the message.
-   * @param valid If the message is valid.
-   */
-  @autobind
-  private async onMessageValidate(uuid: string, valid: boolean): Promise<void> {
-    const msgsValid = { ...this.state.messagesValid };
-    msgsValid[uuid] = valid;
-
-    return new Promise((resolve) => {
-      this.setState({
-        messagesValid: msgsValid
-      }, () => {
-        this.validate();
-        resolve();
-      });
-    });
-  }
-
-  /**
-   * Validate the current settings.
-   * This will use the results of the previous general/message validation results.
-   * @return `true` if all settings are valid.
-   */
-  private validate (): boolean {
-    let isValid = this.state.generalValid;
-
-    if (isValid) {
-      for (const msgUuid in this.state.messagesValid) {
-        if (!this.state.messagesValid[msgUuid]) {
-          isValid = false;
-        }
-      }
-    }
-
-    this.props.onValidate(isValid);
-
-    return isValid;
-  }
-
-  /**
-   * Add a new message.
-   */
-  @autobind
-  private async onMessageAdd(): Promise<void> {
-    const uuid = uuidv4();
-    const msg: ioBroker.AdapterConfigMessage = {
-      id: '',
-      name: '',
-      dlc: -1,
-      receive: false,
-      send: false,
-      autosend: false,
-      parsers: {},
-    };
-
-    const msgs = { ...this.state.messages };
-    msgs[uuid] = msg;
-    await this.onGeneralChange('messages', msgs);
-
-    // a new message can't be valid
-    await this.onMessageValidate(uuid, false);
-
-    this.setState({
-      tabIndex: Object.keys(this.state.messages).length + 1
-    });
-  }
-
-  /**
-   * Add a message from the unconfigured messages to the configured messages.
-   * @param id The ID (not UUID!) of the unconfigured message.
-   */
-  @autobind
-  private async onMessageAddFromUnconfigured(id: string): Promise<void> {
-    const uuid = uuidv4();
-    const msg: ioBroker.AdapterConfigMessage = {
-      ...this.state.messagesUnconfigured[id]
-    };
-
-    const msgs = { ...this.state.messages };
-    msgs[uuid] = msg;
-    await this.onGeneralChange('messages', msgs);
-
-    // remove it from unconfigured
-    const messagesUnconfigured = { ...this.state.messagesUnconfigured };
-    delete messagesUnconfigured[id];
-
-    this.setState({
-      tabIndex: Object.keys(this.state.messages).length + 1,
-      messagesUnconfigured
-    });
-  }
-
-  /**
-   * Handler for tab changes.
-   */
-  @autobind
-  private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
-    this.setState({ tabIndex: newValue });
-  }
-
-  render(): React.ReactNode {
+  public render(): React.ReactNode {
     const { classes, native, common, context } = this.props;
 
     /**
@@ -443,6 +261,167 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   }
 
   /**
+   * Handler for tab changes.
+   */
+  @autobind
+  private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
+    this.setState({ tabIndex: newValue });
+  }
+
+  /**
+   * Handler for all changes.
+   * @param attr The name of the changed setting.
+   * @param value The new value.
+   */
+  @autobind
+  private async onGeneralChange(attr: string, value: any): Promise<void> {
+    this.props.onChange(attr, value);
+
+    if (attr === 'messages') {
+      if (Object.keys(value).length === 0) {
+        // activate the first tab if there are no messages
+        await new Promise((resolve) => {
+          this.setState({
+            messages: value,
+            tabIndex: 0
+          }, resolve);
+        });
+      } else {
+        await new Promise((resolve) => {
+          this.setState({
+            messages: value
+          }, resolve);
+        });
+      }
+    }
+  }
+
+  /**
+   * Handler for changed messages.
+   * @param uuid The UUID of the message.
+   * @param msg The new message config.
+   */
+  @autobind
+  private onMessageChange(uuid: string, msg: ioBroker.AdapterConfigMessage): void {
+    const msgs = { ...this.state.messages };
+    msgs[uuid] = msg;
+    this.onGeneralChange('messages', msgs);
+  }
+
+  /**
+   * Handler for message delete events.
+   * @param uuid The UUID of the message.
+   */
+  @autobind
+  private async onMessageDelete(uuid: string): Promise<void> {
+    const msgs = { ...this.state.messages };
+    delete msgs[uuid];
+    await this.onGeneralChange('messages', msgs);
+
+    this.setState({
+      tabIndex: this.state.tabIndex - 1
+    }, () => {
+      // need to set the tabIndex this way because otherwise the selected message
+      // will not be updated if the first message is deleted
+      if (this.state.tabIndex < 2) {
+        this.setState({ tabIndex: 0 });
+      }
+    });
+
+    // reload unconfigured messages since the deleted message may still exists as an object
+    this.loadUnfiguredMessages();
+  }
+
+  /**
+   * Handler for validation results of the general settings.
+   * @param valid If the general settings are valid.
+   */
+  @autobind
+  private async onGeneralValidate(valid: boolean): Promise<void> {
+    return new Promise((resolve) => {
+      this.setState({
+        generalValid: valid
+      }, () => {
+        this.validate();
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Handler for validation results of a message.
+   * @param uuid The UUID of the message.
+   * @param valid If the message is valid.
+   */
+  @autobind
+  private async onMessageValidate(uuid: string, valid: boolean): Promise<void> {
+    const msgsValid = { ...this.state.messagesValid };
+    msgsValid[uuid] = valid;
+
+    return new Promise((resolve) => {
+      this.setState({
+        messagesValid: msgsValid
+      }, () => {
+        this.validate();
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Add a new message.
+   */
+  @autobind
+  private async onMessageAdd(): Promise<void> {
+    const uuid = uuidv4();
+    const msg: ioBroker.AdapterConfigMessage = {
+      id: '',
+      name: '',
+      dlc: -1,
+      receive: false,
+      send: false,
+      autosend: false,
+      parsers: {},
+    };
+
+    const msgs = { ...this.state.messages };
+    msgs[uuid] = msg;
+    await this.onGeneralChange('messages', msgs);
+
+    // a new message can't be valid
+    await this.onMessageValidate(uuid, false);
+
+    this.setState({
+      tabIndex: Object.keys(this.state.messages).length + 1
+    });
+  }
+
+  /**
+   * Add a message from the unconfigured messages to the configured messages.
+   * @param id The ID (not UUID!) of the unconfigured message.
+   */
+  @autobind
+  private async onMessageAddFromUnconfigured(id: string): Promise<void> {
+    const uuid = uuidv4();
+    const msg: ioBroker.AdapterConfigMessage = {
+      ...this.state.messagesUnconfigured[id]
+    };
+
+    const msgs = { ...this.state.messages };
+    msgs[uuid] = msg;
+    await this.onGeneralChange('messages', msgs);
+
+    // remove it from unconfigured
+    const messagesUnconfigured = { ...this.state.messagesUnconfigured };
+    delete messagesUnconfigured[id];
+
+    this.setState({
+      tabIndex: Object.keys(this.state.messages).length + 1,
+      messagesUnconfigured
+    });
+  }
+
+  /**
    * Load the currently unconfigured messages from the server.
    * This will overwrite the current state of unconfigured messages.
    */
@@ -547,6 +526,27 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         return newState;
       });
     }
+  }
+
+  /**
+   * Validate the current settings.
+   * This will use the results of the previous general/message validation results.
+   * @return `true` if all settings are valid.
+   */
+  private validate(): boolean {
+    let isValid = this.state.generalValid;
+
+    if (isValid) {
+      for (const msgUuid in this.state.messagesValid) {
+        if (!this.state.messagesValid[msgUuid]) {
+          isValid = false;
+        }
+      }
+    }
+
+    this.props.onValidate(isValid);
+
+    return isValid;
   }
 }
 
