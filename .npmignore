@@ -24,12 +24,17 @@ admin/src/
 **/tsconfig.json
 **/tsconfig.*.json
 
-# ESLint configuration
+# ESLint etc configuration
 .eslintrc.json
 .eslintrc.js
+.babelrc
+.eslintignore
+.mocharc.ts.json
+.prettierrc.js
+.prettierignore
 
 # Sourcemaps
-maps/
+**/*.map
 
 # npm package files
 iobroker.*.tgz

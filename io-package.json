@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "0.0.1",
+        "version": "0.1.0-alpha.1",
         "news": {
+            "0.1.0-alpha.1": {
+                "en": "New React UI, DLC support, Parser read on json state change",
+                "de": "Neue React-Benutzeroberfläche, DLC-Unterstützung, Parser lesen bei Änderung des JSON-Status",
+                "ru": "Новый пользовательский интерфейс React, поддержка DLC, чтение парсером при изменении состояния json",
+                "pt": "Nova IU do React, suporte DLC, leitura do analisador na mudança de estado json",
+                "nl": "Nieuwe React UI, DLC-ondersteuning, Parser lezen bij json-statuswijziging",
+                "fr": "Nouvelle interface utilisateur React, prise en charge du DLC, lecture de l'analyseur lors du changement d'état json",
+                "it": "Nuova interfaccia utente React, supporto DLC, lettura parser al cambio di stato json",
+                "es": "Nueva interfaz de usuario de React, compatibilidad con DLC, lectura del analizador en el cambio de estado de json",
+                "pl": "Nowy interfejs użytkownika React, obsługa DLC, odczyt parsera przy zmianie stanu json",
+                "zh-cn": "新的React UI，DLC支持，解析器读取json状态更改"
+            },
             "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",

@@ -75,6 +75,9 @@ jobs:
               if: startsWith(runner.OS, 'windows') == false
               run: DEBUG=testing:* npm run test:integration
 
+            - name: Run ts tests
+              run: npm run test:ts
+
 # To enable automatic npm releases, create a token on npmjs.org
 # Enter this token as a GitHub secret (with name NPM_TOKEN) in the repository options
 # Then uncomment the following block:

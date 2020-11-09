@@ -12,7 +12,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.canbus.png?downloads=true)](https://nodei.co/npm/iobroker.canbus/)
 
-**Tests:** [![Travis-CI](http://img.shields.io/travis/crycode-de/ioBroker.canbus/master.svg)](https://travis-ci.org/crycode-de/ioBroker.canbus)
+**Tests:** ![Test and Release](https://github.com/crycode-de/ioBroker.canbus/workflows/Test%20and%20Release/badge.svg)
 
 ## CAN bus adapter for ioBroker
 
@@ -38,10 +38,17 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
 
 ## Changelog
 
+### 0.1.0-alpha.1 (2020-11-09)
+* (crycode-de) New React UI
+* (crycode-de) Support for messages with specific DLC
+* (crycode-de) Parsers read on json state change with ack=false
+
 ### 0.0.1
-* (Peter Müller) initial development release
+* (crycode-de) initial development release
 
 ## License
+
+Copyright (c) 2020 Peter Müller <peter@crycode.de> (https://crycode.de/)
 
 **GNU GENERAL PUBLIC LICENSE**
 
