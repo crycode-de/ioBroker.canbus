@@ -38,7 +38,6 @@ class CanBusAdapter extends utils.Adapter {
             ...options,
             name: 'canbus',
         });
-        //private readonly namespace: string;
         this.canInterface = null;
         /**
          * Mapping of CAN hex message IDs to the message configs.
@@ -47,7 +46,6 @@ class CanBusAdapter extends utils.Adapter {
          */
         this.canId2Message = {};
         this.on('ready', this.onReady);
-        this.on('objectChange', this.onObjectChange);
         this.on('stateChange', this.onStateChange);
         //this.on('message', this.onMessage);
         this.on('unload', this.onUnload);
@@ -85,20 +83,6 @@ class CanBusAdapter extends utils.Adapter {
         }
     }
     /**
-     * Is called if a subscribed object changes
-     * TODO: needed?
-     */
-    onObjectChange(id, obj) {
-        if (obj) {
-            // The object was changed
-            this.log.silly(`object ${id} changed: ${JSON.stringify(obj)}`);
-        }
-        else {
-            // The object was deleted
-            this.log.silly(`object ${id} deleted`);
-        }
-    }
-    /**
      * Is called if a subscribed state changes.
      *
      * This will trigger the sending of messages and conversion from parser states
@@ -133,10 +117,12 @@ class CanBusAdapter extends utils.Adapter {
                     }
                     break;
                 case 'json':
-                    if (!msgCfg.autosend)
-                        return;
+                    // let the parsers read the data from json to keep the parsers data in sync with the json data
+                    this.processParsers(this.getBufferFromJsonState(state, msgCfg.idWithDlc), msgCfg);
                     // send current json data
-                    this.sendMessageJsonData(msgCfg, state);
+                    if (msgCfg.autosend) {
+                        this.sendMessageJsonData(msgCfg, state);
+                    }
                     break;
                 case 'rtr':
                     // nothing to do here
@@ -405,11 +391,21 @@ class CanBusAdapter extends utils.Adapter {
         this.setStateAsync(`${msgCfg.idWithDlc}.json`, JSON.stringify([...msg.data]), true);
         this.setStateAsync(`${msgCfg.idWithDlc}.rtr`, !!msg.rtr, true);
         // run the configured parsers
+        this.processParsers(msg.data, msgCfg);
+    }
+    /**
+     * Process all parsers configured for a message to read the values from a buffer.
+     * @param buf The buffer containing the data to read from.
+     * @param msgCfg The message config to use.
+     */
+    async processParsers(buf, msgCfg) {
+        if (!buf)
+            return;
         for (const parserUuid in msgCfg.parsers) {
             // check if the parser is initialized
             const parser = msgCfg.parsers[parserUuid];
             if (parser.instance) {
-                const readResult = await parser.instance.read(msg.data);
+                const readResult = await parser.instance.read(buf);
                 // check if the parser has read a value (null indecates an error)
                 if (readResult instanceof Error) {
                     this.log.warn(`Parser reading from received data for ${msgCfg.idWithDlc} failed: ${readResult}`);
@@ -554,9 +550,6 @@ __decorate([
 __decorate([
     core_decorators_1.autobind
 ], CanBusAdapter.prototype, "onUnload", null);
-__decorate([
-    core_decorators_1.autobind
-], CanBusAdapter.prototype, "onObjectChange", null);
 __decorate([
     core_decorators_1.autobind
 ], CanBusAdapter.prototype, "onStateChange", null);

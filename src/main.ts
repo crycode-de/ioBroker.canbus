@@ -118,10 +118,13 @@ export class CanBusAdapter extends utils.Adapter {
           break;
 
         case 'json':
-          if (!msgCfg.autosend) return;
+          // let the parsers read the data from json to keep the parsers data in sync with the json data
+          this.processParsers(this.getBufferFromJsonState(state, msgCfg.idWithDlc), msgCfg);
 
           // send current json data
-          this.sendMessageJsonData(msgCfg, state);
+          if (msgCfg.autosend) {
+            this.sendMessageJsonData(msgCfg, state);
+          }
           break;
 
         case 'rtr':
@@ -422,11 +425,22 @@ export class CanBusAdapter extends utils.Adapter {
     this.setStateAsync(`${msgCfg.idWithDlc}.rtr`, !!msg.rtr, true);
 
     // run the configured parsers
+    this.processParsers(msg.data, msgCfg);
+  }
+
+  /**
+   * Process all parsers configured for a message to read the values from a buffer.
+   * @param buf The buffer containing the data to read from.
+   * @param msgCfg The message config to use.
+   */
+  private async processParsers (buf: Buffer | null, msgCfg: MessageConfig): Promise<void> {
+    if (!buf) return;
+
     for (const parserUuid in msgCfg.parsers) {
       // check if the parser is initialized
       const parser = msgCfg.parsers[parserUuid];
       if (parser.instance) {
-        const readResult = await parser.instance.read(msg.data);
+        const readResult = await parser.instance.read(buf);
         // check if the parser has read a value (null indecates an error)
         if (readResult instanceof Error) {
           this.log.warn(`Parser reading from received data for ${msgCfg.idWithDlc} failed: ${readResult}`);
