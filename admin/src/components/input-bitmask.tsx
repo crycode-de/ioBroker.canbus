@@ -9,16 +9,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
-import { uuidv4 } from '../lib/helpers';
-
 interface InputBitmaskProps {
   onChange: (newValue: number) => void;
-
-  /**
-   * Unique ID for this element.
-   * If not set a UUID will be generated.
-   */
-  id?: string;
 
   /**
    * Label for this input.
@@ -42,8 +34,14 @@ interface InputBitmaskProps {
 }
 
 interface InputBitmaskState {
-  id: string;
+  /**
+   * The current value.
+   */
   value: number;
+
+  /**
+   * The currents bit state.
+   */
   bits: boolean[];
 }
 
@@ -61,7 +59,6 @@ export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint,
     }
 
     this.state = {
-      id: this.props.id || uuidv4(),
       value: this.props.value,
       bits: bits
     };

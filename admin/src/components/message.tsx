@@ -24,10 +24,14 @@ import { MESSAGE_ID_REGEXP } from '../../../src/consts';
 import { uuidv4 } from '../lib/helpers';
 
 interface MessageProps {
+  /**
+   * The message was changed.
+   */
   onChange?: (msgUuid: string, config: ioBroker.AdapterConfigMessage) => void;
 
   /**
    * The delete button was clicked.
+   * If defined, an remove button will be rendered in the top right corner.
    */
   onDelete?: (uuid: string) => void;
 
@@ -38,9 +42,13 @@ interface MessageProps {
 
   /**
    * The add button was clicked.
+   * If defined, an add button will be rendered in the top right corner.
    */
   onAdd?: (uuid: string) => void;
 
+  /**
+   * The app context.
+   */
   context: AppContext;
 
   /**
@@ -53,16 +61,32 @@ interface MessageProps {
    */
   config: ioBroker.AdapterConfigMessage;
 
+  /**
+   * Classes to apply for some elements.
+   */
   classes: Record<string, string>;
 
+  /**
+   * If the message should be readonly.
+   */
   readonly?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MessageState extends ioBroker.AdapterConfigMessage {
+  /**
+   * Index of the currently selected parser tab.
+   */
   tabIndex: number;
+
+  /**
+   * Error message for the ID input.
+   */
   idError: string | null;
 
+  /**
+   * If the remove confirm dialog should be shown.
+   */
   showRemoveConfirm: boolean;
 
   /**
@@ -235,7 +259,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
               <Parser
                 uuid={parserUuid}
                 config={this.state.parsers[parserUuid]}
-                msgId={this.state.id}
+                msgId={this.state.dlc >= 0 ? `${this.state.id}-${this.state.dlc}` : this.state.id}
                 onChange={this.onParserChange}
                 onValidate={this.onParserValidate}
                 onDelete={this.onParserDelete}
@@ -263,6 +287,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
     );
   }
 
+  /**
+   * Method to create the label for a parser tab.
+   * @param parser The parser config.
+   */
   private getParserTabLabel (parser: ioBroker.AdapterConfigMessageParser): string {
     if (!parser?.id) {
       return I18n.t('ID missing');
@@ -275,6 +303,9 @@ export class Message extends React.Component<MessageProps, MessageState> {
     return `${parser.name} (${parser.id})`;
   }
 
+  /**
+   * Handler for tab changes.
+   */
   @autobind
   private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
     this.setState({ tabIndex: newValue });
@@ -285,25 +316,28 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param key Key of the changed state
    * @param value The new value
    */
-  private handleChange<T extends keyof MessageState>(key: T, value: MessageState[T]): void {
+  private async handleChange<T extends keyof MessageState>(key: T, value: MessageState[T]): Promise<void> {
     const newState = {
       [key]: value
     } as unknown as Pick<MessageState, keyof MessageState>;
 
     this.validateState(newState);
 
-    this.setState(newState, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.props.uuid, {
-          id: this.state.id,
-          name: this.state.name,
-          dlc: this.state.dlc,
-          receive: this.state.receive,
-          send: this.state.send,
-          autosend: this.state.autosend,
-          parsers: { ...this.state.parsers },
-        });
-      }
+    await new Promise((resolve) => {
+      this.setState(newState, () => {
+        if (this.props.onChange) {
+          this.props.onChange(this.props.uuid, {
+            id: this.state.id,
+            name: this.state.name,
+            dlc: this.state.dlc,
+            receive: this.state.receive,
+            send: this.state.send,
+            autosend: this.state.autosend,
+            parsers: { ...this.state.parsers },
+          });
+        }
+        resolve();
+      });
     });
   }
 
@@ -378,6 +412,11 @@ export class Message extends React.Component<MessageProps, MessageState> {
     });
   }
 
+  /**
+   * Handler for validation results of the parsers.
+   * @param uuid The UUID of the parser.
+   * @param valid If the parser is valid.
+   */
   @autobind
   private async onParserValidate(uuid: string, valid: boolean): Promise<void> {
     const parsersValid = { ...this.state.parsersValid };
@@ -395,6 +434,11 @@ export class Message extends React.Component<MessageProps, MessageState> {
     });
   }
 
+  /**
+   * Handler for changes in the parsers.
+   * @param uuid The UUID of the parser.
+   * @param parser The new parser config.
+   */
   @autobind
   private onParserChange(uuid: string, parser: ioBroker.AdapterConfigMessageParser): void {
     const parsers = { ...this.state.parsers };
@@ -402,6 +446,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
     this.handleChange('parsers', parsers);
   }
 
+  /**
+   * Handler for parser delete events.
+   * @param uuid The UUID of the parser.
+   */
   @autobind
   private async onParserDelete(uuid: string): Promise<void> {
     const parsers = { ...this.state.parsers };

@@ -6,16 +6,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
-import { uuidv4 } from '../lib/helpers';
-
 interface InputTextProps {
   onChange: (newValue: string) => void;
-
-  /**
-   * Unique ID for this element.
-   * If not set a UUID will be generated.
-   */
-  id?: string;
 
   /**
    * Label for this input.
@@ -70,7 +62,6 @@ interface InputTextProps {
 }
 
 interface InputTextState {
-  id: string;
   value: string;
 }
 
@@ -84,7 +75,6 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
     super(props);
 
     this.state = {
-      id: this.props.id || uuidv4(),
       value: this.props.value
     };
   }
@@ -102,7 +92,6 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl fullWidth>
           <TextField
-            id={this.state.id}
             label={this.props.label}
             value={this.state.value}
             required={this.props.required}

@@ -44,16 +44,41 @@ const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
 });
 
 interface SettingsProps {
+  /**
+   * Classes to apply for some elements.
+   */
   classes: Record<string, string>;
+
+  /**
+   * The native adapter config.
+   */
   native: ioBroker.AdapterConfig;
+
+  /**
+   * The common adapter options.
+   */
   common: (ioBroker.StateCommon & Record<string, any>) | (ioBroker.ChannelCommon & Record<string, any>) | (ioBroker.DeviceCommon & Record<string, any>) | (ioBroker.OtherCommon & Record<string, any>) | (ioBroker.EnumCommon & Record<string, any>);
+
+  /**
+   * The app context.
+   */
   context: AppContext;
 
+  /**
+   * The settings were changed.
+   */
   onChange: (attr: string, value: any) => void;
+
+  /**
+   * The settings were validated.
+   */
   onValidate: (valid: boolean) => void;
 }
 
 interface SettingsState {
+  /**
+   * Index of the currently selected general/messages tab.
+   */
   tabIndex: number;
 
   /**
@@ -93,6 +118,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   public componentDidMount(): void {
     const { socket, instance, adapterName } = this.props.context;
 
+    // subscribe to object changes to live display new unconfigured messages.
     socket.subscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
 
     // get unconfigured messages
@@ -104,6 +130,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     socket.unsubscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
   }
 
+  /**
+   * Handler for all changes.
+   * @param attr The name of the changed setting.
+   * @param value The new value.
+   */
   @autobind
   private async onGeneralChange(attr: string, value: any): Promise<void> {
     this.props.onChange(attr, value);
@@ -127,6 +158,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
   }
 
+  /**
+   * Handler for changed messages.
+   * @param uuid The UUID of the message.
+   * @param msg The new message config.
+   */
   @autobind
   private onMessageChange(uuid: string, msg: ioBroker.AdapterConfigMessage): void {
     const msgs = { ...this.state.messages };
@@ -134,6 +170,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     this.onGeneralChange('messages', msgs);
   }
 
+  /**
+   * Handler for message delete events.
+   * @param uuid The UUID of the message.
+   */
   @autobind
   private async onMessageDelete(uuid: string): Promise<void> {
     const msgs = { ...this.state.messages };
@@ -154,6 +194,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     this.loadUnfiguredMessages();
   }
 
+  /**
+   * Handler for validation results of the general settings.
+   * @param valid If the general settings are valid.
+   */
   @autobind
   private async onGeneralValidate(valid: boolean): Promise<void> {
     return new Promise((resolve) => {
@@ -166,6 +210,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     });
   }
 
+  /**
+   * Handler for validation results of a message.
+   * @param uuid The UUID of the message.
+   * @param valid If the message is valid.
+   */
   @autobind
   private async onMessageValidate(uuid: string, valid: boolean): Promise<void> {
     const msgsValid = { ...this.state.messagesValid };
@@ -181,6 +230,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     });
   }
 
+  /**
+   * Validate the current settings.
+   * This will use the results of the previous general/message validation results.
+   * @return `true` if all settings are valid.
+   */
   private validate (): boolean {
     let isValid = this.state.generalValid;
 
@@ -250,15 +304,22 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     });
   }
 
+  /**
+   * Handler for tab changes.
+   */
   @autobind
   private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
     this.setState({ tabIndex: newValue });
   }
 
   render(): React.ReactNode {
-    const { classes, native, context } = this.props;
+    const { classes, native, common, context } = this.props;
 
+    /**
+     * Counter for the tab numbers. Will be increased on each tab.
+     */
     let tabIndex: number = 0;
+
     const keysMessages = Object.keys(this.state.messages);
     const keysMessagesUnconfigured = Object.keys(this.state.messagesUnconfigured);
 
@@ -313,10 +374,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
         <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
           <General
-            settings={native}
             context={context}
-            common={this.props.common}
-            native={this.props.native}
+            common={common}
+            native={native}
             onChange={this.onGeneralChange}
             onValidate={this.onGeneralValidate}
           />
@@ -362,11 +422,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           </TabPanel>
         ))}
 
-
       </div>
     );
   }
 
+  /**
+   * Method to create the label for a message tab.
+   * @param msg The message config.
+   */
   private getMessageTabLabel (msg: ioBroker.AdapterConfigMessage): string {
     if (!msg?.id) {
       return I18n.t('ID missing');
@@ -389,13 +452,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     const objs = await socket.getObjectView(`${adapterName}.${instance}.`, `${adapterName}.${instance}.\u9999`, 'channel');
 
-    const unconfMessages: ioBroker.AdapterConfigMessages = {};
+    const messagesUnconfigured: ioBroker.AdapterConfigMessages = {};
     for (const id in objs) {
-      this.addPossiblyUnconfiguredMessage(unconfMessages, objs[id]);
+      this.addPossiblyUnconfiguredMessage(messagesUnconfigured, objs[id]);
     }
 
     this.setState({
-      messagesUnconfigured: unconfMessages
+      messagesUnconfigured
     });
   }
 

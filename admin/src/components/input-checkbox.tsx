@@ -7,16 +7,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
-import { uuidv4 } from '../lib/helpers';
-
 interface InputCheckboxProps {
   onChange: (newValue: boolean) => void;
-
-  /**
-   * Unique ID for this element.
-   * If not set a UUID will be generated.
-   */
-  id?: string;
 
   /**
    * Label for this input.
@@ -35,7 +27,6 @@ interface InputCheckboxProps {
 }
 
 interface InputCheckboxState {
-  id: string;
   value: boolean;
 }
 
@@ -48,7 +39,6 @@ export class InputCheckbox extends React.PureComponent<Partial<Record<Breakpoint
     super(props);
 
     this.state = {
-      id: this.props.id || uuidv4(),
       value: this.props.value
     };
   }

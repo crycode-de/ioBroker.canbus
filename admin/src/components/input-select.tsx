@@ -14,27 +14,15 @@ interface InputSelectProps {
   onChange: (newValue: string) => void;
 
   /**
-   * Unique ID for this element.
-   * If not set a UUID will be generated.
-   */
-  id?: string;
-
-  /**
    * Label for this input.
    * Will be translatable.
    */
-  label: string | JSX.Element;
+  label: string;
 
   /**
    * The selected value of the input.
    */
   value: string;
-
-  /**
-   * Additional class names.
-   * Default: `s12`
-   */
-  className?: string;
 
   /**
    * The options to select.
@@ -54,8 +42,19 @@ interface InputSelectProps {
 }
 
 interface InputSelectState {
+  /**
+   * Unique ID for this element.
+   */
   id: string;
+
+  /**
+   * Currently selected value.
+   */
   value: string;
+
+  /**
+   * Selectable options.
+   */
   options: Record<string, string>;
 }
 
@@ -76,7 +75,7 @@ export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, 
     }
 
     this.state = {
-      id: this.props.id || uuidv4(),
+      id: uuidv4(),
       value: this.props.value,
       options: options
     };
@@ -96,7 +95,6 @@ export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, 
         <FormControl fullWidth>
           <InputLabel id={`${this.state.id}_label`}>{this.props.label}</InputLabel>
           <Select
-            id={this.state.id}
             labelId={`${this.state.id}_label`}
             value={this.state.value}
             fullWidth

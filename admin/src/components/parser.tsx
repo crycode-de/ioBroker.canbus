@@ -35,20 +35,59 @@ const DATA_TYPE_OPTIONS: Record<ioBroker.AdapterConfigDataType, string> = {
 };
 
 interface ParserProps {
-  context: AppContext;
+  /**
+   * The parser was changed.
+   */
   onChange: (uuid: string, parser: ioBroker.AdapterConfigMessageParser) => void;
+
+  /**
+   * The parser was validated.
+   */
   onValidate: (uuid: string, isValid: boolean) => void;
-  onDelete: (uuid: string) => void;
+
+  /**
+   * The delete button was clicked.
+   * If defined, an remove button will be rendered in the top right corner.
+   */
+  onDelete?: (uuid: string) => void;
+
+  /**
+   * The app context.
+   */
+  context: AppContext;
+
+  /**
+   * ID of the message to which the parser belongs.
+   * This is NOT the UUID!
+   * Used to display the full parser ID.
+   */
   msgId: string;
+
+  /**
+   * UUID of the parser.
+   */
   uuid: string;
+
+  /**
+   * Config of this parser.
+   */
   config: ioBroker.AdapterConfigMessageParser;
 
+  /**
+   * Classes to apply for some elements.
+   */
   classes: Record<string, string>;
 
+  /**
+   * If the parser should be readonly.
+   */
   readonly?: boolean;
 }
 
 interface ParserState extends ioBroker.AdapterConfigMessageParser {
+  /**
+   * Error message for the ID input.
+   */
   idError: string | null;
 
   disabledDataOffsets: string[];

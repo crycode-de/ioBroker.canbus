@@ -12,37 +12,50 @@ import { InputText } from './input-text';
 import { INTERFACE_REGEXP } from '../../../src/consts';
 
 interface GeneralProps {
+  /**
+   * Will be called if any value changed.
+   * @param attr Name of the changed attribute.
+   * @param value The new value.
+   */
   onChange: (attr: string, value: any) => void;
+
+  /**
+   * Will be called if the inputs are validated.
+   * @param isValid If all inputs are valid or not.
+   */
   onValidate: (isValid: boolean) => void;
-  settings: ioBroker.AdapterConfig;
+
+  /**
+   * The app context.
+   */
   context: AppContext;
+
+  /**
+   * The native adapter config.
+   */
   native: ioBroker.AdapterConfig;
+
+  /**
+   * The common adapter options.
+   */
   common: (ioBroker.StateCommon & Record<string, any>) | (ioBroker.ChannelCommon & Record<string, any>) | (ioBroker.DeviceCommon & Record<string, any>) | (ioBroker.OtherCommon & Record<string, any>) | (ioBroker.EnumCommon & Record<string, any>);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface GeneralState extends ioBroker.AdapterConfigMainSettings {
+  /**
+   * Error string to display for the interface option or `null` if no error.
+   */
   interfaceError: string | null;
 }
 
 export class General extends React.Component<GeneralProps, GeneralState> {
   constructor(props: GeneralProps) {
     super(props);
-    // settings are our state
+    // native settings are our state
     this.state = this.validateState({
-      ...props.settings,
+      ...props.native,
       interfaceError: null
     });
-  }
-
-  public componentDidMount(): void {
-    //const { socket, instanceId } = this.props.context;
-    //socket.subscribeState(instanceId + '.alive', false, this.handleAliveChange);
-  }
-
-  public componentWillUnmount(): void {
-    //const { socket, instanceId } = this.props.context;
-    //socket.unsubscribeState(instanceId + '.alive', this.handleAliveChange);
   }
 
   public render(): React.ReactNode {
