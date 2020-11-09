@@ -8,6 +8,11 @@ declare global {
     idNum: number;
 
     /**
+     * The ID of the massge with optionally DLC appended if set.
+     */
+    idWithDlc: string;
+
+    /**
      * If the ID is in extened frame format.
      */
     ext: boolean;

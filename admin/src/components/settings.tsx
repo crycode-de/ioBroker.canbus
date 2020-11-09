@@ -16,7 +16,7 @@ import { General } from './general';
 import { Message } from './message';
 import { AppContext } from '../common';
 import { uuidv4 } from '../lib/helpers';
-import { MESSAGE_ID_REGEXP } from '../../../src/consts';
+import { MESSAGE_ID_REGEXP, MESSAGE_ID_REGEXP_WITH_DLC } from '../../../src/consts';
 
 const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
   root: {
@@ -387,7 +387,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   private async loadUnfiguredMessages(): Promise<void> {
     const { socket, instance, adapterName } = this.props.context;
 
-    const objs = await socket.getObjectView(`${adapterName}.${instance}`, `${adapterName}.${instance}\u9999`, 'channel');
+    const objs = await socket.getObjectView(`${adapterName}.${instance}.`, `${adapterName}.${instance}.\u9999`, 'channel');
 
     const unconfMessages: ioBroker.AdapterConfigMessages = {};
     for (const id in objs) {
@@ -414,18 +414,21 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     // the ID must match the message id regexp
     const idParts = obj._id.split('.');
-    if (!idParts[2].match(MESSAGE_ID_REGEXP)) return false;
+    if (!idParts[2].match(MESSAGE_ID_REGEXP_WITH_DLC)) return false;
+
+    const [id, dlcStr] = idParts[2].split('-');
+    const dlc = (dlcStr === undefined) ? -1 : parseInt(dlcStr, 10);
 
     // check if the message ID exists in currently configures messages
     for (const uuid in this.state.messages) {
-      if (this.state.messages[uuid].id === idParts[2]) return false;
+      if (this.state.messages[uuid].id === id && this.state.messages[uuid].dlc === dlc) return false;
     }
 
     // add it to the unknown messages
     unconfMessages[idParts[2]] = {
-      id: idParts[2],
+      id: id,
       name: obj.common.name as string,
-      dlc: -1,
+      dlc: dlc,
       receive: true,
       send: false,
       autosend: false,

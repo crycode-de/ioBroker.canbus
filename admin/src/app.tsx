@@ -52,6 +52,16 @@ class App extends GenericApp {
     return !compareObjects(this.savedNative, native);
   }
 
+  onPrepareSave(settings: ioBroker.AdapterConfig): void {
+    // set DLC for messages if not set to update the config from older versions
+    for (const msgUuid in settings.messages) {
+      if (typeof settings.messages[msgUuid].dlc !== 'number') {
+        settings.messages[msgUuid].dlc = -1;
+      }
+    }
+    super.onPrepareSave(settings);
+  }
+
   render(): React.ReactNode {
     if (!this.state.loaded) {
       return super.render();
