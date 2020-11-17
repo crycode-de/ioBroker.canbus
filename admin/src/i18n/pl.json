@@ -36,8 +36,10 @@
     "Invert the boolean value": "Odwróć wartość logiczną",
     "This ID is reserved and can't be used": "Ten identyfikator jest zarezerwowany i nie można go używać",
     "There are some errors in you configuration. Please check!": "Konfiguracja zawiera błędy. ",
-    "loading...": "Ładowanie...",
+    "loading...": "Ładowanie…",
     "Add": "Dodaj",
     "Remove": "Usunąć",
-    "Reload": "Przeładować"
+    "Reload": "Przeładować",
+    "General": "Generał",
+    "Message": "Wiadomość"
 }
