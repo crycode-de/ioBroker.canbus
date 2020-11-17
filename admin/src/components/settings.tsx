@@ -9,7 +9,7 @@ import { Theme, withStyles } from '@material-ui/core/styles';
 import { CreateCSSProperties } from '@material-ui/core/styles/withStyles';
 import AddIcon from '@material-ui/icons/Add'
 
-import I18n from '../i18n';
+import I18n from '@iobroker/adapter-react/i18n';
 
 import { TabPanel } from './tab-panel';
 import { General } from './general';

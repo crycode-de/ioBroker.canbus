@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete'
 
-import I18n from '../i18n';
+import I18n from '@iobroker/adapter-react/i18n';
 
 import { InputText } from './input-text';
 import { InputCheckbox } from './input-checkbox';

@@ -5,7 +5,7 @@ import { StyleRules } from '@material-ui/styles';
 import GenericApp from '@iobroker/adapter-react/GenericApp';
 import { GenericAppProps, GenericAppSettings } from '@iobroker/adapter-react/types';
 
-import I18n from './i18n';
+import I18n from '@iobroker/adapter-react/i18n';
 
 import { AppContext } from './common';
 

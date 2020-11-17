@@ -10,7 +10,7 @@ import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ConfirmDialog from '@iobroker/adapter-react/Dialogs/Confirm'
 
-import I18n from '../i18n';
+import I18n from '@iobroker/adapter-react/i18n';
 import { AppContext } from '../common';
 
 import { TabPanel } from './tab-panel';
