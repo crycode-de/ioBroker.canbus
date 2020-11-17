@@ -92,6 +92,39 @@ export class CanBusAdapter extends utils.Adapter {
       // don't do anything if the state is acked
       if (state.ack) return;
 
+      // raw.send state?
+      if (this.config.useRawStates && id === `${this.namespace}.raw.send`) {
+        // load and check message data
+        let canMsg: CanMessage;
+        try {
+          canMsg = JSON.parse(state.val as string)
+        } catch (e) {
+          this.log.warn(`Invalid JSON in '${this.namespace}.raw.send' state cannot be send!`);
+          return;
+        }
+        if (canMsg && Array.isArray(canMsg.data)) {
+          canMsg.data = Buffer.from(canMsg.data);
+        }
+        if (!canMsg || typeof canMsg.id !== 'number' || !Buffer.isBuffer(canMsg.data)) {
+          this.log.warn(`Invalid message data in '${this.namespace}.raw.send' state cannot be send!`);
+          return;
+        }
+
+        // send the message
+        this.log.debug(`sendig data from raw.send state`);
+        if (this.sendCanMsg(canMsg.id, canMsg.ext || false, canMsg.data, canMsg.rtr || false)) {
+          // set ack flag if the message was send and not already acked
+          if (!state.ack) {
+            await this.setStateAsync(id, {
+              ...state,
+              ack: true
+            });
+          }
+        }
+        return;
+      }
+
+      // get msg und state ID
       const [,, msgId, stateId] = id.split('.');
 
       // we only want states of a message objects
@@ -222,11 +255,6 @@ export class CanBusAdapter extends utils.Adapter {
    * @return `true` if the message was sent.
    */
   private async sendMessageJsonData (msgCfg: MessageConfig, state?: ioBroker.State | null | undefined): Promise<boolean> {
-    if (!this.canInterface || !this.canInterface.isReady()) {
-      this.log.warn(`Could not send data of ${msgCfg.idWithDlc}.json because CAN interface is not ready.`);
-      return false;
-    }
-
     // read the state if not given by argument
     if (!state) {
       state = await this.getStateAsync(`${msgCfg.idWithDlc}.json`);
@@ -243,11 +271,11 @@ export class CanBusAdapter extends utils.Adapter {
     }
 
     // get rtr flag from state
-    const rtrState = await this.getStateAsync(`${msgCfg.idWithDlc}.rtr`);
+    const rtrState = this.config.useRtrFlag && await this.getStateAsync(`${msgCfg.idWithDlc}.rtr`);
     const rtr = rtrState && !!rtrState.val || false;
 
     // send the message
-    if (this.canInterface.send(msgCfg.idNum, msgCfg.ext, data, rtr)) {
+    if (this.sendCanMsg(msgCfg.idNum, msgCfg.ext, data, rtr)) {
       // set ack flag on json if the message was send and not already acked
       if (!state.ack) {
         await this.setStateAsync(`${msgCfg.idWithDlc}.json`, {
@@ -264,8 +292,28 @@ export class CanBusAdapter extends utils.Adapter {
         });
       }
 
+      // set raw state if enabled
+      if (this.config.useRawStates) {
+        const canMsg: CanMessage = {
+          id: msgCfg.idNum,
+          ext: msgCfg.ext,
+          data
+        }
+        if (this.config.useRtrFlag) {
+          canMsg.rtr = rtr;
+        }
+        this.setStateAsync('raw.send', {
+          val: JSON.stringify({
+            ...canMsg,
+            data: [...data]
+          }),
+          ack: true
+        });
+      }
+
       return true;
     } else {
+      this.log.warn(`Sending data message for ${msgCfg.idWithDlc} failed!`);
       return false;
     }
   }
@@ -292,7 +340,6 @@ export class CanBusAdapter extends utils.Adapter {
 
       this.setupMessage(msgUuid, msgCfg);
     }
-
 
     // delete unconfigured message objects
     if (this.config.deleteUnconfiguredMessages) {
@@ -322,6 +369,47 @@ export class CanBusAdapter extends utils.Adapter {
         // not configured... delete it recusively
         this.log.debug(`delete unconfigured message ${obj.id}`);
         await this.delForeignObjectAsync(obj.id, { recursive: true });
+      }
+    }
+
+    // create or remove raw states
+    if (this.config.useRawStates) {
+      // raw states are enabled
+      await this.extendObjectAsync('raw', {
+        type: 'channel',
+        common: {
+          name: 'Raw message data'
+        },
+        native: {}
+      });
+      await this.extendObjectAsync('raw.received', {
+        type: 'state',
+        common: {
+          role: 'json',
+          type: 'string',
+          name: 'Last received message',
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      await this.extendObjectAsync('raw.send', {
+        type: 'state',
+        common: {
+          role: 'json',
+          type: 'string',
+          name: 'Last send message or message to send',
+          read: true,
+          write: true
+        },
+        native: {}
+      });
+    } else {
+      // raw states are disabled... delete them if exists
+      const chan = await this.getObjectAsync('raw');
+      if (chan) {
+        this.log.debug(`delete raw objects/states`);
+        await this.delObjectAsync('raw', { recursive: true });
       }
     }
   }
@@ -369,6 +457,17 @@ export class CanBusAdapter extends utils.Adapter {
     const msgIdHex = getHexId(msg.id, !!msg.ext);
     let handled = false;
 
+    // save to raw state if enabled
+    if (this.config.useRawStates) {
+      this.setStateAsync('raw.received', {
+        val: JSON.stringify({
+          ...msg,
+          data: [...msg.data]
+        }),
+        ack: true
+      });
+    }
+
     if (this.canId2Message[msgIdHex]) {
       // it's a known message without DLC
       await this.processReceivedCanMsg(msg, this.canId2Message[msgIdHex]);
@@ -404,11 +503,29 @@ export class CanBusAdapter extends utils.Adapter {
       await this.setupMessage(null, msgCfg);
 
       this.setStateAsync(`${msgCfg.id}.json`, JSON.stringify([...msg.data]), true);
-      this.setStateAsync(`${msgCfg.id}.rtr`, !!msg.rtr, true);
+      if (this.config.useRtrFlag) {
+        this.setStateAsync(`${msgCfg.id}.rtr`, !!msg.rtr, true);
+      }
     } else {
       // known message... just ignore
       this.log.debug(`ignoring message ${msg.id}`);
     }
+  }
+
+  /**
+   * Send a CAN message with the given properties.
+   * @param id The nummeric ID of the CAN message.
+   * @param ext `true` if the message should be send in extended frame format.
+   * @param data The data of the message. 0 to 8 bytes buffer.
+   * @param rtr Remote transmission request flag.
+   */
+  private sendCanMsg (id: number, ext: boolean, data: Buffer, rtr: boolean): boolean {
+    if (!this.canInterface || !this.canInterface.isReady()) {
+      this.log.warn(`Could not send data because CAN interface is not ready.`);
+      return false;
+    }
+
+    return this.canInterface.send(id, ext, data, rtr);
   }
 
   /**
@@ -422,7 +539,9 @@ export class CanBusAdapter extends utils.Adapter {
 
     // set raw states
     this.setStateAsync(`${msgCfg.idWithDlc}.json`, JSON.stringify([...msg.data]), true);
-    this.setStateAsync(`${msgCfg.idWithDlc}.rtr`, !!msg.rtr, true);
+    if (this.config.useRtrFlag) {
+      this.setStateAsync(`${msgCfg.idWithDlc}.rtr`, !!msg.rtr, true);
+    }
 
     // run the configured parsers
     this.processParsers(msg.data, msgCfg);
@@ -485,18 +604,25 @@ export class CanBusAdapter extends utils.Adapter {
       native: {}
     });
 
-    // create/update "rtr" state
-    await this.extendObjectAsync(`${msgCfg.idWithDlc}.rtr`, {
-      type: 'state',
-      common: {
-        name: `Remote Transmission Request`,
-        role: 'indecator',
-        type: 'boolean',
-        read: true,
-        write: msgCfg.send // allow write only if the message is configured for sending
-      },
-      native: {}
-    });
+    // create/update or delete "rtr" state
+    if (this.config.useRtrFlag) {
+      await this.extendObjectAsync(`${msgCfg.idWithDlc}.rtr`, {
+        type: 'state',
+        common: {
+          name: `Remote Transmission Request`,
+          role: 'indecator',
+          type: 'boolean',
+          read: true,
+          write: msgCfg.send // allow write only if the message is configured for sending
+        },
+        native: {}
+      });
+    } else {
+      const obj = await this.getObjectAsync(`${msgCfg.idWithDlc}.rtr`);
+      if (obj) {
+        await this.delObjectAsync(`${msgCfg.idWithDlc}.rtr`);
+      }
+    }
 
     // create/update or delete "send" state depending on "send" option
     if (msgCfg.send) {

@@ -97,6 +97,25 @@ export class General extends React.Component<GeneralProps, GeneralState> {
             {I18n.t('Delete all objects of unconfigured messages on adapter startup.')}
           </InputCheckbox>
         </Grid>
+        <Grid container spacing={3}>
+          <InputCheckbox
+            sm={12} md={6}
+            label={I18n.t('Use raw states')}
+            value={this.state.useRawStates}
+            onChange={(v) => this.handleChange('useRawStates', v)}
+          >
+            {I18n.t('Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.')}<br />
+            <code>{this.props.context.adapterName}.{this.props.context.instance}.raw.received</code> {I18n.t('and')} <code>{this.props.context.adapterName}.{this.props.context.instance}.raw.send</code>
+          </InputCheckbox>
+          <InputCheckbox
+            sm={12} md={6}
+            label={I18n.t('Use rtr flag')}
+            value={this.state.useRtrFlag}
+            onChange={(v) => this.handleChange('useRtrFlag', v)}
+          >
+            {I18n.t('Add an additional Remote Transmission Request (rtr) state on each message.')}
+          </InputCheckbox>
+        </Grid>
       </>
     );
   }

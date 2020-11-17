@@ -36,7 +36,32 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
 * CAN Hardware which creates an interface like `can0`
 * Some knowledge about the messages send on you CAN bus
 
+## Usage in scripts
+
+To can handle/modify the `<messageId>.json` or `<messageId>.<parserId>` states in your scripts.
+
+Additionally you may use the `raw.received` and `raw.send` states, if you have them enabled in the adapter config.  
+They hold the stringified JSON data of the message data and can be used to handle each received or send message independent from the configured messages.
+By writing JSON data to the `raw.send` state you are able to send CAN messages containing any data you like.
+
+### Raw message object example
+```js
+{
+  "id": 42,
+  "ext": false,
+  "data": [0, 13, 37, 255],
+  "rtr": false
+}
+```
+
+`ext` and `rtr` are optional and default to `false`.
+
+
 ## Changelog
+
+### 1.0.0-beta.1 (2020-11-17)
+* (crycode-de) Added optional raw states.
+* (crycode-de) Added option to enable/disable rtr states.
 
 ### 0.1.0-alpha.1 (2020-11-09)
 * (crycode-de) New React UI

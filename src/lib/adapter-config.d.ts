@@ -16,6 +16,8 @@ declare global {
       interface: string;
       autoAddSeenMessages: boolean;
       deleteUnconfiguredMessages: boolean;
+      useRawStates: boolean;
+      useRtrFlag: boolean;
     }
 
     interface AdapterConfigMessage {

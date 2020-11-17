@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "0.1.0-alpha.1",
+        "version": "1.0.0-beta.1",
         "news": {
+            "1.0.0-beta.1": {
+                "en": "Added optional raw states. Added option to enable/disable rtr states.",
+                "de": "Optionale raw-States hinzugefügt. Option zum Aktivieren/Deaktivieren von rtr-States hinzugefügt.",
+                "ru": "Добавлены необязательные необработанные состояния. Добавлена опция включения / отключения состояний rtr.",
+                "pt": "Adicionados estados brutos opcionais. Adicionada opção para habilitar / desabilitar os estados rtr.",
+                "nl": "Optionele onbewerkte staten toegevoegd. Optie toegevoegd om rtr-staten in / uit te schakelen.",
+                "fr": "Ajout d'états bruts facultatifs. Ajout d'une option pour activer / désactiver les états rtr.",
+                "it": "Aggiunti stati grezzi opzionali. Aggiunta opzione per abilitare / disabilitare gli stati rtr.",
+                "es": "Se agregaron estados sin procesar opcionales. Opción agregada para habilitar / deshabilitar estados rtr.",
+                "pl": "Dodano opcjonalne stany surowe. Dodano opcję włączania / wyłączania stanów rtr.",
+                "zh-cn": "添加了可选的原始状态。添加了启用/禁用rtr状态的选项。"
+            },
             "0.1.0-alpha.1": {
                 "en": "New React UI, DLC support, Parser read on json state change",
                 "de": "Neue React-Benutzeroberfläche, DLC-Unterstützung, Parser lesen bei Änderung des JSON-Status",
@@ -86,7 +98,9 @@
         "interface": "can0",
         "autoAddSeenMessages": false,
         "deleteUnconfiguredMessages": false,
-        "messages": {}
+        "messages": {},
+        "useRawStates": false,
+        "useRtrFlag": false
     },
     "objects": [],
     "instanceObjects": [
