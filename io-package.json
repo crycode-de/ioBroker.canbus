@@ -74,7 +74,7 @@
             "can-bus",
             "network"
         ],
-        "license": "GPL-3.0-only",
+        "license": "CC-BY-NC-SA-4.0",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
         "icon": "canbus.png",
