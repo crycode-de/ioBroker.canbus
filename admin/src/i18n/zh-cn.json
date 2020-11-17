@@ -39,5 +39,7 @@
     "loading...": "载入中…",
     "Add": "加",
     "Remove": "去掉",
-    "Reload": "重装"
+    "Reload": "重装",
+    "General": "一般",
+    "Message": "信息"
 }
