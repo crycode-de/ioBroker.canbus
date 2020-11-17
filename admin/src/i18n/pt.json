@@ -36,8 +36,10 @@
     "This ID is reserved and can't be used": "Este ID é reservado e não pode ser usado",
     "There are some errors in you configuration. Please check!": "Existem alguns erros na sua configuração. ",
     "CAN message ID in hex": "ID da mensagem CAN em hexadecimal",
-    "loading...": "Carregando...",
+    "loading...": "Carregando…",
     "Add": "Adicionar",
     "Remove": "Remover",
-    "Reload": "recarregar"
+    "Reload": "recarregar",
+    "General": "Geral",
+    "Message": "Mensagem"
 }
