@@ -39,5 +39,7 @@
     "loading...": "télécharger…",
     "Add": "Ajouter",
     "Remove": "Retirer",
-    "Reload": "Recharger"
+    "Reload": "Recharger",
+    "General": "Général",
+    "Message": "Message"
 }

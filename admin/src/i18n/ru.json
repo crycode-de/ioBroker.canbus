@@ -36,8 +36,10 @@
     "This ID is reserved and can't be used": "Этот идентификатор зарезервирован и не может быть использован",
     "There are some errors in you configuration. Please check!": "В вашей конфигурации есть ошибки. ",
     "CAN message ID in hex": "ID сообщения CAN в шестнадцатеричном формате",
-    "loading...": "загрузка ...",
+    "loading...": "загрузка …",
     "Add": "Добавить",
     "Remove": "удалять",
-    "Reload": "Перезагрузить"
+    "Reload": "Перезагрузить",
+    "General": "Генеральная",
+    "Message": "Сообщение"
 }

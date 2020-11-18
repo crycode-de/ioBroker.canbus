@@ -36,8 +36,10 @@
     "This ID is reserved and can't be used": "Dit ID is gereserveerd en kan niet worden gebruikt",
     "There are some errors in you configuration. Please check!": "Er zijn enkele fouten in uw configuratie. ",
     "CAN message ID in hex": "CAN-bericht-ID in hex",
-    "loading...": "bezig met laden...",
+    "loading...": "bezig met laden…",
     "Add": "Toevoegen",
     "Remove": "Verwijderen",
-    "Reload": "Herlaad"
+    "Reload": "Herlaad",
+    "General": "Algemeen",
+    "Message": "Bericht"
 }
