@@ -116,3 +116,4 @@ __decorate([
     core_decorators_1.autobind
 ], CanInterface.prototype, "handleStopped", null);
 exports.CanInterface = CanInterface;
+//# sourceMappingURL=can-interface.js.map

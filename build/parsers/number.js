@@ -104,3 +104,4 @@ ParserNumber.handledDataTypes = [
     'double64_be',
     'double64_le'
 ];
+//# sourceMappingURL=number.js.map

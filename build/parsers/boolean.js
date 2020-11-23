@@ -62,3 +62,4 @@ exports.ParserBoolean = ParserBoolean;
 ParserBoolean.handledDataTypes = [
     'boolean'
 ];
+//# sourceMappingURL=boolean.js.map

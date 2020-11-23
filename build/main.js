@@ -689,3 +689,4 @@ else {
     // otherwise start the instance directly
     (() => new CanBusAdapter())();
 }
+//# sourceMappingURL=main.js.map

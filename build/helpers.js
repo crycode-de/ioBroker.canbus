@@ -22,3 +22,4 @@ function getHexId(id, ext = false) {
     return str;
 }
 exports.getHexId = getHexId;
+//# sourceMappingURL=helpers.js.map

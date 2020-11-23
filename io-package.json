@@ -3,6 +3,18 @@
         "name": "canbus",
         "version": "1.0.0-beta.1",
         "news": {
+            "1.0.0-beta.2": {
+                "en": "Added Sentry error reporting",
+                "de": "Sentry-Fehlerberichterstattung hinzugefügt",
+                "ru": "Добавлен отчет об ошибках Sentry",
+                "pt": "Adicionado relatório de erro do Sentry",
+                "nl": "Sentry-foutrapportage toegevoegd",
+                "fr": "Ajout du rapport d'erreur Sentry",
+                "it": "Aggiunta segnalazione degli errori di Sentry",
+                "es": "Informe de errores de Sentry agregado",
+                "pl": "Dodano raportowanie błędów Sentry",
+                "zh-cn": "添加了哨兵错误报告"
+            },
             "1.0.0-beta.1": {
                 "en": "Added optional raw states. Added option to enable/disable rtr states.",
                 "de": "Optionale raw-States hinzugefügt. Option zum Aktivieren/Deaktivieren von rtr-States hinzugefügt.",
@@ -92,7 +104,12 @@
             {
                 "js-controller": ">=1.4.2"
             }
-        ]
+        ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://c1c0ecf339f94ad88e89770783e281fb@sentry.cryhost.de/4"
+            }
+        }
     },
     "native": {
         "interface": "can0",

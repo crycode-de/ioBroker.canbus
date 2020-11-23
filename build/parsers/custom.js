@@ -93,3 +93,4 @@ ParserCustom.handledDataTypes = [
     'custom'
 ];
 ParserCustom.vm = null;
+//# sourceMappingURL=custom.js.map

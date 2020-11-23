@@ -25,3 +25,4 @@ exports.ParserBase = ParserBase;
  * Array of data types this parser can handle.
  */
 ParserBase.handledDataTypes = [];
+//# sourceMappingURL=base.js.map

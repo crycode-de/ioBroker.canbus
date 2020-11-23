@@ -18,3 +18,4 @@ exports.knownParsers = [
     string_1.ParserString,
     custom_1.ParserCustom
 ];
+//# sourceMappingURL=index.js.map

@@ -18,6 +18,7 @@
 
 This adapter connects ioBroker to a Controller Area Network (CAN bus).
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 ## Features
 
 * Receive and send raw messages using standard frames and extended frames
@@ -59,6 +60,8 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
+### 1.0.0-beta.2 (2020-11-23)
+* (crycode-de) Added Sentry error reporting
 ### 1.0.0-beta.1 (2020-11-17)
 * (crycode-de) Added optional raw states.
 * (crycode-de) Added option to enable/disable rtr states.
@@ -73,6 +76,6 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## License
 
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) 
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
 
 Copyright (c) 2020 Peter Müller <peter@crycode.de> (https://crycode.de/)
