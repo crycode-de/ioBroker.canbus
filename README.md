@@ -39,7 +39,7 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
 
 ## Usage in scripts
 
-To can handle/modify the `<messageId>.json` or `<messageId>.<parserId>` states in your scripts.
+You can handle/modify the `<messageId>.json` or `<messageId>.<parserId>` states in your scripts.
 
 Additionally you may use the `raw.received` and `raw.send` states, if you have them enabled in the adapter config.  
 They hold the stringified JSON data of the message data and can be used to handle each received or send message independent from the configured messages.
