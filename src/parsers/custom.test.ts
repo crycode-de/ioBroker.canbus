@@ -21,7 +21,8 @@ const fakeAdapter = {
   log: {
     warn: () => { /* just discard in this test */ }
   },
-  getStateAsync: (_id: string): Promise<ioBroker.State> => {
+  // getForeignStateAsync is mapped to getStateAsync in the vm
+  getForeignStateAsync: (_id: string): Promise<ioBroker.State> => {
     return new Promise((resolve) => {
       const state: ioBroker.State = {
         val: 123,
