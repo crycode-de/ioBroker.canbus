@@ -118,6 +118,12 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
+### 1.0.0-beta.3 (2020-11-25)
+* (crycode-de) Fixed js-controller dependency
+* (crycode-de) Custom parsers `getStateAsync` function now uses `getForeignStateAsync` internally
+* (crycode-de) Added parses readme
+* (crycode-de) Updated dependencies
+
 ### 1.0.0-beta.2 (2020-11-23)
 * (crycode-de) Added Sentry error reporting
 ### 1.0.0-beta.1 (2020-11-17)
