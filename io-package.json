@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0-beta.2",
+        "version": "1.0.0-beta.3",
         "news": {
+            "1.0.0-beta.3": {
+                "en": "Fixed custom parser getStateAsync. Updated dependencies. Added some readme content.",
+                "de": "Benutzerdefinierte Parser getStateAsync behoben. Abhängigkeiten aktualisiert. Readme-Inhalt erweitert.",
+                "ru": "Исправлен кастомный парсер getStateAsync. Обновлены зависимости. Добавлен контент readme.",
+                "pt": "GetStateAsync do analisador customizado corrigido. Dependências atualizadas. Adicionado algum conteúdo readme.",
+                "nl": "Vaste aangepaste parser getStateAsync. Bijgewerkte afhankelijkheden. Wat leesmij-inhoud toegevoegd.",
+                "fr": "Correction de l'analyseur personnalisé getStateAsync. Dépendances mises à jour. Ajout de contenu readme.",
+                "it": "Risolto il problema con il parser personalizzato getStateAsync. Dipendenze aggiornate. Aggiunti alcuni contenuti readme.",
+                "es": "Se corrigió el analizador personalizado getStateAsync. Dependencias actualizadas. Se agregó contenido léame.",
+                "pl": "Naprawiono niestandardowy parser getStateAsync. Zaktualizowane zależności. Dodano zawartość readme.",
+                "zh-cn": "修复了自定义解析器getStateAsync。更新了依赖性。添加了一些自述内容。"
+            },
             "1.0.0-beta.2": {
                 "en": "Added Sentry error reporting",
                 "de": "Sentry-Fehlerberichterstattung hinzugefügt",

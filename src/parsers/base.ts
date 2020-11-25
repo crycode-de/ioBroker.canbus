@@ -38,7 +38,7 @@ export abstract class ParserBase {
    * @param buf The buffer to read from.
    * @return The value or an `Error` if the value could not be read.
    */
-  public abstract async read(buf: Buffer): Promise<boolean | number | string | unknown | Error>;
+  public abstract read(buf: Buffer): Promise<boolean | number | string | unknown | Error>;
 
   /**
    * Write a value to the buffer.
@@ -46,5 +46,5 @@ export abstract class ParserBase {
    * @param val The value to write.
    * @return The new/modufied buffer if the value has been written or an `Error` if the value could not be written.
    */
-  public abstract async write(buf: Buffer, val: unknown): Promise<Buffer | Error>;
+  public abstract write(buf: Buffer, val: unknown): Promise<Buffer | Error>;
 }

@@ -16,7 +16,7 @@ class ParserCustom extends base_1.ParserBase {
         if (ParserCustom.vm === null) {
             ParserCustom.vm = new vm2_1.NodeVM({
                 sandbox: {
-                    getStateAsync: this.adapter.getStateAsync,
+                    getStateAsync: this.adapter.getForeignStateAsync,
                     getObjectAsync: this.adapter.getForeignObjectAsync,
                     log: this.adapter.log
                 }
