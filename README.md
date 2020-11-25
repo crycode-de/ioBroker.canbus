@@ -29,13 +29,71 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
   * Booleans including bitmask support
   * Strings in differenct character encodings
   * Custom scripts to read/write from/to the buffer of raw data
-* Support for the RTR flag
+* Optional support for the RTR flag
+* Optional raw states cotaining raw CAN message objects
 
 ## Requirements
 
 * Linux operating system (because of the used socketcan library)
 * CAN Hardware which creates an interface like `can0`
 * Some knowledge about the messages send on you CAN bus
+
+## Parsers
+
+Using parsers you are able to read data from or write data to the CAN message buffer.
+
+There are predefined parsers for the following data types.  
+Additionally you may write you own scripts to read/write values with a *custom parser*.
+
+### Nummeric types in *big-endian* and *little-endian* reperesentation
+
+* Signed and unsigned 8, 16 and 32 bit integer
+* 32 bit float
+* 64 bit double
+
+### Boolean
+
+* 1 byte including bitmask support
+
+### String
+
+* 1 to 8 byte length
+* Encoding: *ascii*, *base64*, *hex*, *latin1*, *utf8*, *utf16le*
+
+### Custom
+
+For a custom parser you have to provide you own read and write script.  
+These scripts should be pure javascript and will run in a sandbox.
+
+In the scripts you are able to use the following features:
+
+* Most of Node.js build in functions
+* `async`/`await`
+* Adapter log functions `log.warn('something')`, `log.info('something')`, `log.debug('something')`
+* `getStateAsync('id')` and `getObjectAsync('id')` where `id` is the full ID of the state/object
+
+Errors in the scripts will be logged by the adapter.
+
+In both scripts the variables `buffer` and `value` are predefined.  
+`buffer` always contains the current CAN message content as a Node.js Buffer.  
+
+#### Custom read script
+
+In a read script you have to read the `value` from the `buffer` variable.
+
+At the beginning of the custom read script, `buffer` will be the received/current CAN message data (like in the `.json` state).
+`value` will be `undefined` and should be set by the script.
+
+The content of the `value` variable at the end of the custom read script will be used as new value for the state.
+
+#### Custom write script
+
+In a write script you have to modify (or replace) the `buffer` variable.
+
+At the beginning of the custom write script, `buffer` will be the current CAN message data (like in the `.json` state).
+`value` is set to the value of the state which should be written into the `buffer`.
+
+The content of the `buffer` variable at the end of the custom write script will be used as new data for the CAN message.
 
 ## Usage in scripts
 
