@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0-beta.3",
+        "version": "1.0.0-beta.4",
         "news": {
+            "1.0.0-beta.4": {
+                "en": "Ignore read value if a parser returned undefined",
+                "de": "Lesewert ignorieren, wenn ein Parser undefiniert zurückgegeben hat",
+                "ru": "Игнорировать прочитанное значение, если парсер вернул undefined",
+                "pt": "Ignora o valor de leitura se um analisador retornar indefinido",
+                "nl": "Negeer de leeswaarde als een parser ongedefinieerd retourneert",
+                "fr": "Ignorer la valeur de lecture si un analyseur a renvoyé undefined",
+                "it": "Ignora il valore letto se un parser ha restituito undefined",
+                "es": "Ignore el valor leído si un analizador devolvió indefinido",
+                "pl": "Ignoruj odczytaną wartość, jeśli parser zwrócił wartość undefined",
+                "zh-cn": "如果解析器返回未定义，则忽略读取值"
+            },
             "1.0.0-beta.3": {
                 "en": "Fixed custom parser getStateAsync. Updated dependencies. Added some readme content.",
                 "de": "Benutzerdefinierte Parser getStateAsync behoben. Abhängigkeiten aktualisiert. Readme-Inhalt erweitert.",

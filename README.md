@@ -84,7 +84,8 @@ In a read script you have to read the `value` from the `buffer` variable.
 At the beginning of the custom read script, `buffer` will be the received/current CAN message data (like in the `.json` state).
 `value` will be `undefined` and should be set by the script.
 
-The content of the `value` variable at the end of the custom read script will be used as new value for the state.
+The content of the `value` variable at the end of the custom read script will be used as new value for the state.  
+If `value` is `undefined`, it will be ignored. Using this you are able to filter messages in the custom read script by data parts.
 
 #### Custom write script
 
@@ -117,6 +118,9 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 
 ## Changelog
+
+### 1.0.0-beta.4 (2020-11-27)
+* (crycode-de) Ignore read value if a parser returned undefined
 
 ### 1.0.0-beta.3 (2020-11-25)
 * (crycode-de) Fixed js-controller dependency

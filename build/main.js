@@ -527,6 +527,10 @@ class CanBusAdapter extends utils.Adapter {
                     this.log.warn(`Parser reading from received data for ${msgCfg.idWithDlc} failed: ${readResult}`);
                     continue;
                 }
+                if (readResult === undefined) {
+                    this.log.debug(`read parser for ${msgCfg.idWithDlc} returned undefined`);
+                    continue;
+                }
                 this.setStateAsync(`${msgCfg.idWithDlc}.${parser.id}`, readResult, true);
             }
         }
