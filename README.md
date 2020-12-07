@@ -7,7 +7,6 @@
 ![Number of Installations (latest)](https://iobroker.live/badges/canbus-installed.svg)
 ![Number of Installations (stable)](https://iobroker.live/badges/canbus-stable.svg)
 [![Dependency Status](https://img.shields.io/david/crycode-de/iobroker.canbus.svg)](https://david-dm.org/crycode-de/iobroker.canbus)
-[![Known Vulnerabilities](https://snyk.io/test/github/crycode-de/ioBroker.canbus/badge.svg)](https://snyk.io/test/github/crycode-de/ioBroker.canbus)
 [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/canbus/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 
 [![NPM](https://nodei.co/npm/iobroker.canbus.png?downloads=true)](https://nodei.co/npm/iobroker.canbus/)
