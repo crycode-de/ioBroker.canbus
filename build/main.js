@@ -685,7 +685,7 @@ __decorate([
     core_decorators_1.autobind
 ], CanBusAdapter.prototype, "handleCanMsg", null);
 exports.CanBusAdapter = CanBusAdapter;
-if (require.main !== module) {
+if (module.parent) {
     // Export the constructor in compact mode
     module.exports = (options) => new CanBusAdapter(options);
 }
