@@ -15,6 +15,7 @@
     "Unconfigured messages": "Nicht konfigurierte Nachrichten",
     "Message ID": "Nachrichten-ID",
     "CAN message ID in hex": "CAN Nachrichten-ID in hexadezimal",
+    "This ID is configured multiple times": "Diese ID ist mehrfach konfiguriert",
     "or": "oder",
     "Name": "Name",
     "My super message": "Meine super Nachricht",

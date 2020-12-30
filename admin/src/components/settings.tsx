@@ -140,6 +140,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     const keysMessages = Object.keys(this.state.messages);
     const keysMessagesUnconfigured = Object.keys(this.state.messagesUnconfigured);
+    const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({id: this.state.messages[uuid].id, uuid: uuid}));
 
     return (
       <div className={classes.root}>
@@ -212,6 +213,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               classes={classes}
               uuid={msgUuid}
               config={this.state.messages[msgUuid]}
+              knownMessageIds={knownMessageIds}
               onChange={this.onMessageChange}
               onDelete={this.onMessageDelete}
               onValidate={this.onMessageValidate}
@@ -234,6 +236,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               classes={classes}
               uuid={id}
               config={this.state.messagesUnconfigured[id]}
+              knownMessageIds={[]}
               readonly={true}
               onAdd={this.onMessageAddFromUnconfigured}
             />
@@ -280,14 +283,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     if (attr === 'messages') {
       if (Object.keys(value).length === 0) {
         // activate the first tab if there are no messages
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           this.setState({
             messages: value,
             tabIndex: 0
           }, resolve);
         });
       } else {
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           this.setState({
             messages: value
           }, resolve);

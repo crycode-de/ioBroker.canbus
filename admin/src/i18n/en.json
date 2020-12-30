@@ -18,6 +18,7 @@
     "Reload": "Reload",
     "Message ID": "Message ID",
     "CAN message ID in hex": "CAN message ID in hex",
+    "This ID is configured multiple times": "This ID is configured multiple times",
     "or": "or",
     "Name": "Name",
     "My super message": "My super message",

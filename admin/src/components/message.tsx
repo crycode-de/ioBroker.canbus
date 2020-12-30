@@ -62,6 +62,11 @@ interface MessageProps {
   config: ioBroker.AdapterConfigMessage;
 
   /**
+   * Known IDs of other configured messages.
+   */
+  knownMessageIds: {id: string, uuid: string}[];
+
+  /**
    * Classes to apply for some elements.
    */
   classes: Record<string, string>;
@@ -159,6 +164,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             required
             errorMsg={this.state.idError}
             disabled={this.props.readonly}
+            transform='upperCase'
             onChange={(v) => this.handleChange('id', v)}
           >
             {I18n.t('CAN message ID in hex')}, {I18n.t('e.g.')} <code>00A0123B</code> {I18n.t('or')} <code>1AB</code>
@@ -323,7 +329,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
 
     this.validateState(newState);
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       this.setState(newState, () => {
         if (this.props.onChange) {
           this.props.onChange(this.props.uuid, {
@@ -353,11 +359,14 @@ export class Message extends React.Component<MessageProps, MessageState> {
     // check own states
     if (state.id !== undefined) {
       // check this
-      if (state.id.match(MESSAGE_ID_REGEXP)) {
-        state.idError = null;
-      } else {
+      if (!state.id.match(MESSAGE_ID_REGEXP)) {
         state.idError = I18n.t('Must be a 3 or 8 char hex ID');
         isValid = false;
+      } else if (this.props.knownMessageIds.find((i) => i.id === state.id && i.uuid !== this.props.uuid)) {
+        state.idError = I18n.t('This ID is configured multiple times');
+        isValid = false;
+      } else {
+        state.idError = null;
       }
     } else if (this.state?.idError !== null) {
       // use result from previous check
