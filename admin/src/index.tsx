@@ -29,7 +29,7 @@ function build(): void {
 if (window.location.host !== 'localhost:3000') {
   Sentry.init({
     dsn: ioPkg.common.plugins.sentry.dsn,
-    release: ioPkg.common.name + '@' + ioPkg.common.version,
+    release: `iobroker.${ioPkg.common.name}@${ioPkg.common.version}`,
     integrations: [
       new SentryIntegrations.Dedupe()
     ]

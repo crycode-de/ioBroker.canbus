@@ -153,5 +153,5 @@ jobs:
               with:
                 environment: production
                 tagName: ${{ steps.extract_release.outputs.VERSION }}
-                releaseNamePrefix: canbus@
+                releaseNamePrefix: iobroker.canbus@
                 sourceMapOptions: '{"include": ["build", "admin/build"]}'
