@@ -3,6 +3,18 @@
         "name": "canbus",
         "version": "1.0.0-beta.5",
         "news": {
+            "1.0.0-beta.5": {
+                "en": "Added check for multiple times configured message IDs in admin, Added Sentry error reporting in admin",
+                "de": "Überprüfung auf mehrfach konfigurierte Nachrichten-IDs in admin hinzugefügt, Sentry-Fehlerberichterstattung in admin hinzugefügt",
+                "ru": "Добавлена проверка идентификаторов сообщений, настроенных несколько раз в админке, добавлен отчет об ошибках Sentry в админке.",
+                "pt": "Adicionada verificação de IDs de mensagem configurados várias vezes no admin, Adicionado relatório de erro do Sentry no admin",
+                "nl": "Controle toegevoegd voor meerdere keer geconfigureerde bericht-ID's in admin, Sentry-foutrapportage toegevoegd in admin",
+                "fr": "Ajout de la vérification des ID de message configurés plusieurs fois dans l'administrateur, ajout du rapport d'erreur Sentry dans l'administrateur",
+                "it": "Aggiunto il controllo degli ID messaggio configurati più volte nell'amministratore, Aggiunta la segnalazione degli errori di Sentry nell'amministratore",
+                "es": "Se agregó la verificación de las ID de mensajes configuradas varias veces en el administrador, se agregó el informe de errores de Sentry en el administrador",
+                "pl": "Dodano sprawdzanie wielokrotnie skonfigurowanych identyfikatorów wiadomości w admin, Dodano raportowanie błędów Sentry w admin",
+                "zh-cn": "在管理员中添加了多次检查配置的消息ID，在管理员中添加了Sentry错误报告"
+            },
             "1.0.0-beta.4": {
                 "en": "Ignore read value if a parser returned undefined",
                 "de": "Lesewert ignorieren, wenn ein Parser undefiniert zurückgegeben hat",

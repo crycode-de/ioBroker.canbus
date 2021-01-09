@@ -33,7 +33,6 @@ export class CanBusAdapter extends utils.Adapter {
 
     this.on('ready', this.onReady);
     this.on('stateChange', this.onStateChange);
-    //this.on('message', this.onMessage);
     this.on('unload', this.onUnload);
   }
 
@@ -685,7 +684,7 @@ export class CanBusAdapter extends utils.Adapter {
       // check if obj is a state (all parser objects are created as state)
       if (obj.value.type !== 'state') continue;
 
-      // obj id must have vour parts
+      // obj id must have four parts
       const idParts = obj.id.split('.');
       if (idParts.length !== 4) continue;
 
