@@ -64,7 +64,7 @@ interface MessageProps {
   /**
    * Known IDs of other configured messages.
    */
-  knownMessageIds: {id: string, uuid: string}[];
+  knownMessageIds: {id: string, dlc: number, uuid: string}[];
 
   /**
    * Classes to apply for some elements.
@@ -327,6 +327,13 @@ export class Message extends React.Component<MessageProps, MessageState> {
       [key]: value
     } as unknown as Pick<MessageState, keyof MessageState>;
 
+    // to validate the id we need the dlc and vice versa, so we take the missing one from the current state
+    if (key === 'id' && newState.dlc === undefined) {
+      newState.dlc = this.state.dlc;
+    } else if (key === 'dlc' && newState.id === undefined) {
+      newState.id = this.state.id;
+    }
+
     this.validateState(newState);
 
     await new Promise<void>((resolve) => {
@@ -362,8 +369,8 @@ export class Message extends React.Component<MessageProps, MessageState> {
       if (!state.id.match(MESSAGE_ID_REGEXP)) {
         state.idError = I18n.t('Must be a 3 or 8 char hex ID');
         isValid = false;
-      } else if (this.props.knownMessageIds.find((i) => i.id === state.id && i.uuid !== this.props.uuid)) {
-        state.idError = I18n.t('This ID is configured multiple times');
+      } else if (this.props.knownMessageIds.find((i) => i.id === state.id && i.dlc === state.dlc && i.uuid !== this.props.uuid)) {
+        state.idError = I18n.t('This ID is configured multiple times with this data length');
         isValid = false;
       } else {
         state.idError = null;

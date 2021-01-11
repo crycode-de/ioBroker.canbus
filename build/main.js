@@ -47,7 +47,6 @@ class CanBusAdapter extends utils.Adapter {
         this.canId2Message = {};
         this.on('ready', this.onReady);
         this.on('stateChange', this.onStateChange);
-        //this.on('message', this.onMessage);
         this.on('unload', this.onUnload);
     }
     /**
@@ -316,7 +315,7 @@ class CanBusAdapter extends utils.Adapter {
                 ext: msg.id.length > 3,
                 uuid: msgUuid
             };
-            this.setupMessage(msgUuid, msgCfg);
+            await this.setupMessage(msgUuid, msgCfg);
         }
         // delete unconfigured message objects
         if (this.config.deleteUnconfiguredMessages) {
@@ -544,6 +543,11 @@ class CanBusAdapter extends utils.Adapter {
      */
     async setupMessage(msgUuid, msgCfg) {
         this.log.debug(`create/update message id: ${msgCfg.idWithDlc}, uuid: ${msgUuid}`);
+        // check if this message is already set up
+        if (this.canId2Message[msgCfg.idWithDlc]) {
+            this.log.warn(`Cannot setup message with id ${msgCfg.idWithDlc} because it's already set up! Maybe this message is configured twice?`);
+            return;
+        }
         // create/update channel object for the message
         await this.extendObjectAsync(msgCfg.idWithDlc, {
             type: 'channel',
@@ -642,7 +646,7 @@ class CanBusAdapter extends utils.Adapter {
             // check if obj is a state (all parser objects are created as state)
             if (obj.value.type !== 'state')
                 continue;
-            // obj id must have vour parts
+            // obj id must have four parts
             const idParts = obj.id.split('.');
             if (idParts.length !== 4)
                 continue;

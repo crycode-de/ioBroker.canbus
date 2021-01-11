@@ -46,7 +46,7 @@ class CanInterface extends events_1.EventEmitter {
      */
     start() {
         try {
-            this.channel = socketcan.createRawChannel(this.adapter.config.interface, false); // TODO: do we need timestamps?
+            this.channel = socketcan.createRawChannel(this.adapter.config.interface, false);
             this.channel.addListener('onMessage', this.handleCanMsg);
             this.channel.addListener('onStopped', this.handleStopped);
             this.channel.start();
@@ -96,7 +96,6 @@ class CanInterface extends events_1.EventEmitter {
             data: data
         };
         this.adapter.log.debug(`sending can message: ${JSON.stringify(msg)}`);
-        // TODO: test if we need try/catch?
         this.channel.send(msg);
         return true;
     }

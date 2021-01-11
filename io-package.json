@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0-beta.5",
+        "version": "1.0.0-beta.6",
         "news": {
+            "1.0.0-beta.6": {
+                "en": "Fixed object setup sequence, Check of multiple id definitions improved",
+                "de": "Fehler in Objekt-Setup Reihenfolge behoben, Überprüfung mehrfacher ID-Definitionen verbessert",
+                "ru": "Исправлена последовательность установки объекта, улучшена проверка нескольких определений идентификаторов",
+                "pt": "Sequência de configuração de objeto fixo, verificação de múltiplas definições de id melhorada",
+                "nl": "Opeenvolging van vaste objecten, controle van meerdere id-definities verbeterd",
+                "fr": "Séquence de configuration d'objet fixe, vérification de plusieurs définitions d'identifiant améliorée",
+                "it": "Correzione della sequenza di configurazione degli oggetti, miglioramento del controllo di più definizioni di ID",
+                "es": "Secuencia de configuración de objeto fijo, verificación de múltiples definiciones de identificación mejorada",
+                "pl": "Naprawiono sekwencję konfiguracji obiektów, poprawiono sprawdzanie wielu definicji identyfikatorów",
+                "zh-cn": "固定的对象设置顺序，改进了对多个id定义的检查"
+            },
             "1.0.0-beta.5": {
                 "en": "Added check for multiple times configured message IDs in admin, Added Sentry error reporting in admin",
                 "de": "Überprüfung auf mehrfach konfigurierte Nachrichten-IDs in admin hinzugefügt, Sentry-Fehlerberichterstattung in admin hinzugefügt",

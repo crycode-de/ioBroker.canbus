@@ -140,7 +140,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     const keysMessages = Object.keys(this.state.messages);
     const keysMessagesUnconfigured = Object.keys(this.state.messagesUnconfigured);
-    const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({id: this.state.messages[uuid].id, uuid: uuid}));
+    const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({id: this.state.messages[uuid].id, dlc: this.state.messages[uuid].dlc, uuid: uuid}));
 
     return (
       <div className={classes.root}>

@@ -337,7 +337,7 @@ export class CanBusAdapter extends utils.Adapter {
         uuid: msgUuid
       };
 
-      this.setupMessage(msgUuid, msgCfg);
+      await this.setupMessage(msgUuid, msgCfg);
     }
 
     // delete unconfigured message objects
@@ -582,6 +582,12 @@ export class CanBusAdapter extends utils.Adapter {
    */
   private async setupMessage(msgUuid: string | null, msgCfg: MessageConfig): Promise<void> {
     this.log.debug(`create/update message id: ${msgCfg.idWithDlc}, uuid: ${msgUuid}`);
+
+    // check if this message is already set up
+    if (this.canId2Message[msgCfg.idWithDlc]) {
+      this.log.warn(`Cannot setup message with id ${msgCfg.idWithDlc} because it's already set up! Maybe this message is configured twice?`)
+      return;
+    }
 
     // create/update channel object for the message
     await this.extendObjectAsync(msgCfg.idWithDlc, {
