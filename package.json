@@ -75,7 +75,7 @@
     "react-dom": "^17.0.1",
     "react-icons": "^4.1.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.2.3",
+    "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.1.1",
