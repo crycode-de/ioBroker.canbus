@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0-beta.6",
+        "version": "1.0.0-beta.7",
         "news": {
+            "1.0.0-beta.7": {
+                "en": "Sort messages in admin, Updated Russian translation",
+                "de": "Nachrichten werde in Admin sortiert, Russische Übersetzung aktualisiert",
+                "ru": "Сортировка сообщений в админке, Обновлен русский перевод",
+                "pt": "Classificar mensagens no administrador, tradução russa atualizada",
+                "nl": "Sorteer berichten in admin, bijgewerkte Russische vertaling",
+                "fr": "Trier les messages dans admin, traduction russe mise à jour",
+                "it": "Ordina i messaggi in admin, traduzione russa aggiornata",
+                "es": "Ordenar mensajes en el administrador, traducción rusa actualizada",
+                "pl": "Sortuj wiadomości w admin, zaktualizowane rosyjskie tłumaczenie",
+                "zh-cn": "对管理员中的邮件进行排序，俄语翻译已更新"
+            },
             "1.0.0-beta.6": {
                 "en": "Fixed object setup sequence, Check of multiple id definitions improved",
                 "de": "Fehler in Objekt-Setup Reihenfolge behoben, Überprüfung mehrfacher ID-Definitionen verbessert",

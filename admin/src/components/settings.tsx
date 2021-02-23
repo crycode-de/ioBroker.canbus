@@ -92,6 +92,11 @@ interface SettingsState {
   messages: ioBroker.AdapterConfigMessages;
 
   /**
+   * Sorted keys of the messages.
+   */
+  messagesKeys: string[];
+
+  /**
    * Validation status of the configured messages.
    */
   messagesValid: Record<string, boolean>;
@@ -100,18 +105,27 @@ interface SettingsState {
    * Unconfigured (but seen) messages.
    */
   messagesUnconfigured: ioBroker.AdapterConfigMessages;
+
+  /**
+   * Sorted keys of the unconfigured messages.
+   */
+  messagesUnconfiguredKeys: string[];
 }
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
+
   constructor(props: SettingsProps) {
     super(props);
 
+    const messages = this.props.native.messages || {};
     this.state = {
       tabIndex: 0,
       generalValid: true,
-      messages: this.props.native.messages || {},
+      messages,
+      messagesKeys: Object.keys(messages).sort((a, b) => this.sortMessagesById(messages, a, b)),
       messagesValid: {},
       messagesUnconfigured: {},
+      messagesUnconfiguredKeys: [],
     };
   }
 
@@ -122,7 +136,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     socket.subscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
 
     // get unconfigured messages
-    this.loadUnfiguredMessages();
+    this.loadUnconfiguredMessages();
   }
 
   public componentWillUnmount(): void {
@@ -138,8 +152,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
      */
     let tabIndex: number = 0;
 
-    const keysMessages = Object.keys(this.state.messages);
-    const keysMessagesUnconfigured = Object.keys(this.state.messagesUnconfigured);
     const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({id: this.state.messages[uuid].id, dlc: this.state.messages[uuid].dlc, uuid: uuid}));
 
     return (
@@ -161,7 +173,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           />
 
           <Box textAlign='center'>{I18n.t('Messages')}</Box>
-          {keysMessages.map((msgUuid, i) => (
+          {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
             <Tab
               key={`tab-${i + 1}`}
               label={this.getMessageTabLabel(this.state.messages[msgUuid])}
@@ -174,10 +186,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             />
           ))}
 
-          {keysMessagesUnconfigured.length > 0 &&
+          {this.state.messagesUnconfiguredKeys.length > 0 &&
             <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>
           }
-          {keysMessagesUnconfigured.map((id, i) => (
+          {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
             <Tab
               key={`tab-unconf-${i}`}
               label={this.getMessageTabLabel(this.state.messagesUnconfigured[id])}
@@ -205,7 +217,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           {/* dummy for messages divider */}
         </TabPanel>
 
-        {keysMessages.map((msgUuid, i) => (
+        {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
           <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
             <Message
               key={msgUuid}
@@ -221,14 +233,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           </TabPanel>
         ))}
 
-
-        {keysMessagesUnconfigured.length > 0 &&
+        {this.state.messagesUnconfiguredKeys.length > 0 &&
           <TabPanel value={this.state.tabIndex} index={tabIndex++}>
             {/* dummy for unconfigured messages divider */}
           </TabPanel>
         }
 
-        {keysMessagesUnconfigured.map((id, i) => (
+        {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
           <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
             <Message
               key={id}
@@ -245,6 +256,47 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
       </div>
     );
+  }
+
+  /**
+   * Sort helper function to sort an array of message keys by the message contents.
+   * @param msgs The messages object to get message data from.
+   * @param id1 ID of the first element.
+   * @param id2 ID of the second element.
+   */
+  private sortMessagesById (msgs: ioBroker.AdapterConfigMessages, id1: string, id2: string): -1 | 0 | 1 {
+    if (!msgs[id1] && !msgs[id2]) {
+      return 0;
+    }
+    if (!msgs[id2]) {
+      return 1;
+    }
+    if (!msgs[id1]) {
+      return -1;
+    }
+
+    if (msgs[id1].id.length > msgs[id2].id.length) {
+      return 1;
+    }
+    if (msgs[id1].id.length < msgs[id2].id.length) {
+      return -1;
+    }
+
+    if (msgs[id1].id > msgs[id2].id) {
+      return 1;
+    }
+    if (msgs[id1].id < msgs[id2].id) {
+      return -1;
+    }
+
+    if (msgs[id1].dlc > msgs[id2].dlc) {
+      return 1;
+    }
+    if (msgs[id1].dlc < msgs[id2].dlc) {
+      return -1;
+    }
+
+    return 0;
   }
 
   /**
@@ -317,12 +369,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    */
   @autobind
   private async onMessageDelete(uuid: string): Promise<void> {
-    const msgs = { ...this.state.messages };
-    delete msgs[uuid];
-    await this.onGeneralChange('messages', msgs);
+    const messages = { ...this.state.messages };
+    const messagesKeys = this.state.messagesKeys.filter((k) => k !== uuid);
+    delete messages[uuid];
+    await this.onGeneralChange('messages', messages);
 
     this.setState({
-      tabIndex: this.state.tabIndex - 1
+      tabIndex: this.state.tabIndex - 1,
+      messagesKeys,
     }, () => {
       // need to set the tabIndex this way because otherwise the selected message
       // will not be updated if the first message is deleted
@@ -332,7 +386,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     });
 
     // reload unconfigured messages since the deleted message may still exists as an object
-    this.loadUnfiguredMessages();
+    this.loadUnconfiguredMessages();
   }
 
   /**
@@ -358,12 +412,12 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    */
   @autobind
   private async onMessageValidate(uuid: string, valid: boolean): Promise<void> {
-    const msgsValid = { ...this.state.messagesValid };
-    msgsValid[uuid] = valid;
+    const messagesValid = { ...this.state.messagesValid };
+    messagesValid[uuid] = valid;
 
     return new Promise((resolve) => {
       this.setState({
-        messagesValid: msgsValid
+        messagesValid,
       }, () => {
         this.validate();
         resolve();
@@ -388,6 +442,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     };
 
     const msgs = { ...this.state.messages };
+    const messagesKeys = [
+      ...this.state.messagesKeys,
+      uuid,
+    ];
     msgs[uuid] = msg;
     await this.onGeneralChange('messages', msgs);
 
@@ -395,7 +453,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     await this.onMessageValidate(uuid, false);
 
     this.setState({
-      tabIndex: Object.keys(this.state.messages).length + 1
+      tabIndex: Object.keys(this.state.messages).length + 1,
+      messagesKeys,
     });
   }
 
@@ -410,17 +469,24 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
       ...this.state.messagesUnconfigured[id]
     };
 
-    const msgs = { ...this.state.messages };
-    msgs[uuid] = msg;
-    await this.onGeneralChange('messages', msgs);
+    const messages = { ...this.state.messages };
+    const messagesKeys = [
+      ...this.state.messagesKeys,
+      uuid,
+    ];
+    messages[uuid] = msg;
+    await this.onGeneralChange('messages', messages);
 
     // remove it from unconfigured
     const messagesUnconfigured = { ...this.state.messagesUnconfigured };
+    const messagesUnconfiguredKeys = this.state.messagesUnconfiguredKeys.filter((k) => k !== id);
     delete messagesUnconfigured[id];
 
     this.setState({
       tabIndex: Object.keys(this.state.messages).length + 1,
-      messagesUnconfigured
+      messagesKeys,
+      messagesUnconfigured,
+      messagesUnconfiguredKeys,
     });
   }
 
@@ -429,7 +495,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * This will overwrite the current state of unconfigured messages.
    */
   @autobind
-  private async loadUnfiguredMessages(): Promise<void> {
+  private async loadUnconfiguredMessages(): Promise<void> {
     const { socket, instance, adapterName } = this.props.context;
 
     const objs = await socket.getObjectView(`${adapterName}.${instance}.`, `${adapterName}.${instance}.\u9999`, 'channel');
@@ -440,7 +506,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     this.setState({
-      messagesUnconfigured
+      messagesUnconfigured,
+      messagesUnconfiguredKeys: Object.keys(messagesUnconfigured).sort((a, b) => this.sortMessagesById(messagesUnconfigured, a, b)),
     });
   }
 
@@ -485,8 +552,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
   /**
    * Handle changes in the adapter objects.
-   * This will create/remove "unconfigured messages" if messages are dynamicaly added/removed while the adapter admin
-   * site is opend.
+   * This will create/remove "unconfigured messages" if messages are dynamically
+   * added/removed while the adapter admin site is opened.
    * @param id The ID of the ioBroker object
    * @param obj The ioBroker object or `null` if the object was deleted.
    */
@@ -497,17 +564,19 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     // don't handle any foreign objects
     if (!id.startsWith(`${adapterName}.${instance}.`)) return;
 
+    const idParts = id.split('.');
+    if (!idParts[2].match(MESSAGE_ID_REGEXP)) return;
+
     // delete?
     if (!obj) {
-      const idParts = id.split('.');
-      if (!idParts[2].match(MESSAGE_ID_REGEXP)) return;
       // delete from state
       this.setState((prevState) => {
         const newState: SettingsState = {
           ...prevState,
           messagesUnconfigured: {
-            ...prevState.messagesUnconfigured
-          }
+            ...prevState.messagesUnconfigured,
+          },
+          messagesUnconfiguredKeys: prevState.messagesUnconfiguredKeys.filter((k) => k !== idParts[2]),
         };
         delete newState.messagesUnconfigured[idParts[2]];
         return newState;
@@ -523,8 +592,12 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           ...prevState,
           messagesUnconfigured: {
             ...prevState.messagesUnconfigured,
-            ...unconfMessages
-          }
+            ...unconfMessages,
+          },
+          messagesUnconfiguredKeys: [
+            ...prevState.messagesUnconfiguredKeys,
+            idParts[2],
+          ],
         };
         return newState;
       });
