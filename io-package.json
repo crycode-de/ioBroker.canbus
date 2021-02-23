@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0-beta.7",
+        "version": "1.0.0",
         "news": {
-            "1.0.0-beta.7": {
+            "1.0.0": {
                 "en": "Sort messages in admin, Updated Russian translation",
                 "de": "Nachrichten werde in Admin sortiert, Russische Übersetzung aktualisiert",
                 "ru": "Сортировка сообщений в админке, Обновлен русский перевод",
