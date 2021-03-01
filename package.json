@@ -64,7 +64,7 @@
     "axios": "^0.21.1",
     "chai": "^4.3.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^7.20.0",
+    "eslint": "^7.21.0",
     "eslint-plugin-react": "^7.22.0",
     "gulp": "^4.0.2",
     "iobroker-react-components": "^1.0.0",
