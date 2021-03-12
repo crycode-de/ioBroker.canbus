@@ -139,7 +139,7 @@ export class CanBusAdapter extends utils.Adapter {
           if (state.val !== true) return;
 
           // use the message action queue to make sure the parsers are done before sending
-          msgCfg.actionQueue?.push(async () => {
+          msgCfg.actionQueue?.enqueue(async () => {
             // send the current json data
             if (await this.sendMessageJsonData(msgCfg)) {
               // set ack flag on the send state if the message was sent
@@ -178,7 +178,7 @@ export class CanBusAdapter extends utils.Adapter {
             const parser = msgCfg.parsers[ parserUuid ];
 
             // use the message action queue to make sure the parsers (and a possible followed send) run in correct order
-            msgCfg.actionQueue?.push(async () => {
+            msgCfg.actionQueue?.enqueue(async () => {
               if (!parser.instance) {
                 return;
               }

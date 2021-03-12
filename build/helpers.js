@@ -22,17 +22,68 @@ function getHexId(id, ext = false) {
     return str;
 }
 exports.getHexId = getHexId;
+/**
+ * A simple promise queue to process some tasks in the order they where queued.
+ */
 class PromiseQueue {
     constructor() {
-        this.prom = Promise.resolve();
+        /**
+         * Queued promises.
+         */
+        this.queue = [];
+        /**
+         * Indicator if a promise is working.
+         */
+        this.working = false;
     }
-    push(next) {
-        this.prom = this.prom
-            .then(next)
-            .catch((e) => {
-            // TODO: handle or ignore this error?
+    /**
+     * Enqueue a promise.
+     * This will add the given promise to the queue. If the queue is empty, the promise will be started immediately.
+     * @param promise Function to create the Promise.
+     * @returns A promise wich will be resolved (or rejected) if the enqueued promise is done.
+     */
+    enqueue(promise) {
+        return new Promise((resolve, reject) => {
+            this.queue.push({
+                promise,
+                resolve,
+                reject,
+            });
+            this.dequeue();
         });
-        return this;
+    }
+    /**
+     * Dequeue (start) the first promise currently in the queue if there is no working promise.
+     * @returns `true` if a new promise from the queue is started or `false` if an other promise is working or the queue is empty.
+     */
+    dequeue() {
+        if (this.working) {
+            return false;
+        }
+        const item = this.queue.shift();
+        if (!item) {
+            return false;
+        }
+        try {
+            this.working = true;
+            item.promise()
+                .then((value) => {
+                item.resolve(value);
+            })
+                .catch(err => {
+                item.reject(err);
+            })
+                .finally(() => {
+                this.working = false;
+                this.dequeue();
+            });
+        }
+        catch (err) {
+            item.reject(err);
+            this.working = false;
+            this.dequeue();
+        }
+        return true;
     }
 }
 exports.PromiseQueue = PromiseQueue;
