@@ -70,7 +70,7 @@ class PromiseQueue {
                 .then((value) => {
                 item.resolve(value);
             })
-                .catch(err => {
+                .catch((err) => {
                 item.reject(err);
             })
                 .finally(() => {
