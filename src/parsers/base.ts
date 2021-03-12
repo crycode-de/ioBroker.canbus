@@ -44,7 +44,7 @@ export abstract class ParserBase {
    * Write a value to the buffer.
    * @param buf The buffer to write to.
    * @param val The value to write.
-   * @return The new/modufied buffer if the value has been written or an `Error` if the value could not be written.
+   * @return The new/modified buffer if the value has been written or an `Error` if the value could not be written.
    */
   public abstract write(buf: Buffer, val: unknown): Promise<Buffer | Error>;
 }

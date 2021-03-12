@@ -1,3 +1,4 @@
+import { PromiseQueue } from '../helpers';
 import { ParserBase } from '../parsers/base';
 
 declare global {
@@ -8,12 +9,12 @@ declare global {
     idNum: number;
 
     /**
-     * The ID of the massge with optionally DLC appended if set.
+     * The ID of the message with optionally DLC appended if set.
      */
     idWithDlc: string;
 
     /**
-     * If the ID is in extened frame format.
+     * If the ID is in extended frame format.
      */
     ext: boolean;
 
@@ -27,6 +28,11 @@ declare global {
      * Config of the parsers including an instance of the parser.
      */
     parsers: ParserConfigs;
+
+    /**
+     * Promise queue for parser and send actions.
+     */
+    actionQueue?: PromiseQueue;
   }
 
   interface ParserConfig extends ioBroker.AdapterConfigMessageParser {

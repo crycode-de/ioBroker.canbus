@@ -78,7 +78,7 @@ class CanInterface extends events_1.EventEmitter {
     }
     /**
      * Send a can message with the given properties.
-     * @param id The nummeric ID of the CAN message.
+     * @param id The numeric ID of the CAN message.
      * @param ext `true` if the message should be send in extended frame format.
      * @param data The data of the message. 0 to 8 bytes buffer.
      * @param rtr Remote transmission request flag.

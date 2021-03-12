@@ -3,7 +3,7 @@ import { autobind } from 'core-decorators';
 import { CanMessage } from 'socketcan';
 
 import { CanInterface } from './can-interface';
-import { getHexId } from './helpers';
+import { getHexId, PromiseQueue } from './helpers';
 
 import { knownParsers } from './parsers'
 
@@ -138,14 +138,17 @@ export class CanBusAdapter extends utils.Adapter {
         case 'send':
           if (state.val !== true) return;
 
-          // send the current json data
-          if (await this.sendMessageJsonData(msgCfg)) {
-            // set ack flag on the send state if the message was sent
-            await this.setStateAsync(`${msgCfg.idWithDlc}.send`, {
-              ...state,
-              ack: true
-            });
-          }
+          // use the message action queue to make sure the parsers are done before sending
+          msgCfg.actionQueue?.push(async () => {
+            // send the current json data
+            if (await this.sendMessageJsonData(msgCfg)) {
+              // set ack flag on the send state if the message was sent
+              await this.setStateAsync(`${msgCfg.idWithDlc}.send`, {
+                ...state,
+                ack: true
+              });
+            }
+          });
 
           break;
 
@@ -172,8 +175,14 @@ export class CanBusAdapter extends utils.Adapter {
             if (msgCfg.parsers[parserUuid].id !== stateId) continue;
 
             // check if the parser is initialized
-            const parser = msgCfg.parsers[parserUuid];
-            if (parser.instance) {
+            const parser = msgCfg.parsers[ parserUuid ];
+
+            // use the message action queue to make sure the parsers (and a possible followed send) run in correct order
+            msgCfg.actionQueue?.push(async () => {
+              if (!parser.instance) {
+                return;
+              }
+
               // load the current json from state
               const jsonState = await this.getStateAsync(`${msgCfg.idWithDlc}.json`);
               let data: Buffer | Error | null = this.getBufferFromJsonState(jsonState, msgCfg.idWithDlc);
@@ -187,11 +196,11 @@ export class CanBusAdapter extends utils.Adapter {
               // check the write result
               if (data instanceof Error) {
                 this.log.warn(`Parser writing data for message ID ${msgCfg.idWithDlc} parser ID ${parser.id} failed: ${data}`);
-                continue;
+                return;
               }
               if (!(data instanceof Buffer)) {
                 this.log.warn(`Parser writing data for message ID ${msgCfg.idWithDlc} parser ID ${parser.id} failed: Did not return a buffer`);
-                continue;
+                return;
               }
 
               // set the new json state with ack=false
@@ -202,7 +211,7 @@ export class CanBusAdapter extends utils.Adapter {
                 ...state,
                 ack: true
               });
-            }
+            });
 
             break;
           }
@@ -239,7 +248,7 @@ export class CanBusAdapter extends utils.Adapter {
       return null;
     }
     if (parsedJson.length > 8) {
-      this.log.warn(`Array length of JSON data in ${this.namespace}.${msgId}.json is greater than 8. Only up to 8 data bytes are supportet!`);
+      this.log.warn(`Array length of JSON data in ${this.namespace}.${msgId}.json is greater than 8. Only up to 8 data bytes are supported!`);
       return null;
     }
 
@@ -334,7 +343,7 @@ export class CanBusAdapter extends utils.Adapter {
         idNum: parseInt(msg.id, 16),
         idWithDlc: (msg.dlc >= 0) ? `${msg.id}-${msg.dlc}` : msg.id,
         ext: msg.id.length > 3,
-        uuid: msgUuid
+        uuid: msgUuid,
       };
 
       await this.setupMessage(msgUuid, msgCfg);
@@ -362,10 +371,10 @@ export class CanBusAdapter extends utils.Adapter {
         const [id, dlcStr] = idParts[2].split('-');
         const dlc = (dlcStr === undefined) ? -1 : parseInt(dlcStr, 10);
 
-        // is a message with this native.uuid configured whith this id?
+        // is a message with this native.uuid configured with this id?
         if (this.config.messages && this.config.messages[obj.value.native.uuid] && this.config.messages[obj.value.native.uuid].id === id && this.config.messages[obj.value.native.uuid].dlc === dlc) continue;
 
-        // not configured... delete it recusively
+        // not configured... delete it recursively
         this.log.debug(`delete unconfigured message ${obj.id}`);
         await this.delForeignObjectAsync(obj.id, { recursive: true });
       }
@@ -450,8 +459,8 @@ export class CanBusAdapter extends utils.Adapter {
    */
   @autobind
   private async handleCanMsg (msg: CanMessage): Promise<void> {
-    // TODO: maybe need to check the nummeric ID against a Set of known IDs for
-    //       a better performance on systems with verry high message load?
+    // TODO: maybe need to check the numeric ID against a Set of known IDs for
+    //       a better performance on systems with very high message load?
 
     const msgIdHex = getHexId(msg.id, !!msg.ext);
     let handled = false;
@@ -513,7 +522,7 @@ export class CanBusAdapter extends utils.Adapter {
 
   /**
    * Send a CAN message with the given properties.
-   * @param id The nummeric ID of the CAN message.
+   * @param id The numeric ID of the CAN message.
    * @param ext `true` if the message should be send in extended frame format.
    * @param data The data of the message. 0 to 8 bytes buffer.
    * @param rtr Remote transmission request flag.
@@ -559,7 +568,7 @@ export class CanBusAdapter extends utils.Adapter {
       const parser = msgCfg.parsers[parserUuid];
       if (parser.instance) {
         const readResult = await parser.instance.read(buf);
-        // check if the parser has read a value (null indecates an error)
+        // check if the parser has read a value (null indicates an error)
         if (readResult instanceof Error) {
           this.log.warn(`Parser reading from received data for ${msgCfg.idWithDlc} failed: ${readResult}`);
           continue;
@@ -619,7 +628,7 @@ export class CanBusAdapter extends utils.Adapter {
         type: 'state',
         common: {
           name: `Remote Transmission Request`,
-          role: 'indecator',
+          role: 'indicator',
           type: 'boolean',
           read: true,
           write: msgCfg.send // allow write only if the message is configured for sending
@@ -697,13 +706,16 @@ export class CanBusAdapter extends utils.Adapter {
       // obj id part 3 (parserId) must not be in the reserved ids
       if (PARSER_ID_RESERVED.includes(idParts[3])) continue;
 
-      // is a parser with this native.uuid configured whith this id?
+      // is a parser with this native.uuid configured with this id?
       if (msgCfg.parsers[obj.value.native.uuid] && msgCfg.parsers[obj.value.native.uuid].id === idParts[3]) continue;
 
       // not configured... delete it with all it's child objects
       this.log.debug(`delete unconfigured parser ${obj.id}`);
       await this.delForeignObjectAsync(obj.id);
     }
+
+    // create action queue
+    msgCfg.actionQueue = new PromiseQueue();
 
     // save to our canId->msg mapping
     this.canId2Message[msgCfg.idWithDlc] = msgCfg;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHexId = exports.uuidv4 = void 0;
+exports.PromiseQueue = exports.getHexId = exports.uuidv4 = void 0;
 /**
  * UUIDv4 generator (RFC4122 compliant)
  */
@@ -22,4 +22,18 @@ function getHexId(id, ext = false) {
     return str;
 }
 exports.getHexId = getHexId;
+class PromiseQueue {
+    constructor() {
+        this.prom = Promise.resolve();
+    }
+    push(next) {
+        this.prom = this.prom
+            .then(next)
+            .catch((e) => {
+            // TODO: handle or ignore this error?
+        });
+        return this;
+    }
+}
+exports.PromiseQueue = PromiseQueue;
 //# sourceMappingURL=helpers.js.map

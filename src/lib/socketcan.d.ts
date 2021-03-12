@@ -45,7 +45,7 @@ declare module 'socketcan' {
 
   interface RawChannel {
     /**
-     * Add a listener for incomming CAN messages
+     * Add a listener for incoming CAN messages
      */
     addListener(event: 'onMessage', callback: (msg: CanMessage) => void): void;
 

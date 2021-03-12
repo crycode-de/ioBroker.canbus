@@ -105,7 +105,7 @@ describe('ParserCustom', () => {
     expect(result).to.be.instanceof(Error);
   });
 
-  it(`use getStateAysnc and getObjectAsync`, async () => {
+  it(`use getStateAsync and getObjectAsync`, async () => {
     const parser = new ParserCustom(fakeAdapter, {
       ...genericParserConfig,
       customScriptRead: `/* ... */`,

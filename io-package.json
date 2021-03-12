@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
+            "1.0.1": {
+                "en": "Use a queue to process parser and send state changes in the correct order",
+                "de": "Verwendung einee Warteschlange, um Parser- und send-State Änderungen in der richtigen Reihenfolge zu verarbeiten",
+                "ru": "Используйте очередь для обработки изменений состояния parser и send в правильном порядке",
+                "pt": "Use uma fila para processar parser e send as mudanças de estado na ordem correta",
+                "nl": "Gebruik een wachtrij om de statuswijzigingen van parser en send in de juiste volgorde te verwerken",
+                "fr": "Utilisez une file d'attente pour traiter parser et send changements d'état dans le bon ordre",
+                "it": "Utilizza una coda per elaborare le modifiche di stato di parser e send nell'ordine corretto",
+                "es": "Utilice una cola para procesar parser y enviar cambios de estado en el orden correcto",
+                "pl": "Użyj kolejki, aby przetworzyć zmiany stanu parser i send w odpowiedniej kolejności",
+                "zh-cn": "使用队列以正确的顺序处理parser和send状态更改"
+            },
             "1.0.0": {
                 "en": "Sort messages in admin, Updated Russian translation",
                 "de": "Nachrichten werde in Admin sortiert, Russische Übersetzung aktualisiert",

@@ -18,3 +18,20 @@ export function getHexId(id: number, ext: boolean = false): string {
   str = str.padStart(ext ? 8 : 3, '0');
   return str;
 }
+
+export class PromiseQueue {
+
+  private prom: Promise<void>;
+  constructor () {
+    this.prom = Promise.resolve();
+  }
+
+  public push (next: () => PromiseLike<void>): this {
+    this.prom = this.prom
+      .then(next)
+      .catch((e) => {
+        // TODO: handle or ignore this error?
+      });
+    return this;
+  }
+}
