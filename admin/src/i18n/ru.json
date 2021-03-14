@@ -19,7 +19,7 @@
     "Send": "Отправить",
     "Send messages with the given ID": "Отправлять сообщения с указанным идентификатором",
     "Autosend": "Автоотправка",
-    "Automatically send the message when some data part changed": "Автоматически отправлять сообщение при изменении некоторой части данных",
+    "Automatically send the message when some data part changed": "Автоматически отправлять сообщение при изменении любой части данных",
     "Parsers": "Парсеры",
     "Must be a 3 or 8 char hex ID": "Должен быть шестнадцатеричный идентификатор из 3 или 8 символов.",
     "Parser ID": "ID парсера",
@@ -38,9 +38,9 @@
     "CAN message ID in hex": "ID сообщения CAN в шестнадцатеричном формате",
     "loading...": "загрузка …",
     "Add": "Добавить",
-    "Remove": "удалять",
+    "Remove": "Удалить",
     "Reload": "Перезагрузить",
-    "General": "Генеральная",
+    "General": "Общая",
     "Message": "Сообщение",
     "Not set": "Не установлено",
     "Optionally set a fixed data length for this message": "При необходимости установите фиксированную длину данных для этого сообщения",
@@ -50,5 +50,8 @@
     "Your configuration is invalid. Please check the settings marked in red.": "Конфигурация содержит ошибки. Пожалуйста, проверьте настройки, отмеченные красным.",
     "Save configuration to file": "Сохранить текущую конфигурацию в файл",
     "Load configuration from file": "Загрузить конфигурацию из файла",
-    "and": "и"
+    "and": "и",
+    "This ID is configured multiple times with this data length": "Этот ID настраивается несколько раз с этой длиной данных",
+    "Data length": "Длина данных",
+    "ID missing": "ID отсутствует"
 }
