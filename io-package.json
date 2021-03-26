@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "news": {
+            "1.0.2": {
+                "en": "Fixed issue where missing state prevented custom parser write",
+                "de": "Problem behoben, bei dem ein fehlender State das Schreiben von benutzerdefinierten Parsern verhinderte",
+                "ru": "Исправлена ошибка, из-за которой отсутствующее состояние препятствовало записи пользовательского парсера.",
+                "pt": "Corrigido o problema em que o estado ausente impedia a gravação do analisador personalizado",
+                "nl": "Probleem opgelost waarbij de ontbrekende status het schrijven van de aangepaste parser verhinderde",
+                "fr": "Correction d'un problème où l'état manquant empêchait l'écriture de l'analyseur personnalisé",
+                "it": "Risolto il problema per cui lo stato mancante impediva la scrittura del parser personalizzato",
+                "es": "Se solucionó el problema por el que el estado faltante impedía la escritura del analizador personalizado",
+                "pl": "Naprawiono problem polegający na tym, że brakujący stan uniemożliwiał zapis niestandardowego parsera",
+                "zh-cn": "修复了缺少状态阻止自定义解析器写入的问题"
+            },
             "1.0.1": {
                 "en": "Use a queue to process parser and send state changes in the correct order",
                 "de": "Verwendung einee Warteschlange, um Parser- und send-State Änderungen in der richtigen Reihenfolge zu verarbeiten",

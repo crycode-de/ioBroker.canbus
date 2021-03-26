@@ -181,7 +181,8 @@ class CanBusAdapter extends utils.Adapter {
                             const jsonState = await this.getStateAsync(`${msgCfg.idWithDlc}.json`);
                             let data = this.getBufferFromJsonState(jsonState, msgCfg.idWithDlc);
                             if (data === null) {
-                                return;
+                                // state not found or invalid json in state... create default buffer for the parser
+                                data = Buffer.alloc(msgCfg.dlc >= 0 ? msgCfg.dlc : 8);
                             }
                             // write to data using the parser
                             data = await parser.instance.write(data, state.val);
