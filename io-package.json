@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "news": {
             "1.0.2": {
                 "en": "Fixed issue where missing state prevented custom parser write",

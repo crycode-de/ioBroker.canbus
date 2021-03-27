@@ -73,6 +73,16 @@ interface SettingsProps {
    * The settings were validated.
    */
   onValidate: (valid: boolean) => void;
+
+  /**
+   * Set the native config.
+   */
+  setNative: (native: ioBroker.AdapterConfig) => void;
+
+  /**
+   * Show an error message.
+   */
+  onError: (text: string) => void;
 }
 
 interface SettingsState {
@@ -205,11 +215,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
         <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
           <General
-            context={context}
             common={common}
+            context={context}
             native={native}
             onChange={this.onGeneralChange}
+            onError={this.props.onError}
             onValidate={this.onGeneralValidate}
+            setNative={this.props.setNative}
           />
         </TabPanel>
 

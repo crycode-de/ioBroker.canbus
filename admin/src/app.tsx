@@ -1,3 +1,5 @@
+import { autobind } from 'core-decorators';
+
 import React from 'react';
 import { Theme, withStyles } from '@material-ui/core/styles';
 import { StyleRules } from '@material-ui/styles';
@@ -37,7 +39,7 @@ class App extends GenericApp {
     super(props, extendedProps);
   }
 
-  onConnectionReady(): void {
+  public onConnectionReady (): void {
     // executed when connection is ready
 
     // read the saved native config to allow compare in `getIsChanged()`
@@ -47,22 +49,22 @@ class App extends GenericApp {
       });
   }
 
-  getIsChanged(native?: Record<string, any>): boolean {
+  public getIsChanged (native?: Record<string, any>): boolean {
     // use own implementation to compare the native objects
     return !compareObjects(this.savedNative, native);
   }
 
-  onPrepareSave(settings: ioBroker.AdapterConfig): void {
+  public onPrepareSave (settings: ioBroker.AdapterConfig): boolean {
     // set DLC for messages if not set to update the config from older versions
     for (const msgUuid in settings.messages) {
       if (typeof settings.messages[msgUuid].dlc !== 'number') {
         settings.messages[msgUuid].dlc = -1;
       }
     }
-    super.onPrepareSave(settings);
+    return super.onPrepareSave(settings);
   }
 
-  render(): React.ReactNode {
+  public render (): React.ReactNode {
     if (!this.state.loaded) {
       return super.render();
     }
@@ -76,17 +78,45 @@ class App extends GenericApp {
     return (
       <div className='App'>
         <Settings
-          native={this.state.native}
           common={this.common}
           context={context}
+          native={this.state.native}
           onChange={(attr, value) => this.updateNativeValue(attr, value)}
+          onError={(err) => this.showError(err)}
           onValidate={(isValid) => this.setState({ isConfigurationError: isValid ? '' : I18n.t('Your configuration is invalid. Please check the settings marked in red.') })}
+          setNative={this.setNative}
         />
         {this.renderError()}
         {this.renderToast()}
         {this.renderSaveCloseButtons()}
       </div>
     );
+  }
+
+  /**
+   * Set (override) the native config.
+   * This will force a remount of the settings component which will discard all
+   * current changes (if they are not already in the new native config).
+   * @param native The new native config.
+   */
+  @autobind
+  private setNative (native: ioBroker.AdapterConfig): void {
+    // create new object
+    native = JSON.parse(JSON.stringify(native));
+
+    const changed = this.getIsChanged(native);
+
+    // set loaded to false and then back to true to force a remount of the
+    // settings component which will reload all settings
+    this.setState({
+      loaded: false
+    }, () => {
+      this.setState({
+        native,
+        changed,
+        loaded: true,
+      });
+    });
   }
 }
 

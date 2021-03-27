@@ -119,6 +119,9 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
+### 1.0.3 (dev)
+* (crycode-de) Fixed config import in admin
+
 ### 1.0.2 (2021-03-26)
 * (crycode-de) Fixed issue where missing state prevented custom parser write
 * (DutchmanNL) Dutch translation updates

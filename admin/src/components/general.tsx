@@ -26,6 +26,16 @@ interface GeneralProps {
   onValidate: (isValid: boolean) => void;
 
   /**
+   * Show an error message.
+   */
+  onError: (text: string) => void;
+
+  /**
+   * Set the native config.
+   */
+  setNative: (native: ioBroker.AdapterConfig) => void;
+
+  /**
    * The app context.
    */
   context: AppContext;
@@ -53,8 +63,12 @@ export class General extends React.Component<GeneralProps, GeneralState> {
     super(props);
     // native settings are our state
     this.state = this.validateState({
-      ...props.native,
-      interfaceError: null
+      autoAddSeenMessages: this.props.native.autoAddSeenMessages,
+      deleteUnconfiguredMessages: this.props.native.deleteUnconfiguredMessages,
+      interface: this.props.native.interface,
+      interfaceError: null,
+      useRawStates: this.props.native.useRawStates,
+      useRtrFlag: this.props.native.useRtrFlag,
     });
   }
 
@@ -63,8 +77,10 @@ export class General extends React.Component<GeneralProps, GeneralState> {
       <>
         <Logo
           common={this.props.common}
-          native={this.props.native}
           instance={this.props.context.instance}
+          native={this.props.native}
+          onError={this.props.onError}
+          onLoad={this.props.setNative}
           classes={{} as any}
         />
         <Grid container spacing={3}>
