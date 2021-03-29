@@ -59,5 +59,22 @@
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Nutzung von raw-States aktivieren, die mit jeder empfangenen oder gesendeten Nachricht aktualisiert werden und zum Senden von eigenen Nachrichten verwendet werden können. Dies ermöglicht die Verwendung in Scripts, kann jedoch zu einer höheren Belastung von Systemen mit einem hohem Nachrichtendurchsatz führen.",
     "and": "und",
     "Use rtr flag": "RTR-Flag nutzen",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "Fügt jeder Nachricht einen zusätzlichen Remote Transmission Request (rtr) State hinzu."
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "Fügt jeder Nachricht einen zusätzlichen Remote Transmission Request (rtr) State hinzu.",
+    "Import / Export": "Import / Export",
+    "Import": "Import",
+    "Export": "Export",
+    "Using this import feature you are able to import message configurations to extend your existing configuration.": "Mit dieser Importfunktion können Nachrichtenkonfigurationen importiert werden, um die vorhandene Konfiguration zu erweitern.",
+    "You may use a predefined configuration from GitHub or upload a custom file.": "Es können vorgefertigte Konfigurationen von GitHub genutzt oder eigene Dateien hochgeladen werden.",
+    "Hint: All configurations are provided without any warranty!": "Hinweis: Alle Konfigurationen werden ohne jegliche Gewähr angeboten!",
+    "Fetch predefined configurations from GitHub": "Vorgefertigte Konfigurationen von GitHub abrufen",
+    "Overwrite existing messages on import": "Vorhandene Nachrichten beim Import überschreiben",
+    "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.": "Wenn nicht aktiviert, werden bei einem Import nur neue Nachrichten und Parser hinzugefügt, aber keine vorhandenen überschrieben. Vorhandene Nachrichten oder Parser werden über ihre interne UUID erkannt und nicht über die ID. Wenn eine exportierte Datei zur Aktualisierung der Konfiguration wieder importiert werden soll, dann muss dieser Haken gesetzt werden.",
+    "Import selected from GitHub": "Importiere ausgewähltes von GitHub",
+    "Import from file": "Importiere aus Datei",
+    "Using this export feature you are able to export your message configurations.": "Mit dieser Exportfunktion können die konfigurierten Nachrichten exportiert werden.",
+    "The exported files can be shared or edited externally and reimported to update your configuration.": "Die exportierten Dateien können weitergegeben, oder bearbeitet und wieder importiert werden, um die Konfiguration mit externen Tools zu bearbeiten.",
+    "Export format": "Exportformat",
+    "Select messages to export": "Nachrichten zum Export auswählen",
+    "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.": "Wenn aktiviert, dann können die zu exportierenden Nachrichten einzeln ausgewählt werden. Wenn nicht aktiviert, dann werden alle Nachrichten exportiert.",
+    "Export to file": "Exportiere in Datei"
 }

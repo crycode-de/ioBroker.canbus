@@ -59,5 +59,22 @@
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.",
     "and": "and",
     "Use rtr flag": "Use rtr flag",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "Add an additional Remote Transmission Request (rtr) state on each message."
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "Add an additional Remote Transmission Request (rtr) state on each message.",
+    "Import / Export": "Import / Export",
+    "Import": "Import",
+    "Export": "Export",
+    "Using this import feature you are able to import message configurations to extend your existing configuration.": "Using this import feature you are able to import message configurations to extend your existing configuration.",
+    "You may use a predefined configuration from GitHub or upload a custom file.": "You may use a predefined configuration from GitHub or upload a custom file.",
+    "Hint: All configurations are provided without any warranty!": "Hint: All configurations are provided without any warranty!",
+    "Fetch predefined configurations from GitHub": "Fetch predefined configurations from GitHub",
+    "Overwrite existing messages on import": "Overwrite existing messages on import",
+    "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.": "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.",
+    "Import selected from GitHub": "Import selected from GitHub",
+    "Import from file": "Import from file",
+    "Using this export feature you are able to export your message configurations.": "Using this export feature you are able to export your message configurations.",
+    "The exported files can be shared or edited externally and reimported to update your configuration.": "The exported files can be shared or edited externally and reimported to update your configuration.",
+    "Export format": "Export format",
+    "Select messages to export": "Select messages to export",
+    "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.": "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.",
+    "Export to file": "Export to file"
 }

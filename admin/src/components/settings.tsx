@@ -13,9 +13,13 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 import { TabPanel } from './tab-panel';
 import { General } from './general';
+import { ImportExport } from './import-export';
 import { Message } from './message';
 import { AppContext } from '../common';
-import { uuidv4 } from '../lib/helpers';
+import {
+  sortMessagesById,
+  uuidv4,
+} from '../lib/helpers';
 import { MESSAGE_ID_REGEXP, MESSAGE_ID_REGEXP_WITH_DLC } from '../../../src/consts';
 
 const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
@@ -132,7 +136,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
       tabIndex: 0,
       generalValid: true,
       messages,
-      messagesKeys: Object.keys(messages).sort((a, b) => this.sortMessagesById(messages, a, b)),
+      messagesKeys: Object.keys(messages).sort((a, b) => sortMessagesById(messages, a, b)),
       messagesValid: {},
       messagesUnconfigured: {},
       messagesUnconfiguredKeys: [],
@@ -181,6 +185,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               color: this.state.generalValid === false ? 'red' : undefined
             }}
           />
+          <Tab
+            label={I18n.t('Import / Export')}
+            id='tab-1'
+            className={classes.tab}
+          />
 
           <Box textAlign='center'>{I18n.t('Messages')}</Box>
           {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
@@ -221,6 +230,15 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             onChange={this.onGeneralChange}
             onError={this.props.onError}
             onValidate={this.onGeneralValidate}
+            setNative={this.props.setNative}
+          />
+        </TabPanel>
+
+        <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
+          <ImportExport
+            context={context}
+            native={native}
+            onError={this.props.onError}
             setNative={this.props.setNative}
           />
         </TabPanel>
@@ -268,47 +286,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
       </div>
     );
-  }
-
-  /**
-   * Sort helper function to sort an array of message keys by the message contents.
-   * @param msgs The messages object to get message data from.
-   * @param id1 ID of the first element.
-   * @param id2 ID of the second element.
-   */
-  private sortMessagesById (msgs: ioBroker.AdapterConfigMessages, id1: string, id2: string): -1 | 0 | 1 {
-    if (!msgs[id1] && !msgs[id2]) {
-      return 0;
-    }
-    if (!msgs[id2]) {
-      return 1;
-    }
-    if (!msgs[id1]) {
-      return -1;
-    }
-
-    if (msgs[id1].id.length > msgs[id2].id.length) {
-      return 1;
-    }
-    if (msgs[id1].id.length < msgs[id2].id.length) {
-      return -1;
-    }
-
-    if (msgs[id1].id > msgs[id2].id) {
-      return 1;
-    }
-    if (msgs[id1].id < msgs[id2].id) {
-      return -1;
-    }
-
-    if (msgs[id1].dlc > msgs[id2].dlc) {
-      return 1;
-    }
-    if (msgs[id1].dlc < msgs[id2].dlc) {
-      return -1;
-    }
-
-    return 0;
   }
 
   /**
@@ -392,7 +369,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }, () => {
       // need to set the tabIndex this way because otherwise the selected message
       // will not be updated if the first message is deleted
-      if (this.state.tabIndex < 2) {
+      if (this.state.tabIndex < 3) {
         this.setState({ tabIndex: 0 });
       }
     });
@@ -519,7 +496,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     this.setState({
       messagesUnconfigured,
-      messagesUnconfiguredKeys: Object.keys(messagesUnconfigured).sort((a, b) => this.sortMessagesById(messagesUnconfigured, a, b)),
+      messagesUnconfiguredKeys: Object.keys(messagesUnconfigured).sort((a, b) => sortMessagesById(messagesUnconfigured, a, b)),
     });
   }
 
