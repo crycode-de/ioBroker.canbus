@@ -78,5 +78,9 @@
     "Export format": "Exportformat",
     "Select messages to export": "Nachrichten zum Export auswählen",
     "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.": "Wenn aktiviert, dann können die zu exportierenden Nachrichten einzeln ausgewählt werden. Wenn nicht aktiviert, dann werden alle Nachrichten exportiert.",
-    "Export to file": "Exportiere in Datei"
+    "Export to file": "Exportiere in Datei",
+    "Failed to open file!": "Kann Datei nicht öffnen!",
+    "Unsupported file type!": "Nicht unterstützter Dateityp!",
+    "File is empty!": "Datei ist leer!",
+    "Error parsing file! %s": "Fehler beim Analysieren der Datei! %s"
 }

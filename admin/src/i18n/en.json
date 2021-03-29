@@ -78,5 +78,9 @@
     "Export format": "Export format",
     "Select messages to export": "Select messages to export",
     "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.": "If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.",
-    "Export to file": "Export to file"
+    "Export to file": "Export to file",
+    "Failed to open file!": "Failed to open file!",
+    "Unsupported file type!": "Unsupported file type!",
+    "File is empty!": "File is empty!",
+    "Error parsing file! %s": "Error parsing file! %s"
 }
