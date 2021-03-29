@@ -47,6 +47,7 @@ declare global {
       dataUnit: string;
       booleanMask: number;
       booleanInvert: boolean;
+      customDataType: ioBroker.CommonType;
       customScriptRead: string;
       customScriptWrite: string;
     }

@@ -38,6 +38,8 @@
     "Parser ID": "Parser ID",
     "Temperature": "Temperature",
     "Data type": "Data type",
+    "Data type in the can message": "Data type in the can message",
+    "Data type in ioBroker": "Data type in ioBroker",
     "Offset": "Offset",
     "Length": "Length",
     "Encoding": "Encoding",

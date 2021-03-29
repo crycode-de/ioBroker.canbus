@@ -413,7 +413,8 @@ export class Message extends React.Component<MessageProps, MessageState> {
       booleanMask: 0,
       booleanInvert: false,
       customScriptRead: '',
-      customScriptWrite: ''
+      customScriptWrite: '',
+      customDataType: 'number',
     };
 
     const parsers = { ...this.state.parsers };

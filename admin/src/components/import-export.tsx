@@ -41,6 +41,7 @@ const CSV_HEADER_FIELDS = [
   'parserDataEncoding',
   'parserBooleanMask',
   'parserBooleanInvert',
+  'parserCustomDataType',
   'parserCustomScriptRead',
   'parserCustomScriptWrite',
 ] as const;
@@ -269,7 +270,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             msg.receive ? 1 : 0,
             msg.send ? 1 : 0,
             msg.autosend ? 1 : 0,
-            null, null, null, null, null, null, null, null, null, null, null, null, // no parser
+            null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
           ].join(';'));
         } else {
           // with parsers
@@ -293,6 +294,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               parser.dataEncoding,
               parser.booleanMask,
               parser.booleanInvert ? 1 : 0,
+              parser.customDataType,
               this.escapeCsvValue(parser.customScriptRead),
               this.escapeCsvValue(parser.customScriptWrite),
             ].join(';'));
@@ -422,6 +424,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 dataEncoding: obj.parserDataEncoding as ioBroker.AdapterConfigDataEncoding,
                 booleanMask: parseInt(obj.parserBooleanMask, 10),
                 booleanInvert: strToBool(obj.parserBooleanInvert),
+                customDataType: obj.parserCustomDataType as ioBroker.CommonType,
                 customScriptRead: obj.parserCustomScriptRead,
                 customScriptWrite: obj.parserCustomScriptWrite,
               };

@@ -428,8 +428,17 @@ export class CanBusAdapter extends utils.Adapter {
    * @param dataType Data type from the config.
    * @return The ioBroker common type.
    */
-  private getCommonTypeFromDataType(dataType: ioBroker.AdapterConfigDataType): ioBroker.CommonType {
-    switch (dataType) {
+  private getCommonTypeFromParser(parser: ioBroker.AdapterConfigMessageParser, msgIdWithDlc: string): ioBroker.CommonType {
+    // custom data type for custom parsers
+    if (parser.dataType === 'custom') {
+      if (parser.customDataType && ['string', 'number', 'boolean', 'mixed'].includes(parser.customDataType)) {
+        return parser.customDataType;
+      }
+      this.log.warn(`Custom parser ${parser.id} of message ${msgIdWithDlc} has no data type set. Please update your configuration.`);
+    }
+
+    // generic data types
+    switch (parser.dataType) {
       case 'int8':
       case 'uint8':
       case 'int16_be':
@@ -571,13 +580,21 @@ export class CanBusAdapter extends utils.Adapter {
         const readResult = await parser.instance.read(buf);
         // check if the parser has read a value (null indicates an error)
         if (readResult instanceof Error) {
-          this.log.warn(`Parser reading from received data for ${msgCfg.idWithDlc} failed: ${readResult}`);
+          this.log.warn(`Parser ${parser.id} for ${msgCfg.idWithDlc} failed reading from received data: ${readResult}`);
           continue;
         }
         if (readResult === undefined) {
-          this.log.debug(`read parser for ${msgCfg.idWithDlc} returned undefined`);
+          this.log.debug(`read parser ${parser.id} for ${msgCfg.idWithDlc} returned undefined`);
           continue;
         }
+
+        // check if the correct data type is returned and log a warning if not
+        if (parser.customDataType && parser.customDataType !== 'mixed') {
+          if (typeof readResult !== parser.customDataType) {
+            this.log.warn(`Parser ${parser.id} for ${msgCfg.idWithDlc} returned wrong data type ${typeof readResult}. (expected ${parser.customDataType})`);
+          }
+        }
+
         this.setStateAsync(`${msgCfg.idWithDlc}.${parser.id}`, readResult as any, true);
       }
     }
@@ -680,7 +697,7 @@ export class CanBusAdapter extends utils.Adapter {
         common: {
           name: parser.name || `Parser ${parser.id}`,
           //role: 'state', // don't set the role here to let the user change it in admin
-          type: this.getCommonTypeFromDataType(parser.dataType),
+          type: this.getCommonTypeFromParser(parser, msgCfg.idWithDlc),
           unit: parser.dataUnit,
           read: true,
           write: msgCfg.send // allow write only if the message is configured for sending

@@ -105,7 +105,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
   constructor (props: ParserProps) {
     super(props);
 
-    this.state = this.validateState(this.updateDependedEletents({
+    this.state = this.validateState(this.updateDependedElements({
       ...this.props.config,
       idError: null,
       disabledDataLengths: [],
@@ -166,7 +166,22 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             disabled={this.props.readonly}
             onChange={(v) => this.handleChange('dataType', v as ioBroker.AdapterConfigDataType)}
             options={DATA_TYPE_OPTIONS}
-          />
+          >
+            {I18n.t('Data type in the can message')}
+          </InputSelect>
+
+          {this.state.dataType === 'custom' &&
+            <InputSelect
+              sm={6} md={4} lg={2}
+              label={I18n.t('Data type')}
+              value={this.state.customDataType}
+              disabled={this.props.readonly}
+              onChange={(v) => this.handleChange('customDataType', v as ioBroker.CommonType)}
+              options={['boolean', 'number', 'string', 'mixed']}
+            >
+              {I18n.t('Data type in ioBroker')}
+            </InputSelect>
+          }
 
           {!this.state.disabledDataOffsetAndLength && <>
             <InputSelect
@@ -281,7 +296,8 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       booleanMask: this.state.booleanMask,
       booleanInvert: this.state.booleanInvert,
       customScriptRead: this.state.customScriptRead,
-      customScriptWrite: this.state.customScriptWrite
+      customScriptWrite: this.state.customScriptWrite,
+      customDataType: this.state.customDataType,
     });
   }
 
@@ -295,7 +311,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       [key]: value
     } as unknown as Pick<ParserState, keyof ParserState>;
 
-    this.updateDependedEletents(newState);
+    this.updateDependedElements(newState);
 
     this.validateState(newState);
 
@@ -310,7 +326,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
    * @param state The state to use for detection.
    * @return The updated state with the options for the depended elements set.
    */
-  private updateDependedEletents<T extends Partial<ParserState>>(state: T): T {
+  private updateDependedElements<T extends Partial<ParserState>>(state: T): T {
     const dataType = state.dataType || this.state.dataType;
     switch (dataType) {
       case 'boolean':
