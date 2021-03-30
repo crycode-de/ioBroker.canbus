@@ -2,5 +2,21 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "eslint.enable": true,
     "editor.insertSpaces": true,
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+
+    // add json schemas for well-known-messages
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "/well-known-messages/configs/*.json"
+            ],
+            "url": "./well-known-messages/schemas/messages.json"
+        },
+        {
+            "fileMatch": [
+                "/well-known-messages/index.json"
+            ],
+            "url": "./well-known-messages/schemas/index.json"
+        },
+    ]
 }

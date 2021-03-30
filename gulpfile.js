@@ -6,6 +6,7 @@
 
 const gulp = require('gulp');
 const fs = require('fs');
+const tsj = require('ts-json-schema-generator');
 const pkg = require('./package.json');
 const iopackage = require('./io-package.json');
 const version = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
@@ -471,5 +472,28 @@ gulp.task('translate', async function (done) {
 });
 
 gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
+
+/**
+ * Create json schemas for the well known messages configurations.
+ */
+gulp.task('createJsonSchema', function (done) {
+    const configMessages = {
+        path: 'src/lib/adapter-config.d.ts',
+        tsconfig: 'tsconfig.build.json',
+        type: 'global.ioBroker.AdapterConfigMessagesLang'
+    };
+    const schemaMessages = tsj.createGenerator(configMessages).createSchema(configMessages.type);
+    fs.writeFileSync('well-known-messages/schemas/messages.json', JSON.stringify(schemaMessages, null, 4));
+
+    const configIndex = {
+        path: 'src/lib/adapter-config.d.ts',
+        tsconfig: 'tsconfig.build.json',
+        type: 'global.ioBroker.WellKnownMessagesIndex'
+    };
+    const schemaIndex = tsj.createGenerator(configIndex).createSchema(configIndex.type);
+    fs.writeFileSync('well-known-messages/schemas/index.json', JSON.stringify(schemaIndex, null, 4));
+
+    done();
+});
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));

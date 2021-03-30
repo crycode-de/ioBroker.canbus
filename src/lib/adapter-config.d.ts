@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-//import { native } from '../../io-package.json';
 export {};
-//type _AdapterConfig = Partial<typeof native>;
 
 // Augment the globally declared type ioBroker.AdapterConfig
 declare global {
   namespace ioBroker {
-    // eslint-disable-next-line @typescript-eslint/no-empty-interface,@typescript-eslint/no-unused-vars
-    interface AdapterConfig extends AdapterConfigMainSettings /*_AdapterConfig*/ {
+    interface AdapterConfig extends AdapterConfigMainSettings {
       messages?: AdapterConfigMessages;
     }
 
@@ -20,7 +17,7 @@ declare global {
       useRtrFlag: boolean;
     }
 
-    interface AdapterConfigMessage {
+    interface AdapterConfigMessage<T extends AdapterConfigMessageParser = AdapterConfigMessageParser> {
       /**
        * The ID of the message a hex string.
        */
@@ -30,11 +27,11 @@ declare global {
       receive: boolean;
       send: boolean;
       autosend: boolean;
-      parsers: AdapterConfigMessageParsers;
+      parsers: AdapterConfigMessageParsers<T>;
     }
 
-    type AdapterConfigMessages = {
-      [uuid: string]: AdapterConfigMessage;
+    type AdapterConfigMessages<T extends AdapterConfigMessage = AdapterConfigMessage> = {
+      [uuid: string]: T;
     };
 
     interface AdapterConfigMessageParser {
@@ -52,11 +49,100 @@ declare global {
       customScriptWrite: string;
     }
 
-    type AdapterConfigMessageParsers = {
-      [uuid: string]: AdapterConfigMessageParser;
+    type AdapterConfigMessageParsers<T extends AdapterConfigMessageParser = AdapterConfigMessageParser> = {
+      [uuid: string]: T;
     };
 
     type AdapterConfigDataType = 'int8' | 'uint8' | 'int16_be' | 'int16_le' | 'uint16_be' | 'uint16_le' | 'int32_be' | 'int32_le' | 'uint32_be' | 'uint32_le' | 'float32_be' | 'float32_le' | 'double64_be' | 'double64_le' | 'boolean' | 'string' | 'custom';
     type AdapterConfigDataEncoding = 'latin1' | 'ascii' | 'utf8' | 'utf16le' | 'base64' | 'hex';
+
+    /**
+     * AdapterConfigMessageParser with optional `nameLang` attribute to be used in
+     * imports from predefined configurations from GitHub.
+     */
+    interface AdapterConfigMessageParserLang extends ioBroker.AdapterConfigMessageParser {
+      nameLang?: Partial<Record<ioBroker.Languages, string>>;
+    }
+
+    /**
+     * AdapterConfigMessage with optional `nameLang` attribute to be used in
+     * imports from predefined configurations from GitHub.
+     */
+    interface AdapterConfigMessageLang extends ioBroker.AdapterConfigMessage<AdapterConfigMessageParserLang> {
+      nameLang?: Partial<Record<ioBroker.Languages, string>>;
+    }
+
+    /**
+     * AdapterConfigMessages with optional `nameLang` attributes to be used in
+     * imports from predefined configurations from GitHub.
+     */
+    type AdapterConfigMessagesLang = ioBroker.AdapterConfigMessages<ioBroker.AdapterConfigMessageLang>;
+
+    /**
+     * A Release in the well known messages index.
+     */
+    interface WellKnownMessagesIndexEntryRelease {
+      /**
+       * Release type of this release
+       */
+      type: 'dev' | 'alpha' | 'beta' | 'stable';
+
+      /**
+       * The version number of this release
+       */
+      version: string;
+
+      /**
+       * File name of this configuration in `well-known-messages/configs/`
+       */
+      file: string;
+    }
+
+    /**
+     * An entry in the well known messages index.
+     */
+    interface WellKnownMessagesIndexEntry {
+      /**
+       * Name
+       */
+      name: string;
+
+      /**
+       * Optional localized names
+       */
+      nameLang?: Partial<Record<ioBroker.Languages, string>>;
+
+      /**
+       * Description
+       */
+      description: string;
+
+      /**
+       * Optional localized descriptions
+       */
+      descriptionLang?: Partial<Record<ioBroker.Languages, string>>;
+
+      /**
+       * Single author or array of authors
+       */
+      author: string | string[];
+
+      /**
+       * ISO date and time of the last update
+       */
+      updatedAt: string;
+
+      /**
+       * Array of the releases in descending order
+       */
+      releases: WellKnownMessagesIndexEntryRelease[];
+    }
+
+    /**
+     * The well known messages index.
+     */
+    interface WellKnownMessagesIndex {
+      [id: string]: WellKnownMessagesIndexEntry;
+    }
   }
 }

@@ -1,0 +1,161 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndex",
+    "definitions": {
+        "global.ioBroker.WellKnownMessagesIndex": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntry"
+            }
+        },
+        "global.ioBroker.WellKnownMessagesIndexEntry": {
+            "type": "object",
+            "properties": {
+                "releases": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntryRelease"
+                    },
+                    "description": "Array of the releases in descending order"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name"
+                },
+                "nameLang": {
+                    "type": "object",
+                    "properties": {
+                        "en": {
+                            "type": "string"
+                        },
+                        "de": {
+                            "type": "string"
+                        },
+                        "ru": {
+                            "type": "string"
+                        },
+                        "pt": {
+                            "type": "string"
+                        },
+                        "nl": {
+                            "type": "string"
+                        },
+                        "fr": {
+                            "type": "string"
+                        },
+                        "it": {
+                            "type": "string"
+                        },
+                        "es": {
+                            "type": "string"
+                        },
+                        "pl": {
+                            "type": "string"
+                        },
+                        "zh-cn": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Optional localized names"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description"
+                },
+                "descriptionLang": {
+                    "type": "object",
+                    "properties": {
+                        "en": {
+                            "type": "string"
+                        },
+                        "de": {
+                            "type": "string"
+                        },
+                        "ru": {
+                            "type": "string"
+                        },
+                        "pt": {
+                            "type": "string"
+                        },
+                        "nl": {
+                            "type": "string"
+                        },
+                        "fr": {
+                            "type": "string"
+                        },
+                        "it": {
+                            "type": "string"
+                        },
+                        "es": {
+                            "type": "string"
+                        },
+                        "pl": {
+                            "type": "string"
+                        },
+                        "zh-cn": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "description": "Optional localized descriptions"
+                },
+                "author": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "description": "Single author or array of authors"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "description": "ISO date and time of the last update"
+                }
+            },
+            "required": [
+                "releases",
+                "name",
+                "description",
+                "author",
+                "updatedAt"
+            ],
+            "additionalProperties": false
+        },
+        "global.ioBroker.WellKnownMessagesIndexEntryRelease": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "dev",
+                        "alpha",
+                        "beta",
+                        "stable"
+                    ],
+                    "description": "Release type of this release"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "The version number of this release"
+                },
+                "file": {
+                    "type": "string",
+                    "description": "File name of this configuration in `well-known-messages/configs/`"
+                }
+            },
+            "required": [
+                "type",
+                "version",
+                "file"
+            ],
+            "additionalProperties": false
+        }
+    }
+}

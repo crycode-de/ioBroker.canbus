@@ -25,3 +25,5 @@ package-lock.json
 
 # maintenance scripts
 maintenance/**
+
+well-known-messages

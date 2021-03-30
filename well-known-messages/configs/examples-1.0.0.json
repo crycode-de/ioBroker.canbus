@@ -1,0 +1,108 @@
+{
+  "b00b766d-f452-4a4a-a994-9422ba4d78f0": {
+    "id": "1A0",
+    "name": "Example message",
+    "nameLang": {
+      "de": "Beispielnachricht",
+      "en": "Example message"
+    },
+    "dlc": -1,
+    "receive": true,
+    "send": false,
+    "autosend": false,
+    "parsers": {
+      "15309929-bf61-4468-9ab9-ff7e71279822": {
+        "id": "temperature",
+        "name": "Temperature",
+        "nameLang": {
+          "de": "Temperatur",
+          "en": "Temperature"
+        },
+        "dataType": "float32_le",
+        "dataLength": 4,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "utf8",
+        "booleanMask": 0,
+        "booleanInvert": true,
+        "customDataType": "number",
+        "customScriptRead": "",
+        "customScriptWrite": ""
+      },
+      "0565bac5-0548-4054-ad23-fa01e858d0c5": {
+        "id": "bat-ok",
+        "name": "Battery OK",
+        "nameLang": {
+          "de": "Batterie OK",
+          "en": "Battery OK"
+        },
+        "dataType": "boolean",
+        "dataLength": 1,
+        "dataOffset": 4,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 1,
+        "booleanInvert": false,
+        "customDataType": "number",
+        "customScriptRead": "",
+        "customScriptWrite": ""
+      },
+      "c8d15fe3-f163-4d41-9e2b-b5f1e33cd354": {
+        "id": "custom",
+        "name": "Custom",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customDataType": "number",
+        "customScriptRead": "value = buffer[6]*1000 + buffer[7];",
+        "customScriptWrite": "buffer[6] = Math.floor(value/1000);\nbuffer[7] = value - Math.floor(value/1000)*1000;"
+      }
+    }
+  },
+  "2096c516-8803-491d-a3a9-2076fea41ac0": {
+    "id": "123",
+    "name": "Example with DLC 2",
+    "nameLang": {
+      "de": "Beispiel mit DLC 2",
+      "en": "Example with DLC 2"
+    },
+    "dlc": 2,
+    "receive": true,
+    "send": true,
+    "autosend": false,
+    "parsers": {
+      "91f1dc77-21a1-4562-8b0e-6a263ab9ae49": {
+        "id": "b0",
+        "name": "Byte 0",
+        "dataType": "uint8",
+        "dataLength": 1,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customDataType": "number",
+        "customScriptRead": "",
+        "customScriptWrite": ""
+      },
+      "2f48c38e-1aa3-4d40-8f8e-470eb1b8fcea": {
+        "id": "b1",
+        "name": "Byte 1",
+        "dataType": "uint8",
+        "dataLength": 1,
+        "dataOffset": 1,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customDataType": "number",
+        "customScriptRead": "",
+        "customScriptWrite": ""
+      }
+    }
+  }
+}

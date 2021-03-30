@@ -375,7 +375,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         return;
       }
 
-      let msgs: ioBroker.AdapterConfigMessages = {};
+      let msgs: ioBroker.AdapterConfigMessagesLang = {};
 
       try {
         // parse the contents
@@ -460,7 +460,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * Import messages from a given object.
    * @param msgs Object containing the messages to import.
    */
-  private importMessagesObject (msgs: ioBroker.AdapterConfigMessages): void {
+  private importMessagesObject (msgs: ioBroker.AdapterConfigMessagesLang): void {
     // TODO: validate messages and parsers!!!
 
     const { native } = this.props;
@@ -469,6 +469,10 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     }
 
     for (const msgUuid in msgs) {
+      // get the name from nameLang if available in the current language and remove nameLang attribute
+      msgs[msgUuid].name = msgs[msgUuid].nameLang?.[I18n.getLanguage()] || msgs[msgUuid].nameLang?.en || msgs[msgUuid].name || msgs[msgUuid].id;
+      delete msgs[msgUuid].nameLang;
+
       if (!native.messages[msgUuid]) {
         // new message
         native.messages[msgUuid] = msgs[msgUuid];
@@ -484,6 +488,10 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         }
         // check parsers
         for (const parserUuid in msgs[msgUuid].parsers) {
+          // get the name from nameLang if available in the current language and remove nameLang attribute
+          msgs[msgUuid].parsers[parserUuid].name = msgs[msgUuid].parsers[parserUuid].nameLang?.[I18n.getLanguage()] || msgs[msgUuid].parsers[parserUuid].nameLang?.en || msgs[msgUuid].parsers[parserUuid].name || msgs[msgUuid].parsers[parserUuid].id;
+          delete msgs[msgUuid].parsers[parserUuid].nameLang;
+
           if (!native.messages[msgUuid].parsers[parserUuid]) {
             // add parser
             native.messages[msgUuid].parsers[parserUuid] = msgs[msgUuid].parsers[parserUuid];
