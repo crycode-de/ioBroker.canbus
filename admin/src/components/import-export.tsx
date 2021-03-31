@@ -196,7 +196,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             </Grid>
             <Grid key={id} container spacing={3}>
               <InputSelect
-                sm={6} md={4} lg={2}
+                sm={6} md={2} lg={2}
                 label={I18n.t('Version')}
                 value={this.state.wellKnownMessagesSelectedVersions[id]}
                 onChange={(v) => this.setState({ wellKnownMessagesSelectedVersions: { ...this.state.wellKnownMessagesSelectedVersions, [id]: v } })}
