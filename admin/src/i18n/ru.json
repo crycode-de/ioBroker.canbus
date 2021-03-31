@@ -53,5 +53,10 @@
     "and": "и",
     "This ID is configured multiple times with this data length": "Этот ID настраивается несколько раз с этой длиной данных",
     "Data length": "Длина данных",
-    "ID missing": "ID отсутствует"
+    "ID missing": "ID отсутствует",
+    "Custom script write": "Собственный сценарий для записи",
+    "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Скрипт для чтения значения из буфера. Буфер доступен как %s, и значение должно быть записано в %s.",
+    "Custom script read": "Собственный скрипт для чтения",
+    "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Используйте необработанные состояния, которые обновляются с каждым полученным или отправленным сообщением и могут использоваться для отправки ваших собственных сообщений. Это позволяет использовать в сценариях, но может привести к более высокой нагрузке на системы с высокой пропускной способностью сообщений.",
+    "Use rtr flag": "Использовать флаг rtr"
 }
