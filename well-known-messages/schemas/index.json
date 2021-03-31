@@ -6,18 +6,12 @@
             "type": "object",
             "additionalProperties": {
                 "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntry"
-            }
+            },
+            "description": "The well known messages index."
         },
         "global.ioBroker.WellKnownMessagesIndexEntry": {
             "type": "object",
             "properties": {
-                "releases": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntryRelease"
-                    },
-                    "description": "Array of the releases in descending order"
-                },
                 "name": {
                     "type": "string",
                     "description": "Name"
@@ -61,7 +55,7 @@
                 },
                 "description": {
                     "type": "string",
-                    "description": "Description"
+                    "description": "Description, optionally formated with markdown"
                 },
                 "descriptionLang": {
                     "type": "object",
@@ -98,52 +92,38 @@
                         }
                     },
                     "additionalProperties": false,
-                    "description": "Optional localized descriptions"
+                    "description": "Optional localized descriptions, optionally formated with markdown"
                 },
-                "author": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    ],
-                    "description": "Single author or array of authors"
+                "authors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Array of authors, optionally formated with markdown"
                 },
-                "updatedAt": {
-                    "type": "string",
-                    "description": "ISO date and time of the last update"
+                "releases": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntryRelease"
+                    },
+                    "description": "Array of the releases in descending order"
                 }
             },
             "required": [
-                "releases",
                 "name",
                 "description",
-                "author",
-                "updatedAt"
+                "authors",
+                "releases"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "An entry in the well known messages index."
         },
         "global.ioBroker.WellKnownMessagesIndexEntryRelease": {
             "type": "object",
             "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": [
-                        "dev",
-                        "alpha",
-                        "beta",
-                        "stable"
-                    ],
-                    "description": "Release type of this release"
-                },
                 "version": {
                     "type": "string",
-                    "description": "The version number of this release"
+                    "description": "The version number of this release (semver)"
                 },
                 "file": {
                     "type": "string",
@@ -151,11 +131,11 @@
                 }
             },
             "required": [
-                "type",
                 "version",
                 "file"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "description": "A Release in the well known messages index."
         }
     }
 }

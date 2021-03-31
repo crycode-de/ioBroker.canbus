@@ -67,11 +67,12 @@
     "Export": "Export",
     "Using this import feature you are able to import message configurations to extend your existing configuration.": "Mit dieser Importfunktion können Nachrichtenkonfigurationen importiert werden, um die vorhandene Konfiguration zu erweitern.",
     "You may use a predefined configuration from GitHub or upload a custom file.": "Es können vorgefertigte Konfigurationen von GitHub genutzt oder eigene Dateien hochgeladen werden.",
-    "Hint: All configurations are provided without any warranty!": "Hinweis: Alle Konfigurationen werden ohne jegliche Gewähr angeboten!",
-    "Fetch predefined configurations from GitHub": "Vorgefertigte Konfigurationen von GitHub abrufen",
+    "Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.": "Hinweis: Alle Konfigurationen werden ohne jegliche Gewähr angeboten! Abhängig vom angeschlossenen System kann das Senden falscher Nachrichten zu Systemschäden führen.",
+    "Fetch configurations from GitHub": "Konfigurationen von GitHub abrufen",
     "Overwrite existing messages on import": "Vorhandene Nachrichten beim Import überschreiben",
     "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.": "Wenn nicht aktiviert, werden bei einem Import nur neue Nachrichten und Parser hinzugefügt, aber keine vorhandenen überschrieben. Vorhandene Nachrichten oder Parser werden über ihre interne UUID erkannt und nicht über die ID. Wenn eine exportierte Datei zur Aktualisierung der Konfiguration wieder importiert werden soll, dann muss dieser Haken gesetzt werden.",
-    "Import selected from GitHub": "Importiere ausgewähltes von GitHub",
+    "Show on GitHub": "Anzeigen auf GitHub",
+    "Import from GitHub": "Importiere von GitHub",
     "Import from file": "Importiere aus Datei",
     "Using this export feature you are able to export your message configurations.": "Mit dieser Exportfunktion können die konfigurierten Nachrichten exportiert werden.",
     "The exported files can be shared or edited externally and reimported to update your configuration.": "Die exportierten Dateien können weitergegeben, oder bearbeitet und wieder importiert werden, um die Konfiguration mit externen Tools zu bearbeiten.",
@@ -82,5 +83,7 @@
     "Failed to open file!": "Kann Datei nicht öffnen!",
     "Unsupported file type!": "Nicht unterstützter Dateityp!",
     "File is empty!": "Datei ist leer!",
-    "Error parsing file! %s": "Fehler beim Analysieren der Datei! %s"
+    "Error parsing file! %s": "Fehler beim Analysieren der Datei! %s",
+    "Version": "Version",
+    "Author": "Autor"
 }

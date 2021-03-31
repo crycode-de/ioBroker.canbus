@@ -10,8 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import Cached from '@material-ui/icons/Cached';
 import VerticalAlignBottom from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTop from '@material-ui/icons/VerticalAlignTop';
+import Visibility from '@material-ui/icons/Visibility';
 
 import I18n from '@iobroker/adapter-react/i18n';
+
+import snarkdown from 'snarkdown';
 
 import {
   sortMessagesById,
@@ -45,6 +48,16 @@ const CSV_HEADER_FIELDS = [
   'parserCustomScriptRead',
   'parserCustomScriptWrite',
 ] as const;
+
+/**
+ * Base url used for linking to well known messages.
+ */
+const WELL_KNOWN_MESSAGES_BASE_URL = 'https://github.com/crycode-de/ioBroker.canbus/blob/master/well-known-messages/';
+
+/**
+ * Base url used when fetching well known messages.
+ */
+const WELL_KNOWN_MESSAGES_RAW_BASE_URL = 'https://raw.githubusercontent.com/crycode-de/ioBroker.canbus/master/well-known-messages/';
 
 interface ImportExportProps {
   /**
@@ -88,17 +101,36 @@ interface ImportExportState {
    * UUIDs of messages selected for export.
    */
   exportSelectedEntries: string[];
+
+  /**
+   * The fetched index of the well known messages.
+   */
+  wellKnownMessagesIndex: ioBroker.WellKnownMessagesIndex;
+
+  /**
+   * If the index of the well known messages is loaded.
+   */
+  wellKnownMessagesIndexLoaded: boolean;
+
+  /**
+   * Selected versions of the well known message configs.
+   */
+  //[wellKnownMessagesSelectedVersionKey: string]: string;
+  wellKnownMessagesSelectedVersions: Record<string, string>;
 }
 
 export class ImportExport extends React.Component<ImportExportProps, ImportExportState> {
   constructor (props: ImportExportProps) {
     super(props);
-    // native settings are our state
+
     this.state = {
       importOverwrite: false,
       exportFormat: 'json',
       exportSelected: false,
       exportSelectedEntries: [],
+      wellKnownMessagesIndex: {},
+      wellKnownMessagesIndexLoaded: false,
+      wellKnownMessagesSelectedVersions: {},
     };
   }
 
@@ -118,16 +150,6 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             <Typography>
               {I18n.t('You may use a predefined configuration from GitHub or upload a custom file.')}
             </Typography>
-            <Typography>
-              <em>{I18n.t('Hint: All configurations are provided without any warranty!')}</em>
-            </Typography>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item sm={12} md={8} lg={6}>
-            <Button color='primary' variant='contained' fullWidth startIcon={<Cached />} onClick={this.fetchPredefinedConfigs}>
-              {I18n.t('Fetch predefined configurations from GitHub')}
-            </Button>
           </Grid>
         </Grid>
 
@@ -144,16 +166,69 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
         <Grid container spacing={3}>
           <Grid item sm={12} md={6} lg={4}>
-            <Button color='primary' variant='contained' fullWidth startIcon={<VerticalAlignTop />} onClick={this.importSelectedPredefinedConfig}>
-              {I18n.t('Import selected from GitHub')}
-            </Button>
-          </Grid>
-          <Grid item sm={12} md={6} lg={4}>
             <Button color='primary' variant='contained' fullWidth startIcon={<VerticalAlignTop />} onClick={this.importFromFile}>
               {I18n.t('Import from file')}
             </Button>
           </Grid>
         </Grid>
+
+        {!this.state.wellKnownMessagesIndexLoaded && <Grid container spacing={3}>
+          <Grid item sm={12} md={6} lg={4}>
+            <Button color='primary' variant='contained' fullWidth startIcon={<Cached />} onClick={this.fetchPredefinedConfigs}>
+              {I18n.t('Fetch configurations from GitHub')}
+            </Button>
+          </Grid>
+        </Grid>}
+
+        {this.state.wellKnownMessagesIndexLoaded && <>
+          <br />
+          <Typography>
+            <strong><em>{I18n.t('Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.')}</em></strong>
+          </Typography>
+
+          {Object.keys(this.state.wellKnownMessagesIndex).map((id) => (<>
+            <h3>{this.state.wellKnownMessagesIndex[id].name}</h3>
+            <Grid key={id} container spacing={3}>
+              <Grid item sm={12} dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.wellKnownMessagesIndex[id].description) }} />
+            </Grid>
+            <Grid key={id} container spacing={3}>
+              <Grid item><span>{I18n.t('Author')}: </span><span dangerouslySetInnerHTML={{ __html: this.state.wellKnownMessagesIndex[id].authors.map((a) => this.renderMarkdown(a)).join(', ') }} /></Grid>
+            </Grid>
+            <Grid key={id} container spacing={3}>
+              <InputSelect
+                sm={6} md={4} lg={2}
+                label={I18n.t('Version')}
+                value={this.state.wellKnownMessagesSelectedVersions[id]}
+                onChange={(v) => this.setState({ wellKnownMessagesSelectedVersions: { ...this.state.wellKnownMessagesSelectedVersions, [id]: v } })}
+                options={this.state.wellKnownMessagesIndex[id].releases.map((r) => r.version)}
+              />
+              <Grid item sm={6} md={6} lg={4}>
+                <Button
+                  color='primary'
+                  variant='contained'
+                  fullWidth
+                  startIcon={<Visibility />}
+                  onClick={() => this.showPredefinedConfig(id)}
+                  disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
+                >
+                  {I18n.t('Show on GitHub')}
+                </Button>
+              </Grid>
+              <Grid item sm={6} md={6} lg={4}>
+                <Button
+                  color='primary'
+                  variant='contained'
+                  fullWidth
+                  startIcon={<VerticalAlignTop />}
+                  onClick={() => this.importPredefinedConfig(id)}
+                  disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
+                >
+                  {I18n.t('Import from GitHub')}
+                </Button>
+              </Grid>
+            </Grid>
+          </>))}
+        </>}
 
         <br /><Divider />
         <h2>{I18n.t('Export')}</h2>
@@ -229,10 +304,48 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * Fetch the well known predefined configs from GitHub using the adapter.
    */
   @autobind
-  private fetchPredefinedConfigs (): void {
-    // TODO: get files from github using the adapter backend
-    console.log('fetch');
-    this.props.onError('Not yet implemented');
+  private async fetchPredefinedConfigs (): Promise<void> {
+    // Get the index from remote server (GitHub)
+    try {
+      const wellKnownMessagesIndex: ioBroker.WellKnownMessagesIndex = await this.fetchJson(`index.json`);
+
+      const wellKnownMessagesSelectedVersions: Record<string, string> = {};
+      const l = I18n.getLanguage();
+      for (const id in wellKnownMessagesIndex) {
+        // use localized names and descriptions
+        wellKnownMessagesIndex[id].name = wellKnownMessagesIndex[id].nameLang?.[l] || wellKnownMessagesIndex[id].nameLang?.en || wellKnownMessagesIndex[id].name;
+        wellKnownMessagesIndex[id].description = wellKnownMessagesIndex[id].descriptionLang?.[l] || wellKnownMessagesIndex[id].descriptionLang?.en || wellKnownMessagesIndex[id].description;
+
+        // preset version states
+        if (wellKnownMessagesIndex[id].releases.length > 0) {
+          wellKnownMessagesSelectedVersions[id] = wellKnownMessagesIndex[id].releases[0].version;
+        }
+      }
+
+      this.setState({
+        wellKnownMessagesIndex,
+        wellKnownMessagesIndexLoaded: true,
+        wellKnownMessagesSelectedVersions,
+      });
+
+    } catch (err) {
+      console.error(err);
+      this.props.onError(err.toString());
+    }
+  }
+
+  private async fetchJson<T = any> (file: string): Promise<T> {
+    const res = await fetch(WELL_KNOWN_MESSAGES_RAW_BASE_URL + file, {
+      cache: 'no-cache',
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer',
+    });
+
+    if (res.status !== 200) {
+      throw new Error(`HTTP Error: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
   }
 
   /**
@@ -336,8 +449,6 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    */
   @autobind
   private importFromFile (): void {
-    console.log('import');
-
     const input = window.document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('id', 'files');
@@ -357,7 +468,6 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       this.props.onError(I18n.t('Failed to open file!'));
       return;
     }
-    console.log(f);
 
     const m = f.name.match(/\.([^.]+)$/);
     if (!m || (m[1] !== 'json' && m[1] !== 'csv')) {
@@ -447,13 +557,44 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   }
 
   /**
+   * Open a new browser windows/tab to show the configuration.
+   */
+  private showPredefinedConfig (id: string): void {
+    const version = this.state.wellKnownMessagesSelectedVersions[id];
+    const release = this.state.wellKnownMessagesIndex[id]?.releases.find((r) => r.version === version);
+
+    if (!release || !release.file) {
+      this.props.onError('Release not found');
+      return;
+    }
+
+    window.open(`${WELL_KNOWN_MESSAGES_BASE_URL}configs/${release.file}`);
+  }
+
+  /**
    * Import messages from a selected predefined config.
-   * This will load the configuration from GitHub using the adapter.
+   * This will load the configuration in the selected verserion from GitHub.
    */
   @autobind
-  private importSelectedPredefinedConfig (): void {
-    // TODO:
-    this.props.onError('Not yet implemented');
+  private async importPredefinedConfig (id: string): Promise<void> {
+    const version = this.state.wellKnownMessagesSelectedVersions[id];
+    const release = this.state.wellKnownMessagesIndex[id]?.releases.find((r) => r.version === version);
+
+    if (!release || !release.file) {
+      this.props.onError('Release not found');
+      return;
+    }
+
+    let msgs: ioBroker.AdapterConfigMessagesLang = {};
+
+    try {
+      msgs = await this.fetchJson('configs/' + release.file);
+    } catch (err) {
+      console.error(err);
+      this.props.onError(err.toString());
+    }
+
+    this.importMessagesObject(msgs);
   }
 
   /**
@@ -508,7 +649,6 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       }
     }
 
-    console.log('updated native:', native);
     this.props.setNative(native);
   }
 
@@ -553,5 +693,24 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       p = l;
     }
     return ret;
+  }
+
+  /**
+   * Render markdown in the given text.
+   * This will remove all html entities before render.
+   * @param text The text to render.
+   * @returns The rendered text.
+   */
+  private renderMarkdown (text: string): string {
+    // remove html entities
+    text = text.replace(/<[^>]+>/, '');
+
+    // render markdown
+    text = snarkdown(text);
+
+    // make links open in new tab
+    text = text.replace(/<a ([^>]+)>/g, '<a target="_blank" $1>');
+
+    return text;
   }
 }

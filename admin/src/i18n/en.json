@@ -67,11 +67,12 @@
     "Export": "Export",
     "Using this import feature you are able to import message configurations to extend your existing configuration.": "Using this import feature you are able to import message configurations to extend your existing configuration.",
     "You may use a predefined configuration from GitHub or upload a custom file.": "You may use a predefined configuration from GitHub or upload a custom file.",
-    "Hint: All configurations are provided without any warranty!": "Hint: All configurations are provided without any warranty!",
-    "Fetch predefined configurations from GitHub": "Fetch predefined configurations from GitHub",
+    "Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.": "Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.",
+    "Fetch configurations from GitHub": "Fetch configurations from GitHub",
     "Overwrite existing messages on import": "Overwrite existing messages on import",
     "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.": "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.",
-    "Import selected from GitHub": "Import selected from GitHub",
+    "Show on GitHub": "Show on GitHub",
+    "Import from GitHub": "Import from GitHub",
     "Import from file": "Import from file",
     "Using this export feature you are able to export your message configurations.": "Using this export feature you are able to export your message configurations.",
     "The exported files can be shared or edited externally and reimported to update your configuration.": "The exported files can be shared or edited externally and reimported to update your configuration.",
@@ -82,5 +83,7 @@
     "Failed to open file!": "Failed to open file!",
     "Unsupported file type!": "Unsupported file type!",
     "File is empty!": "File is empty!",
-    "Error parsing file! %s": "Error parsing file! %s"
+    "Error parsing file! %s": "Error parsing file! %s",
+    "Version": "Version",
+    "Author": "Author"
 }

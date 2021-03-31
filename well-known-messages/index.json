@@ -4,15 +4,13 @@
     "nameLang": {
       "de": "Beispielnachrichten"
     },
-    "description": "An example message configuration for two messages (1A0 and 1A1). The example message 1A0 includes the reading of a temperature value, a boolean value and a custom parser.\nThe example message 1A1 has a defined data length and two byte parsers.",
+    "description": "An example message configuration for two messages (`1A0` and `1A1`).\n\nThe example message `1A0` includes the reading of a temperature value, a boolean value and a custom parser.\n\nThe example message `1A1` has a defined data length and two byte parsers.",
     "descriptionLang": {
-      "de": "Eine Beispielkonfiguration für zwei Nachrichten (1A0 und 1A1).\nDie Beispielnachricht 1A0 enthält das Auslesen eines Temperaturwertes, einen Boolean-Wert und einen einfachen Custom-Parser.\nDie Beispielnachricht 1A1 hat eine festgelegte Datenlänge und zwei Byte-Parser."
+      "de": "Eine Beispielkonfiguration für zwei Nachrichten (`1A0` und `1A1`).\n\nDie Beispielnachricht `1A0` enthält das Auslesen eines Temperaturwertes, einen Boolean-Wert und einen einfachen Custom-Parser.\n\nDie Beispielnachricht `1A1` hat eine festgelegte Datenlänge und zwei Byte-Parser."
     },
-    "author": "Peter Müller",
-    "updatedAt": "2021-03-30T12:50:00+02:00",
+    "authors": ["[Peter Müller](https://crycode.de)"],
     "releases": [
       {
-        "type": "stable",
         "version": "1.0.0",
         "file": "examples-1.0.0.json"
       }

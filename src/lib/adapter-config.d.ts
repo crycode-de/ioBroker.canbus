@@ -83,12 +83,7 @@ declare global {
      */
     interface WellKnownMessagesIndexEntryRelease {
       /**
-       * Release type of this release
-       */
-      type: 'dev' | 'alpha' | 'beta' | 'stable';
-
-      /**
-       * The version number of this release
+       * The version number of this release (semver)
        */
       version: string;
 
@@ -113,24 +108,19 @@ declare global {
       nameLang?: Partial<Record<ioBroker.Languages, string>>;
 
       /**
-       * Description
+       * Description, optionally formated with markdown
        */
       description: string;
 
       /**
-       * Optional localized descriptions
+       * Optional localized descriptions, optionally formated with markdown
        */
       descriptionLang?: Partial<Record<ioBroker.Languages, string>>;
 
       /**
-       * Single author or array of authors
+       * Array of authors, optionally formated with markdown
        */
-      author: string | string[];
-
-      /**
-       * ISO date and time of the last update
-       */
-      updatedAt: string;
+      authors: string[];
 
       /**
        * Array of the releases in descending order
