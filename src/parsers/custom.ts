@@ -78,6 +78,14 @@ export class ParserCustom extends ParserBase {
     }
     try {
       const value = await this.scriptRead(buf);
+
+      // check if the correct data type is returned and log a warning if not
+      if (this.cfg.customDataType && this.cfg.customDataType !== 'mixed') {
+        if (typeof value !== this.cfg.customDataType) {
+          this.adapter.log.warn(`Parser ${this.cfg.id} returned wrong data type ${typeof value}. (expected ${this.cfg.customDataType})`);
+        }
+      }
+
       return value;
     } catch (err) {
       return err;

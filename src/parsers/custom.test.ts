@@ -149,4 +149,32 @@ describe('ParserCustom', () => {
     expect(warnMsg).to.match(/SyntaxError/).and.to.match(/value = 'test;\s*\^\^/);
   });
 
+  it(`script returning wrong data type should log a warning`, async () => {
+    let warnMsg: string = '';
+    const logWarn = (msg: string) => {
+      if (warnMsg !== '') {
+        warnMsg += '\n';
+      }
+      warnMsg += msg;
+    };
+
+    const parser = new ParserCustom({
+      ...fakeAdapter,
+      log: {
+        warn: logWarn
+      }
+    } as unknown as CanBusAdapter, {
+      ...genericParserConfig,
+      customDataType: 'string',
+      customScriptRead: `
+        value = 42;
+        `,
+      customScriptWrite: `/* ... */`
+    });
+
+    await parser.read(buf);
+
+    expect(warnMsg).to.match(/returned wrong data type number/).and.to.match(/expected string/);
+  });
+
 });

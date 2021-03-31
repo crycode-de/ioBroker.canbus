@@ -588,13 +588,6 @@ export class CanBusAdapter extends utils.Adapter {
           continue;
         }
 
-        // check if the correct data type is returned and log a warning if not
-        if (parser.customDataType && parser.customDataType !== 'mixed') {
-          if (typeof readResult !== parser.customDataType) {
-            this.log.warn(`Parser ${parser.id} for ${msgCfg.idWithDlc} returned wrong data type ${typeof readResult}. (expected ${parser.customDataType})`);
-          }
-        }
-
         this.setStateAsync(`${msgCfg.idWithDlc}.${parser.id}`, readResult as any, true);
       }
     }
