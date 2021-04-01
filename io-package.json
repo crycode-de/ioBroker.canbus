@@ -3,6 +3,18 @@
         "name": "canbus",
         "version": "1.1.0",
         "news": {
+            "1.1.0": {
+                "en": "Added import/export feature for messages in json or csv format, Added import of well known configurations from GitHub, Fixed config import in admin, Added ioBroker state data type option for custom parsers",
+                "de": "Import/Export-Funktion für Nachrichten im JSON- oder CSV-Format hinzugefügt, Import bekannter Konfigurationen aus GitHub hinzugefügt, Konfigurationsimport in Admin behoben, Option für den ioBroker-State Datentyp für benutzerdefinierte Parser hinzugefügt",
+                "ru": "Добавлена функция импорта / экспорта сообщений в формате json или csv, добавлен импорт известных конфигураций из GitHub, исправлен импорт конфигурации в админке, добавлена опция типа данных состояния ioBroker для пользовательских парсеров",
+                "pt": "Adicionado recurso de importação / exportação para mensagens em formato json ou csv, Importação adicionada de configurações conhecidas do GitHub, importação de configuração fixa no administrador, opção de tipo de dados de estado ioBroker adicionada para analisadores personalizados",
+                "nl": "Import- / exportfunctie toegevoegd voor berichten in json- of csv-indeling, import van bekende configuraties van GitHub toegevoegd, import van configuratie in admin hersteld, optie ioBroker-statusgegevenstype toegevoegd voor aangepaste parsers",
+                "fr": "Ajout d'une fonction d'importation / exportation pour les messages au format json ou csv, ajout de l'importation de configurations bien connues depuis GitHub, importation de configuration fixe dans l'administrateur, option de type de données d'état ioBroker ajoutée pour les analyseurs personnalisés",
+                "it": "Aggiunta funzionalità di importazione / esportazione per messaggi in formato json o csv, Aggiunta importazione di configurazioni ben note da GitHub, Fissa importazione di configurazione nell'amministratore, Aggiunta opzione tipo di dati di stato ioBroker per parser personalizzati",
+                "es": "Se agregó la función de importación / exportación para mensajes en formato json o csv, se agregó la importación de configuraciones conocidas desde GitHub, se corrigió la importación de configuración en el administrador, se agregó la opción de tipo de datos de estado ioBroker para analizadores personalizados",
+                "pl": "Dodano funkcję importu / eksportu wiadomości w formacie json lub csv, Dodano import dobrze znanych konfiguracji z GitHub, Naprawiono import konfiguracji w panelu administracyjnym, Dodano opcję typu danych stanu ioBroker dla niestandardowych parserów",
+                "zh-cn": "为json或csv格式的消息添加了导入/导出功能，从GitHub添加了知名配置的导入，在admin中修复了配置导入，为自定义解析器添加了ioBroker状态数据类型选项"
+            },
             "1.0.2": {
                 "en": "Fixed issue where missing state prevented custom parser write",
                 "de": "Problem behoben, bei dem ein fehlender State das Schreiben von benutzerdefinierten Parsern verhinderte",
