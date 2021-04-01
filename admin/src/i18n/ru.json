@@ -12,7 +12,7 @@
     "Unconfigured messages": "Ненастроенные сообщения",
     "Message ID": "ID сообщения",
     "or": "или",
-    "Name": "название",
+    "Name": "Имя",
     "My super message": "Мое супер сообщение",
     "Receive": "Получить",
     "Receive messages with the given ID": "Получать сообщения с заданным ID",
@@ -21,7 +21,7 @@
     "Autosend": "Автоотправка",
     "Automatically send the message when some data part changed": "Автоматически отправлять сообщение при изменении любой части данных",
     "Parsers": "Парсеры",
-    "Must be a 3 or 8 char hex ID": "Должен быть шестнадцатеричный идентификатор из 3 или 8 символов.",
+    "Must be a 3 or 8 char hex ID": "Должен быть шестнадцатеричный идентификатор из 3 или 8 символов",
     "Parser ID": "ID парсера",
     "Temperature": "Температура",
     "Data type": "Тип данных",
@@ -38,7 +38,7 @@
     "CAN message ID in hex": "ID сообщения CAN в шестнадцатеричном формате",
     "loading...": "загрузка …",
     "Add": "Добавить",
-    "Remove": "Удалить",
+    "Remove": "Удалять",
     "Reload": "Перезагрузить",
     "General": "Общая",
     "Message": "Сообщение",
@@ -53,5 +53,10 @@
     "and": "и",
     "This ID is configured multiple times with this data length": "Этот ID настраивается несколько раз с этой длиной данных",
     "Data length": "Длина данных",
-    "ID missing": "ID отсутствует"
+    "ID missing": "ID отсутствует",
+    "Custom script write": "Собственный сценарий для записи",
+    "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Скрипт для чтения значения из буфера. Буфер доступен как %s, и значение должно быть записано в %s.",
+    "Custom script read": "Собственный скрипт для чтения",
+    "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Используйте необработанные состояния, которые обновляются с каждым полученным или отправленным сообщением и могут использоваться для отправки ваших собственных сообщений. Это позволяет использовать в сценариях, но может привести к более высокой нагрузке на системы с высокой пропускной способностью сообщений.",
+    "Use rtr flag": "Использовать флаг rtr"
 }
