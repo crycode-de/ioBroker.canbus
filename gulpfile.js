@@ -5,8 +5,10 @@
 'use strict';
 
 const gulp = require('gulp');
+const log = require('fancy-log');
 const fs = require('fs');
 const tsj = require('ts-json-schema-generator');
+const jsonschema = require('jsonschema');
 const pkg = require('./package.json');
 const iopackage = require('./io-package.json');
 const version = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
@@ -494,6 +496,46 @@ gulp.task('createJsonSchema', function (done) {
     fs.writeFileSync('well-known-messages/schemas/index.json', JSON.stringify(schemaIndex, null, 4));
 
     done();
+});
+
+/**
+ * Validate well-known-messages json file against the json schemas.
+ */
+gulp.task('validateWellKnownMessages', function (done) {
+    const schemaIndex = require('./well-known-messages/schemas/index.json');
+    const schemaMessages = require('./well-known-messages/schemas/messages.json');
+
+    let hadError = false;
+
+    const index = require('./well-known-messages/index.json');
+    let res = jsonschema.validate(index, schemaIndex);
+    if (!res.valid) {
+        hadError = true;
+        log.error('index.json is invalid!');
+        res.errors.map((e) => {
+            log.error('  ' + e.stack);
+        });
+    }
+
+    const files = fs.readdirSync('./well-known-messages/configs');
+    for (const file of files) {
+        const data = require(`./well-known-messages/configs/${file}`);
+        res = jsonschema.validate(data, schemaMessages);
+
+        if (!res.valid) {
+            hadError = true;
+            log.error(`configs/${file} is invalid!`);
+            res.errors.map((e) => {
+                log.error('  ' + e.stack);
+            });
+        }
+    }
+
+    if (hadError) {
+        done(new Error('At least one file is invalid'));
+    } else {
+        done();
+    }
 });
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
