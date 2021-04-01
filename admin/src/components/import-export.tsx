@@ -26,6 +26,13 @@ import { AppContext } from '../common';
 import { InputCheckbox } from './input-checkbox';
 import { InputSelect } from './input-select';
 
+/* eslint-disable @typescript-eslint/no-var-requires */
+const schemaMessages = require('../../../well-known-messages/schemas/messages.json');
+const schemaIndex = require('../../../well-known-messages/schemas/index.json');
+/* eslint-enable @typescript-eslint/no-var-requires */
+
+import { validate } from 'jsonschema';
+
 const CSV_HEADER_FIELDS = [
   'msgUuid',
   'msgId',
@@ -69,6 +76,11 @@ interface ImportExportProps {
    * Set the native config.
    */
   setNative: (native: ioBroker.AdapterConfig) => void;
+
+  /**
+   * Show a toast message.
+   */
+  showToast: (text: string) => void;
 
   /**
    * The app context.
@@ -309,6 +321,13 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     try {
       const wellKnownMessagesIndex: ioBroker.WellKnownMessagesIndex = await this.fetchJson(`index.json`);
 
+      // validate the index
+      const validationResult = validate(wellKnownMessagesIndex, schemaIndex);
+      if (!validationResult.valid) {
+        this.props.onError(I18n.t('The downloaded index is not valid'));
+        return;
+      }
+
       const wellKnownMessagesSelectedVersions: Record<string, string> = {};
       const l = I18n.getLanguage();
       for (const id in wellKnownMessagesIndex) {
@@ -334,6 +353,11 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     }
   }
 
+  /**
+   * Fetch a json file from GitHub.
+   * @param file Path of the file to fetch relative to `WELL_KNOWN_MESSAGES_RAW_BASE_URL`.
+   * @returns The object loaded from the fetched json file.
+   */
   private async fetchJson<T = any> (file: string): Promise<T> {
     const res = await fetch(WELL_KNOWN_MESSAGES_RAW_BASE_URL + file, {
       cache: 'no-cache',
@@ -601,8 +625,32 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * Import messages from a given object.
    * @param msgs Object containing the messages to import.
    */
-  private importMessagesObject (msgs: ioBroker.AdapterConfigMessagesLang): void {
-    // TODO: validate messages and parsers!!!
+  private importMessagesObject (msgs: ioBroker.AdapterConfigMessagesLang, ignoreErrors: boolean = false): void {
+    // validate messages and parsers using the json schema
+    if (!ignoreErrors) {
+      const validationResult = validate(msgs, schemaMessages);
+
+      if (!validationResult.valid) {
+        this.props.onError((
+          <div>
+            <div><strong>{I18n.t('Validation error:')}</strong></div>
+            <ul>
+              {validationResult.errors.map((e) => (<li><code>{e.path.join('.')}</code><br />{e.message}</li>))}
+            </ul>
+            <Button
+              color='default'
+              variant='contained'
+              fullWidth
+              onClick={() => { this.props.onError(null as unknown as string); this.importMessagesObject(msgs, true); }}
+            >
+              {I18n.t('Ignore this error and try to import')}
+            </Button>
+          </div>
+        ) as unknown as string); // cast type to string because the GenericApp ony accepts string here
+
+        return;
+      }
+    }
 
     const { native } = this.props;
     if (!native.messages) {
@@ -650,6 +698,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     }
 
     this.props.setNative(native);
+
+    // show a toast message to inform the user that the import is done
+    this.props.showToast(I18n.t('Import done'));
   }
 
   /**

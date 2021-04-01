@@ -84,6 +84,11 @@ interface SettingsProps {
   setNative: (native: ioBroker.AdapterConfig) => void;
 
   /**
+   * Show a toast message.
+   */
+  showToast: (text: string) => void;
+
+  /**
    * Show an error message.
    */
   onError: (text: string) => void;
@@ -240,6 +245,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             native={native}
             onError={this.props.onError}
             setNative={this.props.setNative}
+            showToast={this.props.showToast}
           />
         </TabPanel>
 

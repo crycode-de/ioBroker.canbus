@@ -85,5 +85,9 @@
     "File is empty!": "File is empty!",
     "Error parsing file! %s": "Error parsing file! %s",
     "Version": "Version",
-    "Author": "Author"
+    "Author": "Author",
+    "Validation error:": "Validation error:",
+    "Ignore this error and try to import": "Ignore this error and try to import",
+    "Import done": "Import done",
+    "The downloaded index is not valid": "The downloaded index is not valid"
 }

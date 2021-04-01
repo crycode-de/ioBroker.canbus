@@ -60,5 +60,9 @@
     "Custom script read": "Aangepast script lezen",
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Gebruik de ruwe statussen, die worden bijgewerkt met elk ontvangen of verzonden bericht en kunnen worden gebruikt om uw eigen berichten te verzenden. Dit maakt het gebruik in scripts mogelijk, maar kan leiden tot een hogere belasting van systemen met een hoge berichtdoorvoer.",
     "Use rtr flag": "Gebruik rtr flag",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "Voeg een extra status voor Remote Transmission Request (rtr) toe aan elk bericht."
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "Voeg een extra status voor Remote Transmission Request (rtr) toe aan elk bericht.",
+    "Validation error:": "Validatiefout:",
+    "Ignore this error and try to import": "Negeer deze fout en probeer te importeren",
+    "Import done": "Import gedaan",
+    "The downloaded index is not valid": "De gedownloade index is niet geldig"
 }

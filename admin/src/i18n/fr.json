@@ -86,5 +86,9 @@
     "Load configuration from file": "Charger la configuration à partir du fichier",
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Utilisez les états bruts, qui sont mis à jour avec chaque message reçu ou envoyé et peuvent être utilisés pour envoyer vos propres messages. Cela permet l'utilisation dans les scripts, mais peut conduire à une charge plus élevée sur les systèmes avec un débit de messages élevé.",
     "Use rtr flag": "Utiliser l'indicateur rtr",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "Ajoutez un état supplémentaire de demande de transmission à distance (rtr) sur chaque message."
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "Ajoutez un état supplémentaire de demande de transmission à distance (rtr) sur chaque message.",
+    "Validation error:": "Erreur de validation:",
+    "Ignore this error and try to import": "Ignorez cette erreur et essayez d'importer",
+    "Import done": "Importation terminée",
+    "The downloaded index is not valid": "L'index téléchargé n'est pas valide"
 }

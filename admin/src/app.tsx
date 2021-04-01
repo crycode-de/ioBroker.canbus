@@ -85,6 +85,7 @@ class App extends GenericApp {
           onError={(err) => this.showError(err)}
           onValidate={(isValid) => this.setState({ isConfigurationError: isValid ? '' : I18n.t('Your configuration is invalid. Please check the settings marked in red.') })}
           setNative={this.setNative}
+          showToast={(text) => this.showToast(text)}
         />
         {this.renderError()}
         {this.renderToast()}
