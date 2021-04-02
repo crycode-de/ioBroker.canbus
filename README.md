@@ -124,6 +124,11 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
+### 1.1.1 (2021-04-02)
+* (crycode-de) Import bugfixes
+* (crycode-de) Prevent wrong log warning if a parser returned undefined
+* (crycode-de) Added react errorboundary for better clientside error handling
+
 ### 1.1.0 (2021-04-01)
 * (crycode-de) Added import/export feature for messages in json or csv format
 * (crycode-de) Added import of well known configurations from GitHub

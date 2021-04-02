@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "news": {
+            "1.1.1": {
+                "en": "Bugfixes, Better error handling in admin",
+                "de": "Bugfixes, Bessere Fehlerbehandlung im Admin",
+                "ru": "Исправления, Лучшая обработка ошибок в админке",
+                "pt": "Correções de bugs, melhor tratamento de erros no administrador",
+                "nl": "Bugfixes, Betere foutafhandeling in admin",
+                "fr": "Corrections de bogues, meilleure gestion des erreurs dans l'administration",
+                "it": "Correzioni di bug, migliore gestione degli errori in amministrazione",
+                "es": "Corrección de errores, mejor manejo de errores en la administración",
+                "pl": "Poprawki błędów, lepsza obsługa błędów w admin",
+                "zh-cn": "错误修正，在管理员中更好的错误处理"
+            },
             "1.1.0": {
                 "en": "Added import/export feature for messages in json or csv format, Added import of well known configurations from GitHub, Fixed config import in admin, Added ioBroker state data type option for custom parsers",
                 "de": "Import/Export-Funktion für Nachrichten im JSON- oder CSV-Format hinzugefügt, Import bekannter Konfigurationen aus GitHub hinzugefügt, Konfigurationsimport in Admin behoben, Option für den ioBroker-State Datentyp für benutzerdefinierte Parser hinzugefügt",
