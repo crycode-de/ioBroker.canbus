@@ -33,6 +33,7 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
   * Import message configurations to extends your existing configuration
   * Import predefined "well known" configurations from GitHub within the admin interface
   * Export and import your message configurations as `json` or `csv` files
+* Optional support for fixed data lengths (DLC)
 * Optional support for the RTR flag
 * Optional raw states cotaining raw CAN message objects
 
