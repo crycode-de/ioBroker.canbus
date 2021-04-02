@@ -327,7 +327,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
    * @return The updated state with the options for the depended elements set.
    */
   private updateDependedElements<T extends Partial<ParserState>>(state: T): T {
-    const dataType = state.dataType || this.state.dataType;
+    const dataType = state.dataType || this.state?.dataType || 'uint8';
     switch (dataType) {
       case 'boolean':
         state.disabledDataOffsets = [];
