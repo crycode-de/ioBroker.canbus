@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import * as SentryIntegrations from '@sentry/integrations';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '@iobroker/adapter-react/Theme';
@@ -14,13 +14,18 @@ let themeName = Utils.getThemeName();
 function build(): void {
   ReactDOM.render(
     <MuiThemeProvider theme={theme(themeName)}>
-      <App
-        adapterName={ioPkg.common.name}
-        onThemeChange={(_theme) => {
-          themeName = _theme;
-          build();
-        }}
-      />
+      <Sentry.ErrorBoundary
+        fallback={'An error has occurred'}
+        showDialog
+      >
+        <App
+          adapterName={ioPkg.common.name}
+          onThemeChange={(_theme) => {
+            themeName = _theme;
+            build();
+          }}
+        />
+      </Sentry.ErrorBoundary>
     </MuiThemeProvider>,
     document.getElementById('root'),
   );
