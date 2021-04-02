@@ -448,7 +448,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     await this.onMessageValidate(uuid, false);
 
     this.setState({
-      tabIndex: Object.keys(this.state.messages).length + 1,
+      tabIndex: Object.keys(this.state.messages).length + 2,
       messagesKeys,
     });
   }
@@ -478,7 +478,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     delete messagesUnconfigured[id];
 
     this.setState({
-      tabIndex: Object.keys(this.state.messages).length + 1,
+      tabIndex: Object.keys(this.state.messages).length + 2,
       messagesKeys,
       messagesUnconfigured,
       messagesUnconfiguredKeys,
