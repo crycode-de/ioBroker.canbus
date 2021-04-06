@@ -90,5 +90,12 @@
     "Validation error:": "Erreur de validation:",
     "Ignore this error and try to import": "Ignorez cette erreur et essayez d'importer",
     "Import done": "Importation terminée",
-    "The downloaded index is not valid": "L'index téléchargé n'est pas valide"
+    "The downloaded index is not valid": "L'index téléchargé n'est pas valide",
+    "Copy": "Copie",
+    "Paste": "Insérer",
+    "Message configuration copied. Use the paste button to paste this configuration to an other message.": "Configuration du message copiée. Utilisez le bouton Coller pour coller cette configuration dans un autre message.",
+    "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "Configuration de l'analyseur copiée. Utilisez le bouton Coller pour coller cette configuration dans un autre analyseur.",
+    "Nothing to paste. Please use the copy button first.": "Rien à insérer. Veuillez d'abord utiliser le bouton de copie.",
+    "Pasted": "Inséré",
+    "Error while pasting: %s": "Erreur d'insertion: %s"
 }

@@ -1,10 +1,18 @@
 import React from 'react';
+import { autobind } from 'core-decorators';
 
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
-import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import I18n from '@iobroker/adapter-react/i18n';
+
+import {
+  ContentCopyIcon,
+  ContentPasteIcon,
+} from '../lib/icons';
+
+import { internalClipboard } from '../lib/helpers';
 
 import { InputText } from './input-text';
 import { InputCheckbox } from './input-checkbox';
@@ -50,6 +58,11 @@ interface ParserProps {
    * If defined, an remove button will be rendered in the top right corner.
    */
   onDelete?: (uuid: string) => void;
+
+  /**
+   * Show a toast message.
+   */
+  showToast?: (text: string) => void;
 
   /**
    * The app context.
@@ -121,16 +134,36 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     return (
       <>
         {this.props.onDelete && (
-          <Fab
-            size='small'
-            color='primary'
-            aria-label='delete'
-            className={classes.fabTopRight}
-            title={I18n.t('Remove')}
-            onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
-          >
-            <DeleteIcon />
-          </Fab>
+          <div className={classes.fabTopRight}>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='copy'
+              title={I18n.t('Copy')}
+              onClick={this.copy}
+            >
+              <ContentCopyIcon />
+            </Fab>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='paste'
+              title={I18n.t('Paste')}
+              onClick={this.paste}
+              disabled={!internalClipboard.parser}
+            >
+              <ContentPasteIcon />
+            </Fab>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='delete'
+              title={I18n.t('Remove')}
+              onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
+            >
+              <DeleteIcon />
+            </Fab>
+          </div>
         )}
 
         <Grid container spacing={3}>
@@ -440,4 +473,47 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     this.props.onValidate(this.props.uuid, isValid);
     return state;
   }
+
+  /**
+   * Copy the current configuration (the state) into the internal clipboard.
+   */
+  @autobind
+  private copy (): void {
+    internalClipboard.parser = JSON.stringify(this.state);
+
+    if (this.props.showToast) {
+      this.props.showToast(I18n.t('Parser configuration copied. Use the paste button to paste this configuration to an other parser.'));
+    }
+  }
+
+  /**
+   * Load the configuration (the state) from the internal clipboard.
+   */
+  @autobind
+  private paste (): void {
+    if (!internalClipboard.parser) {
+      if (this.props.showToast) {
+        this.props.showToast(I18n.t('Nothing to paste. Please use the copy button first.'));
+      }
+      return;
+    }
+
+    try {
+      const ps: ParserState = JSON.parse(internalClipboard.parser);
+
+      this.setState(this.validateState({
+        ...ps
+      }), () => {
+        this.onChange();
+        if (this.props.showToast) {
+          this.props.showToast(I18n.t('Pasted'));
+        }
+      });
+    } catch (err) {
+      if (this.props.showToast) {
+        this.props.showToast(I18n.t('Error while pasting: %s', err.toString()));
+      }
+    }
+  }
+
 }

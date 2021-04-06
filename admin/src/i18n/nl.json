@@ -64,5 +64,12 @@
     "Validation error:": "Validatiefout:",
     "Ignore this error and try to import": "Negeer deze fout en probeer te importeren",
     "Import done": "Import gedaan",
-    "The downloaded index is not valid": "De gedownloade index is niet geldig"
+    "The downloaded index is not valid": "De gedownloade index is niet geldig",
+    "Copy": "Kopiëren",
+    "Paste": "Invoegen",
+    "Message configuration copied. Use the paste button to paste this configuration to an other message.": "Berichtconfiguratie gekopieerd. Gebruik de plakknop om deze configuratie in een ander bericht te plakken.",
+    "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "Parser-configuratie gekopieerd. Gebruik de plakknop om deze configuratie in een andere parser te plakken.",
+    "Nothing to paste. Please use the copy button first.": "Niets in te voegen. Gebruik eerst de kopieerknop.",
+    "Pasted": "Ingevoegd",
+    "Error while pasting: %s": "Invoegfout: %s"
 }

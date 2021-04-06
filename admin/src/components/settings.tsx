@@ -41,6 +41,9 @@ const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
     overflowY: 'auto'
   },
   fabTopRight: {
+    '& > button': {
+      margin: theme.spacing(1),
+    },
     position: 'absolute',
     top: theme.spacing(2),
     right: theme.spacing(2)
@@ -265,6 +268,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               onChange={this.onMessageChange}
               onDelete={this.onMessageDelete}
               onValidate={this.onMessageValidate}
+              showToast={this.props.showToast}
             />
           </TabPanel>
         ))}

@@ -89,5 +89,12 @@
     "Validation error:": "Validation error:",
     "Ignore this error and try to import": "Ignore this error and try to import",
     "Import done": "Import done",
-    "The downloaded index is not valid": "The downloaded index is not valid"
+    "The downloaded index is not valid": "The downloaded index is not valid",
+    "Copy": "Copy",
+    "Paste": "Paste",
+    "Message configuration copied. Use the paste button to paste this configuration to an other message.": "Message configuration copied. Use the paste button to paste this configuration to an other message.",
+    "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "Parser configuration copied. Use the paste button to paste this configuration to an other parser.",
+    "Nothing to paste. Please use the copy button first.": "Nothing to paste. Please use the copy button first.",
+    "Pasted": "Pasted",
+    "Error while pasting: %s": "Error while pasting: %s"
 }

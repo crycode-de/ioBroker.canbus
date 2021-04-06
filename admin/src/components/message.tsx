@@ -13,6 +13,13 @@ import ConfirmDialog from '@iobroker/adapter-react/Dialogs/Confirm'
 import I18n from '@iobroker/adapter-react/i18n';
 import { AppContext } from '../common';
 
+import {
+  ContentCopyIcon,
+  ContentPasteIcon,
+} from '../lib/icons';
+
+import { internalClipboard } from '../lib/helpers';
+
 import { TabPanel } from './tab-panel';
 import { InputCheckbox } from './input-checkbox';
 import { InputText } from './input-text';
@@ -45,6 +52,11 @@ interface MessageProps {
    * If defined, an add button will be rendered in the top right corner.
    */
   onAdd?: (uuid: string) => void;
+
+  /**
+   * Show a toast message.
+   */
+  showToast?: (text: string) => void;
 
   /**
    * The app context.
@@ -129,29 +141,50 @@ export class Message extends React.Component<MessageProps, MessageState> {
     return (
       <>
         {this.props.onDelete && (
-          <Fab
-            size='small'
-            color='primary'
-            aria-label='delete'
-            className={classes.fabTopRight}
-            title={I18n.t('Remove')}
-            onClick={() => this.setState({ showRemoveConfirm: true })}
-          >
-            <DeleteIcon />
-          </Fab>
+          <div className={classes.fabTopRight}>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='copy'
+              title={I18n.t('Copy')}
+              onClick={this.copy}
+            >
+              <ContentCopyIcon />
+            </Fab>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='paste'
+              title={I18n.t('Paste')}
+              onClick={this.paste}
+              disabled={!internalClipboard.message}
+            >
+              <ContentPasteIcon />
+            </Fab>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='delete'
+              title={I18n.t('Remove')}
+              onClick={() => this.setState({ showRemoveConfirm: true })}
+            >
+              <DeleteIcon />
+            </Fab>
+          </div>
         )}
 
         {this.props.onAdd && (
-          <Fab
-            size='small'
-            color='primary'
-            aria-label='add'
-            className={classes.fabTopRight}
-            title={I18n.t('Add')}
-            onClick={() => this.props.onAdd && this.props.onAdd(this.props.uuid)}
-          >
-            <AddIcon />
-          </Fab>
+          <div className={classes.fabTopRight}>
+            <Fab
+              size='small'
+              color='primary'
+              aria-label='add'
+              title={I18n.t('Add')}
+              onClick={() => this.props.onAdd && this.props.onAdd(this.props.uuid)}
+            >
+              <AddIcon />
+            </Fab>
+          </div>
         )}
 
         <h2>{I18n.t('Message')}</h2>
@@ -269,6 +302,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
                 onChange={this.onParserChange}
                 onValidate={this.onParserValidate}
                 onDelete={this.onParserDelete}
+                showToast={this.props.showToast}
                 context={context}
                 classes={classes}
                 readonly={this.props.readonly}
@@ -338,20 +372,27 @@ export class Message extends React.Component<MessageProps, MessageState> {
 
     await new Promise<void>((resolve) => {
       this.setState(newState, () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.props.uuid, {
-            id: this.state.id,
-            name: this.state.name,
-            dlc: this.state.dlc,
-            receive: this.state.receive,
-            send: this.state.send,
-            autosend: this.state.autosend,
-            parsers: { ...this.state.parsers },
-          });
-        }
+        this.onChange();
         resolve();
       });
     });
+  }
+
+  /**
+   * Submit changes to the parent component.
+   */
+  private onChange (): void {
+    if (this.props.onChange) {
+      this.props.onChange(this.props.uuid, {
+        id: this.state.id,
+        name: this.state.name,
+        dlc: this.state.dlc,
+        receive: this.state.receive,
+        send: this.state.send,
+        autosend: this.state.autosend,
+        parsers: { ...this.state.parsers },
+      });
+    }
   }
 
   /**
@@ -482,5 +523,55 @@ export class Message extends React.Component<MessageProps, MessageState> {
         this.setState({ tabIndex: 0 });
       }
     });
+  }
+
+  /**
+   * Copy the current configuration (the state) into the internal clipboard.
+   */
+  @autobind
+  private copy (): void {
+    internalClipboard.message = JSON.stringify(this.state);
+
+    if (this.props.showToast) {
+      this.props.showToast(I18n.t('Message configuration copied. Use the paste button to paste this configuration to an other message.'));
+    }
+  }
+
+  /**
+   * Load the configuration (the state) from the internal clipboard.
+   */
+  @autobind
+  private paste (): void {
+    if (!internalClipboard.message) {
+      if (this.props.showToast) {
+        this.props.showToast(I18n.t('Nothing to paste. Please use the copy button first.'));
+      }
+      return;
+    }
+
+    try {
+      const ms: MessageState = JSON.parse(internalClipboard.message);
+
+      // need to create new parser UUIDs to keep them unique
+      const parserUuids = Object.keys(ms.parsers);
+      for (const oldUuid of parserUuids) {
+        const newUuid = uuidv4();
+        ms.parsers[newUuid] = ms.parsers[oldUuid];
+        delete ms.parsers[oldUuid];
+      }
+
+      this.setState(this.validateState({
+        ...ms
+      }), () => {
+        this.onChange();
+        if (this.props.showToast) {
+          this.props.showToast(I18n.t('Pasted'));
+        }
+      });
+    } catch (err) {
+      if (this.props.showToast) {
+        this.props.showToast(I18n.t('Error while pasting: %s', err.toString()));
+      }
+    }
   }
 }

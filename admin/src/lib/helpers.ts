@@ -1,3 +1,24 @@
+
+interface InternalClipboard {
+  /**
+   * A json string of a parser config (state).
+   */
+  parser: string | null;
+
+  /**
+   * A json string of a message config (state).
+   */
+  message: string | null;
+}
+
+/**
+ * An internal clipboard.
+ */
+export const internalClipboard: InternalClipboard = {
+  parser: null,
+  message: null,
+};
+
 /**
  * UUIDv4 generator (RFC4122 compliant)
  */
