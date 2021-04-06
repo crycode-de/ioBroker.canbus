@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "news": {
+            "1.1.2": {
+                "en": "Added copy/paste function for message and parser configurations in admin",
+                "de": "Kopier- / Einfügefunktion für Nachrichten- und Parser-Konfigurationen in admin hinzugefügt",
+                "ru": "Добавлена функция копирования / вставки для сообщений и конфигураций парсера в админке.",
+                "pt": "Adicionada função copiar / colar para mensagens e configurações do analisador no administrador",
+                "nl": "Kopieer- / plakfunctie toegevoegd voor bericht- en parserconfiguraties in admin",
+                "fr": "Ajout de la fonction copier / coller pour les configurations de message et d'analyseur dans l'administrateur",
+                "it": "Aggiunta la funzione di copia / incolla per le configurazioni di messaggi e parser nell'amministratore",
+                "es": "Se agregó la función de copiar / pegar para configuraciones de mensajes y analizador en el administrador",
+                "pl": "Dodano funkcję kopiuj / wklej dla konfiguracji wiadomości i parsera w panelu administracyjnym",
+                "zh-cn": "为管理员中的消息和解析器配置添加了复制/粘贴功能"
+            },
             "1.1.1": {
                 "en": "Bugfixes, Better error handling in admin",
                 "de": "Bugfixes, Bessere Fehlerbehandlung im Admin",
