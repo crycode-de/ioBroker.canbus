@@ -13,6 +13,7 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   customDataType: 'number',
   customScriptRead: '',
   customScriptWrite: '',
+  commonStates: undefined,
   id: '',
   name: ''
 };
