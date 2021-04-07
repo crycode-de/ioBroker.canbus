@@ -140,41 +140,38 @@ export class Message extends React.Component<MessageProps, MessageState> {
     const { classes, context } = this.props;
     return (
       <>
-        {this.props.onDelete && (
-          <div className={classes.fabTopRight}>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='copy'
-              title={I18n.t('Copy')}
-              onClick={this.copy}
-            >
-              <ContentCopyIcon />
-            </Fab>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='paste'
-              title={I18n.t('Paste')}
-              onClick={this.paste}
-              disabled={!internalClipboard.message}
-            >
-              <ContentPasteIcon />
-            </Fab>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='delete'
-              title={I18n.t('Remove')}
-              onClick={() => this.setState({ showRemoveConfirm: true })}
-            >
-              <DeleteIcon />
-            </Fab>
-          </div>
-        )}
+        <div className={classes.fabTopRight}>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='copy'
+            title={I18n.t('Copy')}
+            onClick={this.copy}
+          >
+            <ContentCopyIcon />
+          </Fab>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='paste'
+            title={I18n.t('Paste')}
+            onClick={this.paste}
+            disabled={this.props.readonly || !internalClipboard.message}
+          >
+            <ContentPasteIcon />
+          </Fab>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='delete'
+            title={I18n.t('Remove')}
+            onClick={() => this.setState({ showRemoveConfirm: true })}
+            disabled={this.props.readonly || !this.props.onDelete}
+          >
+            <DeleteIcon />
+          </Fab>
 
-        {this.props.onAdd && (
-          <div className={classes.fabTopRight}>
+          {this.props.onAdd && (
             <Fab
               size='small'
               color='primary'
@@ -184,8 +181,8 @@ export class Message extends React.Component<MessageProps, MessageState> {
             >
               <AddIcon />
             </Fab>
-          </div>
-        )}
+          )}
+        </div>
 
         <h2>{I18n.t('Message')}</h2>
 
@@ -456,6 +453,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
       customScriptRead: '',
       customScriptWrite: '',
       customDataType: 'number',
+      commonStates: undefined,
     };
 
     const parsers = { ...this.state.parsers };

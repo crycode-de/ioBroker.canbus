@@ -1,6 +1,6 @@
 {
   "name": "iobroker.canbus",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "CAN Bus integration",
   "author": {
     "name": "Peter Müller",
@@ -89,7 +89,8 @@
     "prebuild": "rimraf ./build",
     "build:parcel": "parcel build admin/src/index.tsx -d admin/build --public-url ./",
     "build:ts": "tsc -p tsconfig.build.json",
-    "build": "npm run build:ts && npm run build:parcel",
+    "build:jsonschema": "gulp createJsonSchema",
+    "build": "npm run build:ts && npm run build:jsonschema && npm run build:parcel",
     "watch:parcel": "parcel admin/src/index.tsx -d admin/build --hmr-port 1235",
     "watch:ts": "tsc -p tsconfig.build.json --watch",
     "watch": "npm run watch:ts",
@@ -98,7 +99,7 @@
     "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --exit",
     "test:wkm": "gulp validateWellKnownMessages",
-    "test": "npm run test:ts && npm run test:package",
+    "test": "npm run test:ts && npm run test:package && npm run test:wkm",
     "lint": "eslint --ext .ts src"
   },
   "bugs": {

@@ -54,6 +54,7 @@ const CSV_HEADER_FIELDS = [
   'parserCustomDataType',
   'parserCustomScriptRead',
   'parserCustomScriptWrite',
+  'parserCommonStates',
 ] as const;
 
 /**
@@ -407,7 +408,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             msg.receive ? 1 : 0,
             msg.send ? 1 : 0,
             msg.autosend ? 1 : 0,
-            null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
           ].join(';'));
         } else {
           // with parsers
@@ -434,6 +435,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               parser.customDataType,
               this.escapeCsvValue(parser.customScriptRead),
               this.escapeCsvValue(parser.customScriptWrite),
+              this.escapeCsvValue(parser.commonStates || ''),
             ].join(';'));
           });
         }
@@ -561,6 +563,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 customDataType: obj.parserCustomDataType as ioBroker.CommonType,
                 customScriptRead: obj.parserCustomScriptRead,
                 customScriptWrite: obj.parserCustomScriptWrite,
+                commonStates: obj.parserCommonStates ? obj.parserCommonStates : undefined,
               };
             }
           });

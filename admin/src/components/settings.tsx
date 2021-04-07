@@ -290,6 +290,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               knownMessageIds={[]}
               readonly={true}
               onAdd={this.onMessageAddFromUnconfigured}
+              showToast={this.props.showToast}
             />
           </TabPanel>
         ))}

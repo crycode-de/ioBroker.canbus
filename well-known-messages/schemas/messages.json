@@ -131,6 +131,10 @@
                 "customScriptWrite": {
                     "type": "string"
                 },
+                "commonStates": {
+                    "type": "string",
+                    "description": "Common states (for common.states) for predefined values or `undefined` if not used."
+                },
                 "nameLang": {
                     "type": "object",
                     "properties": {

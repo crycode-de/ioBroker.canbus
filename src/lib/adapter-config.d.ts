@@ -47,6 +47,11 @@ declare global {
       customDataType: ioBroker.CommonType;
       customScriptRead: string;
       customScriptWrite: string;
+
+      /**
+       * Common states (for common.states) for predefined values or `undefined` if not used.
+       */
+      commonStates: string | undefined;
     }
 
     type AdapterConfigMessageParsers<T extends AdapterConfigMessageParser = AdapterConfigMessageParser> = {

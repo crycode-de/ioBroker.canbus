@@ -10,6 +10,7 @@ import { knownParsers } from './parsers'
 import {
   MESSAGE_ID_REGEXP,
   MESSAGE_ID_REGEXP_WITH_DLC,
+  PARSER_COMMON_STATES_REGEXP,
   PARSER_ID_REGEXP,
   PARSER_ID_RESERVED
 } from './consts';
@@ -685,7 +686,22 @@ export class CanBusAdapter extends utils.Adapter {
         continue;
       }
       this.log.debug(`create/update parser ${msgCfg.idWithDlc}.${parser.id}`);
-      await this.extendObjectAsync(`${msgCfg.idWithDlc}.${parser.id}`, {
+
+      let commonStates: Record<string, string> | undefined = undefined;
+      if (parser.commonStates) {
+        if (typeof parser.commonStates === 'string' && parser.commonStates.match(PARSER_COMMON_STATES_REGEXP)) {
+          commonStates = {};
+          const list = parser.commonStates.split(',');
+          for (const l of list) {
+            const [key, val] = l.split('=');
+            commonStates[key] = val;
+          }
+        } else {
+          this.log.warn(`Parser ID ${parser.id} of message ID ${msgCfg.idWithDlc} has an invalid list of possible states.`);
+        }
+      }
+
+      const obj: ioBroker.PartialStateObject = {
         type: 'state',
         common: {
           name: parser.name || `Parser ${parser.id}`,
@@ -693,12 +709,14 @@ export class CanBusAdapter extends utils.Adapter {
           type: this.getCommonTypeFromParser(parser, msgCfg.idWithDlc),
           unit: parser.dataUnit,
           read: true,
-          write: msgCfg.send // allow write only if the message is configured for sending
+          write: msgCfg.send, // allow write only if the message is configured for sending
+          states: commonStates,
         },
         native: {
           uuid: parserUuid
         }
-      });
+      };
+      await this.extendObjectAsync(`${msgCfg.idWithDlc}.${parser.id}`, obj);
     }
 
     // remove unconfigured parsers

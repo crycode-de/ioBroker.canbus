@@ -7,6 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import I18n from '@iobroker/adapter-react/i18n';
 
+import { AppContext } from '../common';
+
 import {
   ContentCopyIcon,
   ContentPasteIcon,
@@ -19,8 +21,11 @@ import { InputCheckbox } from './input-checkbox';
 import { InputSelect } from './input-select';
 import { InputBitmask } from './input-bitmask';
 
-import { PARSER_ID_REGEXP, PARSER_ID_RESERVED } from '../../../src/consts';
-import { AppContext } from '../common';
+import {
+  PARSER_ID_REGEXP,
+  PARSER_ID_RESERVED,
+  PARSER_COMMON_STATES_REGEXP,
+} from '../../../src/consts';
 
 const DATA_TYPE_OPTIONS: Record<ioBroker.AdapterConfigDataType, string> = {
   int8: 'int8',
@@ -103,6 +108,11 @@ interface ParserState extends ioBroker.AdapterConfigMessageParser {
    */
   idError: string | null;
 
+  /**
+   * Error message for the commonStates input.
+   */
+  commonStatesError: string | null;
+
   disabledDataOffsets: string[];
   disabledDataLengths: string[];
   disabledDataEncoding: boolean;
@@ -121,11 +131,12 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     this.state = this.validateState(this.updateDependedElements({
       ...this.props.config,
       idError: null,
+      commonStatesError: null,
       disabledDataLengths: [],
       disabledDataOffsets: [],
       disabledDataEncoding: false,
       disabledDataUnit: false,
-      disabledDataOffsetAndLength: false
+      disabledDataOffsetAndLength: false,
     }));
   }
 
@@ -133,38 +144,37 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     const { classes } = this.props;
     return (
       <>
-        {this.props.onDelete && (
-          <div className={classes.fabTopRight}>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='copy'
-              title={I18n.t('Copy')}
-              onClick={this.copy}
-            >
-              <ContentCopyIcon />
-            </Fab>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='paste'
-              title={I18n.t('Paste')}
-              onClick={this.paste}
-              disabled={!internalClipboard.parser}
-            >
-              <ContentPasteIcon />
-            </Fab>
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='delete'
-              title={I18n.t('Remove')}
-              onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
-            >
-              <DeleteIcon />
-            </Fab>
-          </div>
-        )}
+        <div className={classes.fabTopRight}>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='copy'
+            title={I18n.t('Copy')}
+            onClick={this.copy}
+          >
+            <ContentCopyIcon />
+          </Fab>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='paste'
+            title={I18n.t('Paste')}
+            onClick={this.paste}
+            disabled={this.props.readonly || !internalClipboard.parser}
+          >
+            <ContentPasteIcon />
+          </Fab>
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='delete'
+            title={I18n.t('Remove')}
+            onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
+            disabled={this.props.readonly || !this.props.onDelete}
+          >
+            <DeleteIcon />
+          </Fab>
+        </div>
 
         <Grid container spacing={3}>
           <InputText
@@ -257,7 +267,31 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               {I18n.t('e.g.')} <code>°C</code>
             </InputText>
           }
+          <InputCheckbox
+            sm={6} md={4} lg={3}
+            label={I18n.t('Define possible states')}
+            value={this.state.commonStates !== undefined}
+            disabled={this.props.readonly}
+            onChange={(v) => this.handleChange('commonStates', v ? '' : undefined)}
+          >
+            {I18n.t('Setup a list of predefined state values')}
+          </InputCheckbox>
         </Grid>
+
+        {this.state.commonStates !== undefined &&
+          <Grid container spacing={3}>
+            <InputText
+              sm={12} md={12} lg={12}
+              label={I18n.t('Possible states')}
+              value={this.state.commonStates}
+              disabled={this.props.readonly}
+              onChange={(v) => this.handleChange('commonStates', v)}
+              errorMsg={this.state.commonStatesError}
+            >
+              {I18n.t('Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto')}
+            </InputText>
+          </Grid>
+        }
 
         {this.state.dataType === 'boolean' &&
           <Grid container spacing={3}>
@@ -331,6 +365,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       customScriptRead: this.state.customScriptRead,
       customScriptWrite: this.state.customScriptWrite,
       customDataType: this.state.customDataType,
+      commonStates: this.state.commonStates,
     });
   }
 
@@ -343,7 +378,6 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     const newState = {
       [key]: value
     } as unknown as Pick<ParserState, keyof ParserState>;
-
     this.updateDependedElements(newState);
 
     this.validateState(newState);
@@ -454,8 +488,9 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
    */
   private validateState<T extends Partial<ParserState>>(state: T): T {
     let isValid = true;
+
+    // check the ID
     if (state.id !== undefined) {
-      // check this
       if (PARSER_ID_RESERVED.includes(state.id)) {
         state.idError = I18n.t('This ID is reserved and can\'t be used');
         isValid = false;
@@ -466,6 +501,19 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.idError = null;
       }
     } else if (this.state?.idError !== null) {
+      // use result from previous check
+      isValid = false;
+    }
+
+    // check the commonStates
+    if (state.commonStates !== undefined) {
+      if (!state.commonStates.match(PARSER_COMMON_STATES_REGEXP)) {
+        state.commonStatesError = I18n.t('Invalid format! Please use the format value=text,value=text,...');
+        isValid = false;
+      } else {
+        state.commonStatesError = null;
+      }
+    } else if (this.state?.commonStatesError) {
       // use result from previous check
       isValid = false;
     }

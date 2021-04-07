@@ -96,5 +96,10 @@
     "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "Parser configuration copied. Use the paste button to paste this configuration to an other parser.",
     "Nothing to paste. Please use the copy button first.": "Nothing to paste. Please use the copy button first.",
     "Pasted": "Pasted",
-    "Error while pasting: %s": "Error while pasting: %s"
+    "Error while pasting: %s": "Error while pasting: %s",
+    "Define possible states": "Define possible states",
+    "Setup a list of predefined state values": "Setup a list of predefined state values",
+    "Possible states": "Possible states",
+    "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto",
+    "Invalid format! Please use the format value=text,value=text,...": "Invalid format! Please use the format value=text,value=text,..."
 }

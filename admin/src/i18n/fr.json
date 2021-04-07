@@ -97,5 +97,10 @@
     "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "Configuration de l'analyseur copiée. Utilisez le bouton Coller pour coller cette configuration dans un autre analyseur.",
     "Nothing to paste. Please use the copy button first.": "Rien à insérer. Veuillez d'abord utiliser le bouton de copie.",
     "Pasted": "Inséré",
-    "Error while pasting: %s": "Erreur d'insertion: %s"
+    "Error while pasting: %s": "Erreur d'insertion: %s",
+    "Define possible states": "Définir les états possibles",
+    "Setup a list of predefined state values": "Configurer une liste de valeurs d'état prédéfinies",
+    "Possible states": "États possibles",
+    "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Liste séparée par des virgules des valeurs réelles et des valeurs d'affichage. Exemple: 0=Désactivé,1=Sur,2=Automatik",
+    "Invalid format! Please use the format value=text,value=text,...": "Format invalide! Veuillez utiliser le format value=text,value=text,..."
 }
