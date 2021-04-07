@@ -101,5 +101,5 @@
     "Setup a list of predefined state values": "Eine Liste von vorgegebenen State-Werten definieren",
     "Possible states": "Mögliche States",
     "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Mit Komma getrennte Liste von echten Werten und anzuzeigenden Werten. Beispiel: 0=Aus,1=Ein,2=Auto",
-    "Invalid format! Please use the format value=text,value=text,...": "Ungültiges Format! Bitte das Format value=text,value=text,... verwenden."
+    "Invalid format! Please use the format value=text,value=text,...": "Ungültiges Format! Bitte das Format value=text,value=text,… verwenden."
 }
