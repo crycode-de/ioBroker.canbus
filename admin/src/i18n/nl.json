@@ -76,5 +76,5 @@
     "Setup a list of predefined state values": "Stel een lijst met vooraf gedefinieerde statuswaarden in",
     "Possible states": "Mogelijke staten",
     "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Door komma's gescheiden lijst met reële waarden en weergavewaarden. Voorbeeld: 0=Uit,1=Aan,2=Automaat",
-    "Invalid format! Please use the format value=text,value=text,...": "Ongeldig formaat! Gebruik het formaat value=text,value=text,..."
+    "Invalid format! Please use the format value=text,value=text,...": "Ongeldig formaat! Gebruik het formaat value=text,value=text,…"
 }
