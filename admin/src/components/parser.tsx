@@ -563,15 +563,15 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
           <InputCheckbox
             sm={6} md={4} lg={3}
             label={I18n.t('Define possible states')}
-            value={this.state.commonStates !== undefined}
+            value={!!this.state.commonStates}
             disabled={this.props.readonly}
-            onChange={(v) => this.handleChange('commonStates', v ? '' : undefined)}
+            onChange={(v) => this.handleChange('commonStates', v ? '' : false)}
           >
             {I18n.t('Setup a list of predefined state values')}
           </InputCheckbox>
         </Grid>
 
-        {this.state.commonStates !== undefined &&
+        {typeof this.state.commonStates === 'string' &&
           <Grid container spacing={3}>
             <InputText
               sm={12} md={12} lg={12}
@@ -802,7 +802,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
 
     // check the commonStates
     if (state.commonStates !== undefined) {
-      if (!state.commonStates.match(PARSER_COMMON_STATES_REGEXP)) {
+      if (state.commonStates !== false && !state.commonStates.match(PARSER_COMMON_STATES_REGEXP)) {
         state.commonStatesError = I18n.t('Invalid format! Please use the format value=text,value=text,...');
         isValid = false;
       } else {

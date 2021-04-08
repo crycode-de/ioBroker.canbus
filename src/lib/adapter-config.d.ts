@@ -54,9 +54,9 @@ declare global {
       commonRole: string;
 
       /**
-       * Common states (for common.states) for predefined values or `undefined` if not used.
+       * Common states (for common.states) for predefined values or `false` if not used.
        */
-      commonStates: string | undefined;
+      commonStates: string | false;
     }
 
     type AdapterConfigMessageParsers<T extends AdapterConfigMessageParser = AdapterConfigMessageParser> = {

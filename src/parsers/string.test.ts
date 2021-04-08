@@ -14,7 +14,7 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   customScriptRead: '',
   customScriptWrite: '',
   commonRole: 'state',
-  commonStates: undefined,
+  commonStates: false,
   id: '',
   name: ''
 };

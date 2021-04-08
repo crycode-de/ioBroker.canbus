@@ -28,7 +28,8 @@
         "customDataType": "number",
         "customScriptRead": "",
         "customScriptWrite": "",
-        "commonRole": "value.temperature"
+        "commonRole": "value.temperature",
+        "commonStates": false
       },
       "0565bac5-0548-4054-ad23-fa01e858d0c5": {
         "id": "bat-low",
@@ -47,7 +48,8 @@
         "customDataType": "number",
         "customScriptRead": "",
         "customScriptWrite": "",
-        "commonRole": "indicator.lowbat"
+        "commonRole": "indicator.lowbat",
+        "commonStates": false
       },
       "c8d15fe3-f163-4d41-9e2b-b5f1e33cd354": {
         "id": "custom",
@@ -62,7 +64,8 @@
         "customDataType": "number",
         "customScriptRead": "value = buffer[6]*1000 + buffer[7];",
         "customScriptWrite": "buffer[6] = Math.floor(value/1000);\nbuffer[7] = value - Math.floor(value/1000)*1000;",
-        "commonRole": "value"
+        "commonRole": "value",
+        "commonStates": false
       }
     }
   },
@@ -91,7 +94,8 @@
         "customDataType": "number",
         "customScriptRead": "",
         "customScriptWrite": "",
-        "commonRole": "value"
+        "commonRole": "value",
+        "commonStates": false
       },
       "2f48c38e-1aa3-4d40-8f8e-470eb1b8fcea": {
         "id": "b1",
@@ -106,7 +110,8 @@
         "customDataType": "number",
         "customScriptRead": "",
         "customScriptWrite": "",
-        "commonRole": "value"
+        "commonRole": "value",
+        "commonStates": false
       }
     }
   }

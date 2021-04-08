@@ -136,8 +136,16 @@
                     "description": "The role of the ioBroker state."
                 },
                 "commonStates": {
-                    "type": "string",
-                    "description": "Common states (for common.states) for predefined values or `undefined` if not used."
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean",
+                            "const": false
+                        }
+                    ],
+                    "description": "Common states (for common.states) for predefined values or `false` if not used."
                 },
                 "nameLang": {
                     "type": "object",
@@ -181,6 +189,7 @@
                 "booleanInvert",
                 "booleanMask",
                 "commonRole",
+                "commonStates",
                 "customDataType",
                 "customScriptRead",
                 "customScriptWrite",

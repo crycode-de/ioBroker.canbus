@@ -437,7 +437,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               this.escapeCsvValue(parser.customScriptRead),
               this.escapeCsvValue(parser.customScriptWrite),
               this.escapeCsvValue(parser.commonRole),
-              this.escapeCsvValue(parser.commonStates),
+              parser.commonStates ? this.escapeCsvValue(parser.commonStates) : '',
             ].join(';'));
           });
         }
@@ -566,7 +566,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 customScriptRead: obj.parserCustomScriptRead,
                 customScriptWrite: obj.parserCustomScriptWrite,
                 commonRole: obj.parserCommonRole,
-                commonStates: obj.parserCommonStates ? obj.parserCommonStates : undefined,
+                commonStates: obj.parserCommonStates || false,
               };
             }
           });

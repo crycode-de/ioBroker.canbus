@@ -454,7 +454,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
       customScriptWrite: '',
       customDataType: 'number',
       commonRole: 'state',
-      commonStates: undefined,
+      commonStates: false,
     };
 
     const parsers = { ...this.state.parsers };
