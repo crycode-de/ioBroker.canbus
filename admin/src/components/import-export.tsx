@@ -54,6 +54,7 @@ const CSV_HEADER_FIELDS = [
   'parserCustomDataType',
   'parserCustomScriptRead',
   'parserCustomScriptWrite',
+  'parserCommonRole',
   'parserCommonStates',
 ] as const;
 
@@ -408,7 +409,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             msg.receive ? 1 : 0,
             msg.send ? 1 : 0,
             msg.autosend ? 1 : 0,
-            null, null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
           ].join(';'));
         } else {
           // with parsers
@@ -435,7 +436,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               parser.customDataType,
               this.escapeCsvValue(parser.customScriptRead),
               this.escapeCsvValue(parser.customScriptWrite),
-              this.escapeCsvValue(parser.commonStates || ''),
+              this.escapeCsvValue(parser.commonRole),
+              this.escapeCsvValue(parser.commonStates),
             ].join(';'));
           });
         }
@@ -563,6 +565,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 customDataType: obj.parserCustomDataType as ioBroker.CommonType,
                 customScriptRead: obj.parserCustomScriptRead,
                 customScriptWrite: obj.parserCustomScriptWrite,
+                commonRole: obj.parserCommonRole,
                 commonStates: obj.parserCommonStates ? obj.parserCommonStates : undefined,
               };
             }
@@ -713,9 +716,13 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * @param value The string to escape.
    * @returns The escaped string.
    */
-  private escapeCsvValue (value: string): string {
+  private escapeCsvValue (value: any): string {
     if (typeof value !== 'string') {
-      return value;
+      try {
+        return value.toString();
+      } catch (_err) {
+        return '';
+      }
     }
 
     if (value.match(/[;"\r\n]/)) {

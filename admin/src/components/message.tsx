@@ -453,6 +453,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
       customScriptRead: '',
       customScriptWrite: '',
       customDataType: 'number',
+      commonRole: 'state',
       commonStates: undefined,
     };
 

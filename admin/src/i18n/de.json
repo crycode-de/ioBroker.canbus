@@ -101,5 +101,8 @@
     "Setup a list of predefined state values": "Eine Liste von vorgegebenen State-Werten definieren",
     "Possible states": "Mögliche States",
     "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Mit Komma getrennte Liste von echten Werten und anzuzeigenden Werten. Beispiel: 0=Aus,1=Ein,2=Auto",
-    "Invalid format! Please use the format value=text,value=text,...": "Ungültiges Format! Bitte das Format value=text,value=text,… verwenden."
+    "Invalid format! Please use the format value=text,value=text,...": "Ungültiges Format! Bitte das Format value=text,value=text,… verwenden.",
+    "Role": "Rolle",
+    "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.": "Wähle eine passende Rolle für den State in ioBroker, oder verwende einfach \"state\" wenn du dir nicht sicher bist.",
+    "Information about the state roles in ioBroker on GitHub": "Informationen über die State-Rollen in ioBroker auf GitHub (in Englisch)"
 }

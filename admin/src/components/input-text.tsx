@@ -4,6 +4,7 @@ import Grid, { GridSize } from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 interface InputTextProps {
@@ -59,6 +60,11 @@ interface InputTextProps {
    * Optional transforming of input.
    */
   transform?: 'lowerCase' | 'upperCase' | ((newValue: string, oldValue: string) => string);
+
+  /**
+   * Options for the optional autocomplete.
+   */
+  autoCompleteOptions?: string[];
 }
 
 interface InputTextState {
@@ -91,20 +97,44 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
     return (
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl fullWidth>
-          <TextField
-            label={this.props.label}
-            value={this.state.value}
-            required={this.props.required}
-            type={this.props.type || 'string'}
-            disabled={this.props.disabled}
-            error={!!this.props.errorMsg}
-            helperText={this.props.errorMsg}
-            placeholder={this.props.placeholder}
-            InputLabelProps={this.props.placeholder ? { shrink: true } : undefined}
-            multiline={this.props.multiline}
-            fullWidth
-            onChange={(e) => this.handleChange(e.target.value)}
-          />
+          {this.props.autoCompleteOptions ? (
+            <Autocomplete
+              freeSolo
+              options={this.props.autoCompleteOptions}
+              value={this.state.value}
+              onChange={(e, v) => this.handleChange(v || '')}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label={this.props.label}
+                  required={this.props.required}
+                  type={this.props.type || 'string'}
+                  disabled={this.props.disabled}
+                  error={!!this.props.errorMsg}
+                  helperText={this.props.errorMsg}
+                  placeholder={this.props.placeholder}
+                  InputLabelProps={this.props.placeholder ? { shrink: true } : undefined}
+                  multiline={this.props.multiline}
+                  fullWidth
+                />
+              )}
+            />
+          ) : (
+            <TextField
+              label = {this.props.label}
+              value={this.state.value}
+              required={this.props.required}
+              type={this.props.type || 'string'}
+              disabled={this.props.disabled}
+              error={!!this.props.errorMsg}
+              helperText={this.props.errorMsg}
+              placeholder={this.props.placeholder}
+              InputLabelProps={this.props.placeholder ? { shrink: true } : undefined}
+              multiline={this.props.multiline}
+              fullWidth
+              onChange={(e) => this.handleChange(e.target.value)}
+            />
+          )}
 
           {this.props.children && <FormHelperText>{this.props.children}</FormHelperText>}
         </FormControl>

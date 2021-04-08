@@ -657,7 +657,6 @@ class CanBusAdapter extends utils.Adapter {
                 type: 'state',
                 common: {
                     name: parser.name || `Parser ${parser.id}`,
-                    //role: 'state', // don't set the role here to let the user change it in admin
                     type: this.getCommonTypeFromParser(parser, msgCfg.idWithDlc),
                     unit: parser.dataUnit,
                     read: true,
@@ -668,6 +667,11 @@ class CanBusAdapter extends utils.Adapter {
                     uuid: parserUuid
                 }
             };
+            // set parser role if defined in the config... if not defined, the user may set this manually in the state object
+            if (parser.commonRole) {
+                // @ts-expect-error Typescript thinks obj.common may be undefined, but by defining the object above it's always defined
+                obj.common.role = parser.commonRole;
+            }
             await this.extendObjectAsync(`${msgCfg.idWithDlc}.${parser.id}`, obj);
         }
         // remove unconfigured parsers

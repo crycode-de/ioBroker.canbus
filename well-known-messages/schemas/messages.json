@@ -131,6 +131,10 @@
                 "customScriptWrite": {
                     "type": "string"
                 },
+                "commonRole": {
+                    "type": "string",
+                    "description": "The role of the ioBroker state."
+                },
                 "commonStates": {
                     "type": "string",
                     "description": "Common states (for common.states) for predefined values or `undefined` if not used."
@@ -176,6 +180,7 @@
             "required": [
                 "booleanInvert",
                 "booleanMask",
+                "commonRole",
                 "customDataType",
                 "customScriptRead",
                 "customScriptWrite",

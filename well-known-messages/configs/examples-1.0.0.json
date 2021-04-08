@@ -27,14 +27,15 @@
         "booleanInvert": true,
         "customDataType": "number",
         "customScriptRead": "",
-        "customScriptWrite": ""
+        "customScriptWrite": "",
+        "commonRole": "value.temperature"
       },
       "0565bac5-0548-4054-ad23-fa01e858d0c5": {
-        "id": "bat-ok",
-        "name": "Battery OK",
+        "id": "bat-low",
+        "name": "Battery low",
         "nameLang": {
-          "de": "Batterie OK",
-          "en": "Battery OK"
+          "de": "Batterie Niedrig",
+          "en": "Battery low"
         },
         "dataType": "boolean",
         "dataLength": 1,
@@ -45,7 +46,8 @@
         "booleanInvert": false,
         "customDataType": "number",
         "customScriptRead": "",
-        "customScriptWrite": ""
+        "customScriptWrite": "",
+        "commonRole": "indicator.lowbat"
       },
       "c8d15fe3-f163-4d41-9e2b-b5f1e33cd354": {
         "id": "custom",
@@ -59,7 +61,8 @@
         "booleanInvert": false,
         "customDataType": "number",
         "customScriptRead": "value = buffer[6]*1000 + buffer[7];",
-        "customScriptWrite": "buffer[6] = Math.floor(value/1000);\nbuffer[7] = value - Math.floor(value/1000)*1000;"
+        "customScriptWrite": "buffer[6] = Math.floor(value/1000);\nbuffer[7] = value - Math.floor(value/1000)*1000;",
+        "commonRole": "value"
       }
     }
   },
@@ -87,7 +90,8 @@
         "booleanInvert": false,
         "customDataType": "number",
         "customScriptRead": "",
-        "customScriptWrite": ""
+        "customScriptWrite": "",
+        "commonRole": "value"
       },
       "2f48c38e-1aa3-4d40-8f8e-470eb1b8fcea": {
         "id": "b1",
@@ -101,7 +105,8 @@
         "booleanInvert": false,
         "customDataType": "number",
         "customScriptRead": "",
-        "customScriptWrite": ""
+        "customScriptWrite": "",
+        "commonRole": "value"
       }
     }
   }

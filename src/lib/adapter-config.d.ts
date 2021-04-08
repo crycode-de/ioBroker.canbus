@@ -49,6 +49,11 @@ declare global {
       customScriptWrite: string;
 
       /**
+       * The role of the ioBroker state.
+       */
+      commonRole: string;
+
+      /**
        * Common states (for common.states) for predefined values or `undefined` if not used.
        */
       commonStates: string | undefined;
