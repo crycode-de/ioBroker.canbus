@@ -101,5 +101,5 @@
     "Setup a list of predefined state values": "Setup a list of predefined state values",
     "Possible states": "Possible states",
     "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto",
-    "Invalid format! Please use the format value=text,value=text,...": "Invalid format! Please use the format value=text,value=text,..."
+    "Invalid format! Please use the format value=text,value=text,...": "Invalid format! Please use the format value=text,value=text,…"
 }

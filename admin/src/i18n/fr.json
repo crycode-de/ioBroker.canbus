@@ -102,5 +102,5 @@
     "Setup a list of predefined state values": "Configurer une liste de valeurs d'état prédéfinies",
     "Possible states": "États possibles",
     "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "Liste séparée par des virgules des valeurs réelles et des valeurs d'affichage. Exemple: 0=Désactivé,1=Sur,2=Automatik",
-    "Invalid format! Please use the format value=text,value=text,...": "Format invalide! Veuillez utiliser le format value=text,value=text,..."
+    "Invalid format! Please use the format value=text,value=text,...": "Format invalide! Veuillez utiliser le format value=text,value=text,…"
 }
