@@ -383,6 +383,54 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     let type: string = '';
     let filename: string = '';
 
+    const defaultMessage: ioBroker.AdapterConfigMessage = {
+      id: '',
+      name: '',
+      dlc: -1,
+      receive: false,
+      send: false,
+      autosend: false,
+      parsers: {},
+    };
+    const defaultParser: ioBroker.AdapterConfigMessageParser = {
+      id: '',
+      name: '',
+      dataType: 'int8',
+      dataLength: 1,
+      dataOffset: 0,
+      dataUnit: '',
+      dataEncoding: 'latin1',
+      booleanMask: 0,
+      booleanInvert: false,
+      customScriptRead: '',
+      customScriptWrite: '',
+      customDataType: 'number',
+      commonRole: 'state',
+      commonStates: false,
+    };
+
+    // create an object with the messages to export with defaults set if some config parts are missing
+    const messages = this.props.native.messages || {};
+    const exportMessages: ioBroker.AdapterConfigMessages = {};
+    for (const msgUuid in messages) {
+      // export only selected?
+      if (this.state.exportSelected && !this.state.exportSelectedEntries.includes(msgUuid)) {
+        continue;
+      }
+
+      exportMessages[msgUuid] = {
+        ...defaultMessage,
+        ...messages[msgUuid],
+        parsers: {},
+      };
+      for (const parserUuid in messages[msgUuid].parsers) {
+        exportMessages[msgUuid].parsers[parserUuid] = {
+          ...defaultParser,
+          ...messages[msgUuid].parsers[parserUuid],
+        };
+      }
+    }
+
     if (this.state.exportFormat === 'csv') {
       // csv export
       type = 'text/csv';
@@ -390,14 +438,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       const lines: string[] = [];
       lines.push(CSV_HEADER_FIELDS.join(';'));
 
-      const messages = this.props.native.messages || {};
-      const msgUuids = Object.keys(messages);
-      msgUuids.forEach((msgUuid) => {
-        // export only selected?
-        if (this.state.exportSelected && !this.state.exportSelectedEntries.includes(msgUuid)) {
-          return;
-        }
-        const msg = messages[msgUuid];
+      for (const msgUuid in exportMessages) {
+        const msg = exportMessages[msgUuid];
         const parserUuids = Object.keys(msg.parsers);
         if (parserUuids.length === 0) {
           // no parsers
@@ -441,7 +483,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             ].join(';'));
           });
         }
-      });
+      }
 
       content = lines.join('\r\n');
 
@@ -449,18 +491,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       // json export
       type = 'application/json';
       filename = 'canbus-messages.json';
-      const messages = this.props.native.messages || {};
-      if (this.state.exportSelected) {
-        // export selected
-        const selectedMessages: ioBroker.AdapterConfigMessages = {};
-        this.state.exportSelectedEntries.forEach((msgUuid) => {
-          selectedMessages[msgUuid] = messages[msgUuid];
-        });
-        content = JSON.stringify(selectedMessages, null, 2);
-      } else {
-        // export all
-        content = JSON.stringify(messages, null, 2);
-      }
+
+      content = JSON.stringify(exportMessages, null, 2);
     }
 
     const el = window.document.createElement('a');
