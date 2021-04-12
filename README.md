@@ -92,6 +92,19 @@ At the beginning of the custom read script, `buffer` will be the received/curren
 The content of the `value` variable at the end of the custom read script will be used as new value for the state.  
 If `value` is `undefined`, it will be ignored. Using this you are able to filter messages in the custom read script by data parts.
 
+##### Example for a custom read script
+
+Check the first three bytes in the received buffer to match fixed values.  
+If matched, read an 16 bit signed integer value from the buffer bytes 3 and 4 and divide it by 10.
+
+```js
+if (buffer[0] === 0xC2 && buffer[1] === 0x10 && buffer[2] === 0x0F) {
+  value = buffer.readInt16BE(3) / 10;
+}
+```
+
+Cause of `value` is only set when the first three bytes matched, all other data will be ignored and won't set a new value to the state.
+
 #### Custom write script
 
 In a write script you have to modify (or replace) the `buffer` variable.
@@ -100,6 +113,19 @@ At the beginning of the custom write script, `buffer` will be the current CAN me
 `value` is set to the value of the state which should be written into the `buffer`.
 
 The content of the `buffer` variable at the end of the custom write script will be used as new data for the CAN message.
+
+##### Example for a custom write script
+
+Prepare a new buffer with fixed values.  
+Write the state value into the buffer as a signed 16 bit integer, beginning at the fifth byte in the buffer.
+
+```js
+buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x7E, 0x00, 0x00]);
+buffer.writeInt16BE(value, 5);
+```
+
+The new `buffer` will then be set as the `.json` state.  
+If the *autosend* option is enabled for the message, the message will be automatically send.
 
 ## Usage in scripts
 
