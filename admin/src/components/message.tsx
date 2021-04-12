@@ -510,12 +510,18 @@ export class Message extends React.Component<MessageProps, MessageState> {
   @autobind
   private async onParserDelete(uuid: string): Promise<void> {
     const parsers = { ...this.state.parsers };
+    const parsersValid = { ...this.state.parsersValid };
     delete parsers[uuid];
+    delete parsersValid[uuid];
     await this.handleChange('parsers', parsers);
 
     this.setState({
-      tabIndex: this.state.tabIndex - 1
+      tabIndex: this.state.tabIndex - 1,
+      parsersValid,
     }, () => {
+      // trigger own revalidate to proxy the parser validation state
+      this.validateState();
+
       // need to set the tabIndex this way because otherwise the selected parser
       // will not be updated if the first parser is deleted
       if (this.state.tabIndex < 0) {

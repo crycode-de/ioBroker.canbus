@@ -370,14 +370,19 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   @autobind
   private async onMessageDelete(uuid: string): Promise<void> {
     const messages = { ...this.state.messages };
+    const messagesValid = { ...this.state.messagesValid };
     const messagesKeys = this.state.messagesKeys.filter((k) => k !== uuid);
     delete messages[uuid];
+    delete messagesValid[uuid];
     await this.onGeneralChange('messages', messages);
 
     this.setState({
       tabIndex: this.state.tabIndex - 1,
       messagesKeys,
+      messagesValid,
     }, () => {
+      this.validate();
+
       // need to set the tabIndex this way because otherwise the selected message
       // will not be updated if the first message is deleted
       if (this.state.tabIndex < 3) {
