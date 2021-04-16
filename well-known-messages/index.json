@@ -9,10 +9,30 @@
       "de": "Eine Beispielkonfiguration für zwei Nachrichten (`1A0` und `1A1`).\n\nDie Beispielnachricht `1A0` enthält das Auslesen eines Temperaturwertes, einen Boolean-Wert und einen einfachen Custom-Parser.\n\nDie Beispielnachricht `1A1` hat eine festgelegte Datenlänge und zwei Byte-Parser."
     },
     "authors": ["[Peter Müller](https://crycode.de)"],
+    "license": "CC-BY-NC-SA-4.0",
     "releases": [
       {
         "version": "1.0.0",
         "file": "examples-1.0.0.json"
+      }
+    ]
+  },
+  "rotex-hpsu": {
+    "name": "Rotex HPSU Compact",
+    "description": "Read and set may parameters of the heat pump.\n\nTested with _Rotex HPSU compact 516_ (construction year 2013/2017).\n\n_State names are currently only available in German language._\n\n**Note:** If the wrong CAN messages are sent, the heat pump can crash and, in the worst case, even have to be set up again.",
+    "descriptionLang": {
+      "de": "Rotex Wärmepumpe _HPSU Compact_\n\nAuslesen und Setzen vieler Parameter der einzelnen Module der Wärmepumpe.\n\nKeine speziellen Zugriffsrechte erforderlich.\n\nGetestet mit _Rotex HPSU compact 516_ (Baujahr 2013/2017).\n\n**Achtung:** Beim Senden von falschen CAN-Nachrichten kann die Wärmepumpe abstürzen und im schlimmsten Fall sogar eine erneute Einrichtung erforderlich werden."
+    },
+    "authors": [
+      "Michael Wind",
+      "cb187",
+      "[Peter Müller](https://crycode.de)"
+    ],
+    "license": "CC-BY-NC-SA-4.0",
+    "releases": [
+      {
+        "version": "1.0.0",
+        "file": "rotex-hpsu-1.0.0.json"
       }
     ]
   }
