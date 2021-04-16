@@ -104,5 +104,6 @@
     "Invalid format! Please use the format value=text,value=text,...": "Invalid format! Please use the format value=text,value=text,…",
     "Role": "Role",
     "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.": "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.",
-    "Information about the state roles in ioBroker on GitHub": "Information about the state roles in ioBroker on GitHub"
+    "Information about the state roles in ioBroker on GitHub": "Information about the state roles in ioBroker on GitHub",
+    "License": "License"
 }

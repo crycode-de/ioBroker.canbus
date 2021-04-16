@@ -136,6 +136,11 @@ declare global {
        * Array of the releases in descending order
        */
       releases: WellKnownMessagesIndexEntryRelease[];
+
+      /**
+       * License of this configuration.
+       */
+      license?: string;
     }
 
     /**

@@ -107,6 +107,10 @@
                         "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntryRelease"
                     },
                     "description": "Array of the releases in descending order"
+                },
+                "license": {
+                    "type": "string",
+                    "description": "License of this configuration."
                 }
             },
             "required": [

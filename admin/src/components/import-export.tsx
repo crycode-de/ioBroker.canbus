@@ -200,15 +200,20 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             <strong><em>{I18n.t('Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.')}</em></strong>
           </Typography>
 
-          {Object.keys(this.state.wellKnownMessagesIndex).map((id) => (<>
+          {Object.keys(this.state.wellKnownMessagesIndex).map((id) => (<React.Fragment key={id}>
             <h3>{this.state.wellKnownMessagesIndex[id].name}</h3>
-            <Grid key={id} container spacing={3}>
+            <Grid container spacing={3}>
               <Grid item sm={12} dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.wellKnownMessagesIndex[id].description) }} />
             </Grid>
-            <Grid key={id} container spacing={3}>
-              <Grid item><span>{I18n.t('Author')}: </span><span dangerouslySetInnerHTML={{ __html: this.state.wellKnownMessagesIndex[id].authors.map((a) => this.renderMarkdown(a)).join(', ') }} /></Grid>
+            <Grid container spacing={3}>
+              <Grid item sm={12} md={8}>
+                <span>{I18n.t('Author')}: </span><span dangerouslySetInnerHTML={{ __html: this.state.wellKnownMessagesIndex[id].authors.map((a) => this.renderMarkdown(a)).join(', ') }} />
+              </Grid>
+              {this.state.wellKnownMessagesIndex[id].license && <Grid item sm={12} md={4}>
+                <span>{I18n.t('License')}: </span><span><a href={`https://spdx.org/licenses/${this.state.wellKnownMessagesIndex[id].license}.html`} target='_blank' rel='external nofollow'>{this.state.wellKnownMessagesIndex[id].license}</a></span>
+              </Grid>}
             </Grid>
-            <Grid key={id} container spacing={3}>
+            <Grid container spacing={3}>
               <InputSelect
                 sm={6} md={2} lg={2}
                 label={I18n.t('Version')}
@@ -241,7 +246,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 </Button>
               </Grid>
             </Grid>
-          </>))}
+          </React.Fragment>))}
         </>}
 
         <br /><Divider />

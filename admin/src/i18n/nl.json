@@ -79,5 +79,6 @@
     "Invalid format! Please use the format value=text,value=text,...": "Ongeldig formaat! Gebruik het formaat value=text,value=text,…",
     "Role": "Rol",
     "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.": "Selecteer een geschikte rol voor de ioBroker-status of gebruik gewoon \"state\" als u het niet zeker weet.",
-    "Information about the state roles in ioBroker on GitHub": "Informatie over de statusrollen in ioBroker op GitHub (in Engels)"
+    "Information about the state roles in ioBroker on GitHub": "Informatie over de statusrollen in ioBroker op GitHub (in Engels)",
+    "License": "Licentie"
 }
