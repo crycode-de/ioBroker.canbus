@@ -359,7 +359,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x01 && buffer[4] === 0x80) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "ccce7c47-f19a-4466-81a7-5cfe4962772a": {
@@ -503,7 +503,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x5E) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "20cc71d4-eb50-4c01-a058-d08cf173e992": {
@@ -519,7 +519,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x5F) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "1830b0fb-5f94-483c-8db1-23a5fcf13f50": {
@@ -695,7 +695,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x72) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "768ce5ea-eeeb-4694-bc68-ce1380c44dce": {
@@ -823,7 +823,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x92) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "0261245a-388e-461b-a686-b3934b35511b": {
@@ -999,7 +999,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0xA4) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "813b6bdc-c5d5-4a02-b080-d7f8a9f6ce89": {
@@ -1015,7 +1015,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0xA5) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "c3353085-de5b-4ff0-8128-fe28f0be1a11": {
@@ -1223,7 +1223,7 @@
         "customScriptRead": "if (buffer[0] === 0x22 && buffer[1] === 0x0A && buffer[2] === 0xFA && buffer[3] === 0x4E && buffer[4] === 0x3F) {\n  value = buffer.readInt16BE(5);\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.timer",
+        "commonRole": "value",
         "commonStates": false
       },
       "c40abacf-3807-4487-82c8-cc45aad8e6e2": {
@@ -1494,7 +1494,7 @@
     "parsers": {
       "2c5f6a78-926e-4c03-9ffb-5c4e1a41623a": {
         "id": "310002",
-        "name": "T-WE Soll Abfragen",
+        "name": "T-WE Soll abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
@@ -1510,7 +1510,7 @@
       },
       "a6ba967e-6191-4ef0-a058-0001a29ba041": {
         "id": "310003",
-        "name": "T-WW Soll Abfragen",
+        "name": "T-WW Soll abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
@@ -2038,7 +2038,7 @@
       },
       "c18991de-b051-46ae-90d8-c36f14f6fdaf": {
         "id": "3100fa067e",
-        "name": "MaxLeistungPumpe abfragen",
+        "name": "Max Leistung Pumpe abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
@@ -2054,7 +2054,7 @@
       },
       "7526f181-5753-4d70-9dfc-bb07ec0da2ad": {
         "id": "3100fa067f",
-        "name": "MinLeistungPumpe abfragen",
+        "name": "Min Leistung Pumpe abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
