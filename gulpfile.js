@@ -519,6 +519,8 @@ gulp.task('validateWellKnownMessages', function (done) {
 
     const files = fs.readdirSync('./well-known-messages/configs');
     for (const file of files) {
+        if (!file.endsWith('.json')) continue;
+
         const data = require(`./well-known-messages/configs/${file}`);
         res = jsonschema.validate(data, schemaMessages);
 
