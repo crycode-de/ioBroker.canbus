@@ -347,7 +347,7 @@
         "commonStates": false
       },
       "ee1d765b-f3c0-4252-b487-b295e79c69c7": {
-        "id": "max-ww-ladezeit",
+        "id": "fa0180",
         "name": "Max WW Ladezeit",
         "dataType": "custom",
         "dataLength": 8,
@@ -1244,7 +1244,7 @@
       },
       "bd683d34-1d92-46ad-8ce1-448d27f7f107": {
         "id": "fac0f6",
-        "name": "Mode",
+        "name": "Betriebsart",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
@@ -1256,7 +1256,7 @@
         "customScriptWrite": "//",
         "customDataType": "number",
         "commonRole": "state",
-        "commonStates": false
+        "commonStates": "0=Standby,1=Heizen,2=Kühlen,3=Abtauen,4=Warmwasserbereitung"
       },
       "3bba46cc-b43a-4db7-89dd-d89dd871d6d9": {
         "id": "fac0f7",
@@ -2534,7 +2534,7 @@
       },
       "d35509f3-d103-4bb5-a624-811862dad446": {
         "id": "fac0f6",
-        "name": "Mode abfragen",
+        "name": "Betriebsart abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,

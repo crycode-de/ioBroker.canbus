@@ -13,6 +13,8 @@ If `buffer[2]` is `0xFA`, then the ID is in `buffer[3]` and `buffer[4]`.
 
 `buffer[0]` and `buffer[1]` represent the receiver can ID.
 
+If `buffer[1]` is `0x79` it's a broadcast message.
+
 Examples:
 
 `31 00 FA 01 D6 00 00`  
