@@ -81,10 +81,8 @@ export class ParserCustom extends ParserBase {
 
       // check if the correct data type is returned and log a warning if not
       // ... but not if undefined is returned because this may be expected
-      if (this.cfg.customDataType !== undefined && this.cfg.customDataType && this.cfg.customDataType !== 'mixed') {
-        if (typeof value !== this.cfg.customDataType) {
-          this.adapter.log.warn(`Parser ${this.cfg.id} returned wrong data type ${typeof value}. (expected ${this.cfg.customDataType})`);
-        }
+      if (value !== undefined && this.cfg.customDataType && this.cfg.customDataType !== 'mixed' && typeof value !== this.cfg.customDataType) {
+        this.adapter.log.warn(`Parser ${this.cfg.id} returned wrong data type ${typeof value}. (expected ${this.cfg.customDataType})`);
       }
 
       return value;
