@@ -3,6 +3,18 @@
         "name": "canbus",
         "version": "1.1.4",
         "news": {
+            "1.1.4": {
+                "en": "Added license information to import of well-known configurations, Fixed \"Parser returned wrong data type undefined\" log message",
+                "de": "Es wurden Lizenzinformationen zum Importieren bekannter Konfigurationen hinzugefügt, Die Protokollmeldung \"Parser returned wrong data type undefined\" wurde behoben",
+                "ru": "Добавлена информация о лицензии для импорта известных конфигураций, исправлено сообщение журнала «Парсер вернул неверный тип данных undefined»",
+                "pt": "Adicionadas informações de licença para importação de configurações conhecidas, mensagem de registro \"O analisador retornou tipo de dados incorreto indefinido\" corrigida",
+                "nl": "Licentie-informatie toegevoegd voor het importeren van bekende configuraties, Fixed \"Parser retourneerde verkeerd gegevenstype ongedefinieerd\" logbericht",
+                "fr": "Ajout d'informations sur la licence pour l'importation de configurations connues, correction du message de journal \"L'analyseur a renvoyé un type de données incorrect non défini\"",
+                "it": "Aggiunte informazioni sulla licenza per l'importazione di configurazioni note, corretto messaggio di registro \"Parser restituito tipo di dati errato non definito\"",
+                "es": "Se agregó información de licencia para importar configuraciones conocidas, se corrigió el mensaje de registro \"El analizador devolvió el tipo de datos incorrecto indefinido\"",
+                "pl": "Dodano informacje o licencji do importu dobrze znanych konfiguracji, naprawiono komunikat dziennika „Parser zwrócił nieprawidłowy typ danych, niezdefiniowany”",
+                "zh-cn": "添加了许可证信息以导入知名配置，修复了“解析器返回错误的数据类型未定义”日志消息"
+            },
             "1.1.3": {
                 "en": "Define possible state values and state role in admin",
                 "de": "Definition möglicher State-Werte und State-Rollen in Admin",
