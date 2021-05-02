@@ -562,7 +562,7 @@ class CanBusAdapter extends utils.Adapter {
         this.log.debug(`create/update message id: ${msgCfg.idWithDlc}, uuid: ${msgUuid}`);
         // check if this message is already set up
         if (this.canId2Message[msgCfg.idWithDlc]) {
-            this.log.warn(`Cannot setup message with id ${msgCfg.idWithDlc} because it's already set up! Maybe this message is configured twice?`);
+            this.log.warn(`Cannot setup message with ID ${msgCfg.idWithDlc} because it's already set up! Maybe this message is configured twice?`);
             return;
         }
         // create/update channel object for the message
@@ -628,6 +628,7 @@ class CanBusAdapter extends utils.Adapter {
             }
         }
         // setup parser objects
+        const parserIdsSetUp = new Set();
         for (const parserUuid in msgCfg.parsers) {
             const parser = msgCfg.parsers[parserUuid];
             if (consts_1.PARSER_ID_RESERVED.includes(parser.id)) {
@@ -638,6 +639,12 @@ class CanBusAdapter extends utils.Adapter {
                 this.log.warn(`Parser ID ${parser.id} of message ID ${msgCfg.idWithDlc} is invalid. This parser will be ignored.`);
                 continue;
             }
+            // check if this parser is already set up
+            if (parserIdsSetUp.has(parser.id)) {
+                this.log.warn(`Cannot setup parser with ID ${parser.id} of message with ID ${msgCfg.idWithDlc} because it's already set up! Maybe this parser is configured twice for this message?`);
+                continue;
+            }
+            parserIdsSetUp.add(parser.id);
             this.log.debug(`create/update parser ${msgCfg.idWithDlc}.${parser.id}`);
             let commonStates = undefined;
             if (parser.commonStates) {
