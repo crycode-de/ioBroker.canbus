@@ -1,7 +1,7 @@
 {
   "1a56e754-7bd5-40f9-a1e5-5ba65c5ac578": {
     "id": "180",
-    "name": "Kessel Daten",
+    "name": "HPSU Kessel Daten",
     "dlc": -1,
     "receive": true,
     "send": false,
@@ -1291,7 +1291,7 @@
   },
   "c71f8bf9-7a75-4415-8a19-e169e3a71370": {
     "id": "300",
-    "name": "Bedienmodul Daten",
+    "name": "HPSU Bedienmodul Daten",
     "dlc": -1,
     "receive": true,
     "send": false,
@@ -2197,7 +2197,7 @@
   },
   "36755194-4d12-4906-9f2d-7f8699a02e3d": {
     "id": "500",
-    "name": "Heizmodul Daten",
+    "name": "HPSU Heizmodul Daten",
     "dlc": -1,
     "receive": true,
     "send": false,
@@ -2262,7 +2262,7 @@
     "autosend": true,
     "parsers": {
       "661afc72-9dd2-424c-8603-a9ec04d143a1": {
-        "id": "04",
+        "id": "04-set",
         "name": "T-HK Soll setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2278,7 +2278,7 @@
         "commonStates": false
       },
       "febfc928-6637-4c8a-85f7-3db80d93f9e6": {
-        "id": "0e",
+        "id": "0e-set",
         "name": "T-WW setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2294,7 +2294,7 @@
         "commonStates": false
       },
       "ca03e894-8346-44be-998c-eb2e1a364e40": {
-        "id": "61",
+        "id": "61-set",
         "name": "WE-Typ setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2310,7 +2310,7 @@
         "commonStates": false
       },
       "31976d1e-c463-464f-9191-d77cafb94fd0": {
-        "id": "fa011a",
+        "id": "fa011a-set",
         "name": "Estrich setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2326,7 +2326,7 @@
         "commonStates": false
       },
       "b424c545-0ff9-4261-bbe4-b8df4fd751b6": {
-        "id": "fa0122",
+        "id": "fa0122-set",
         "name": "Datum Tag setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2342,7 +2342,7 @@
         "commonStates": false
       },
       "6ada1eef-9104-40c3-b091-f53683a85870": {
-        "id": "fa0123",
+        "id": "fa0123-set",
         "name": "Datum Monat setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2358,7 +2358,7 @@
         "commonStates": false
       },
       "80a63a07-0df7-402e-9022-110059d94624": {
-        "id": "fa0124",
+        "id": "fa0124-set",
         "name": "Datum Jahr setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2374,7 +2374,7 @@
         "commonStates": false
       },
       "560ba5b9-6c3f-4d56-a8aa-bc96c555c93e": {
-        "id": "fa0125",
+        "id": "fa0125-set",
         "name": "Zeit Stunde setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2390,7 +2390,7 @@
         "commonStates": false
       },
       "dc1785cc-6381-498d-8f39-c2bf73cb5910": {
-        "id": "fa0126",
+        "id": "fa0126-set",
         "name": "Zeit Minute setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2406,7 +2406,7 @@
         "commonStates": false
       },
       "20d20573-0845-4fa1-b059-b8cbb16e4bcc": {
-        "id": "fa01d6",
+        "id": "fa01d6-set",
         "name": "T-WE setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -2422,7 +2422,7 @@
         "commonStates": false
       },
       "c8818ad3-c081-4378-9814-c50bb0d49995": {
-        "id": "fa1388",
+        "id": "fa1388-set",
         "name": "Fehler setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3782,7 +3782,7 @@
         "commonStates": false
       },
       "7cd3a8b3-d73c-4cd6-bb26-9c334d2efdf1": {
-        "id": "13",
+        "id": "13-set",
         "name": "T-WW Soll1 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3798,7 +3798,7 @@
         "commonStates": false
       },
       "cf25041c-a310-443c-9eb7-73751fb099d5": {
-        "id": "fa0a06",
+        "id": "fa0a06-set",
         "name": "T-WW Soll2 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3814,7 +3814,7 @@
         "commonStates": false
       },
       "adf1f3da-6822-4f0e-9da5-f7aeeb3732c5": {
-        "id": "fa013e",
+        "id": "fa013e-set",
         "name": "T-WW Soll3 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3830,7 +3830,7 @@
         "commonStates": false
       },
       "4c0b3971-8bd3-4edf-8907-f293073af9bd": {
-        "id": "05",
+        "id": "05-set",
         "name": "T-Raum Soll1 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3846,7 +3846,7 @@
         "commonStates": false
       },
       "4df2c84e-00c6-4104-a9ea-9c8ec7edd4a5": {
-        "id": "06",
+        "id": "06-set",
         "name": "T-Raum Soll2 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3862,7 +3862,7 @@
         "commonStates": false
       },
       "54f7af6c-3cd2-407b-8c3d-8a0d6cf60abc": {
-        "id": "07",
+        "id": "07-set",
         "name": "T-Raum Soll3 setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3878,7 +3878,7 @@
         "commonStates": false
       },
       "a28796d2-1a17-429b-b6e9-14113f1d9f1c": {
-        "id": "fa067e",
+        "id": "fa067e-set",
         "name": "Max Leistung Pumpe setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3894,7 +3894,7 @@
         "commonStates": false
       },
       "24c9141a-8df9-41a8-9964-528383a80760": {
-        "id": "fa067f",
+        "id": "fa067f-set",
         "name": "Min Leistung Pumpe setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3910,7 +3910,7 @@
         "commonStates": false
       },
       "c7f793af-c72d-4619-bd82-ec7f176c9973": {
-        "id": "fa0683",
+        "id": "fa0683-set",
         "name": "Spreizung Mod-HZ setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -3926,7 +3926,7 @@
         "commonStates": false
       },
       "8dcccf27-93ce-4599-a5cc-33f2c0e122ab": {
-        "id": "fa0112",
+        "id": "fa0112-set",
         "name": "Modus setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -4390,7 +4390,7 @@
         "commonStates": false
       },
       "ae69843c-745f-4ba0-bc23-b7f074e5b067": {
-        "id": "fa013d",
+        "id": "fa013d-set",
         "name": "T Abwesend setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -4406,7 +4406,7 @@
         "commonStates": false
       },
       "c2aa1edd-71ee-494e-a6c0-569a883d2255": {
-        "id": "fa135c",
+        "id": "fa135c-set",
         "name": "Max Kühlen A Temperatur setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -4422,7 +4422,7 @@
         "commonStates": false
       },
       "b49ffbd0-51cc-432f-824d-28772afc7264": {
-        "id": "fa135e",
+        "id": "fa135e-set",
         "name": "VL Soll Max Kühlen setzen",
         "dataType": "custom",
         "dataLength": 8,
@@ -4438,7 +4438,7 @@
         "commonStates": false
       },
       "7643946d-c158-4707-ac8c-80acc6908419": {
-        "id": "fa1363",
+        "id": "fa1363-set",
         "name": "VL Soll Min Kühlen setzen",
         "dataType": "custom",
         "dataLength": 8,
