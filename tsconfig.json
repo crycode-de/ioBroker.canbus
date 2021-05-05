@@ -36,10 +36,10 @@
 
         "experimentalDecorators": true,
 
-        "sourceMap": true,
-        "inlineSourceMap": false,
-        "inlineSources": true,
-        "sourceRoot": "/",
+        "sourceMap": false,
+        "inlineSourceMap": true,
+        //"inlineSources": true,
+        //"sourceRoot": "/",
 
         "watch": false
     },

@@ -18,4 +18,4 @@ exports.knownParsers = [
     string_1.ParserString,
     custom_1.ParserCustom
 ];
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvcGFyc2Vycy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSx1Q0FBMEM7QUFDMUMscUNBQXdDO0FBQ3hDLHFDQUF3QztBQUN4QyxxQ0FBd0M7QUFFeEM7Ozs7OztHQU1HO0FBQ1UsUUFBQSxZQUFZLEdBQUc7SUFDMUIsdUJBQWE7SUFDYixxQkFBWTtJQUNaLHFCQUFZO0lBQ1oscUJBQVk7Q0FDYixDQUFDIn0=

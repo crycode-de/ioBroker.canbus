@@ -4,6 +4,7 @@
     "noEmit": false,
     "outDir": "./build",
     "sourceMap": true,
+    "inlineSourceMap": false,
     "sourceRoot": "./src",
     "noImplicitAny": false,
     "experimentalDecorators": true,
