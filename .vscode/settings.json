@@ -8,6 +8,12 @@
     "json.schemas": [
         {
             "fileMatch": [
+                "io-package.json"
+            ],
+            "url": "https://json.schemastore.org/io-package"
+        },
+        {
+            "fileMatch": [
                 "/well-known-messages/configs/*.json"
             ],
             "url": "./well-known-messages/schemas/messages.json"
