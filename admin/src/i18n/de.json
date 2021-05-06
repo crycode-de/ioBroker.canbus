@@ -37,7 +37,7 @@
     "Data type": "Datentyp",
     "Data type in the can message": "Datentyp in der CAN-Nachricht",
     "Data type in ioBroker": "Datentyp in ioBroker",
-    "Offset": "Versatz",
+    "Offset": "Offset",
     "Length": "Länge",
     "Encoding": "Zeichencodierung",
     "Unit": "Einheit",
