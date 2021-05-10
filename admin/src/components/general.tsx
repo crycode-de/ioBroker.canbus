@@ -29,7 +29,7 @@ interface GeneralProps {
   /**
    * Show an error message.
    */
-  onError: (text: string) => void;
+  onError: (text: string | JSX.Element) => void;
 
   /**
    * Set the native config.

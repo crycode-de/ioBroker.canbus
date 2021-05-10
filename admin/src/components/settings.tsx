@@ -94,7 +94,7 @@ interface SettingsProps {
   /**
    * Show an error message.
    */
-  onError: (text: string) => void;
+  onError: (text: string | JSX.Element) => void;
 }
 
 interface SettingsState {

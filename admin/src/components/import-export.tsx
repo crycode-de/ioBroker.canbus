@@ -72,7 +72,7 @@ interface ImportExportProps {
   /**
    * Show an error message.
    */
-  onError: (text: string) => void;
+  onError: (text: string | JSX.Element) => void;
 
   /**
    * Set the native config.
@@ -674,7 +674,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       const validationResult = validate(msgs, schemaMessages);
 
       if (!validationResult.valid) {
-        this.props.onError((
+        this.props.onError(
           <div>
             <div><strong>{I18n.t('Validation error:')}</strong></div>
             <ul>
@@ -684,12 +684,12 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               color='default'
               variant='contained'
               fullWidth
-              onClick={() => { this.props.onError(null as unknown as string); this.importMessagesObject(msgs, true); }}
+              onClick={() => { this.props.onError(''); this.importMessagesObject(msgs, true); }}
             >
               {I18n.t('Ignore this error and try to import')}
             </Button>
           </div>
-        ) as unknown as string); // cast type to string because the GenericApp ony accepts string here
+        );
 
         return;
       }
