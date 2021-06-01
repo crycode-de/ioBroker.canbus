@@ -23,7 +23,7 @@
     "linux"
   ],
   "dependencies": {
-    "@iobroker/adapter-core": "^2.4.0",
+    "@iobroker/adapter-core": "^2.5.0",
     "core-decorators": "^0.20.0",
     "socketcan": "^3.0.0",
     "vm2": "^3.9.3"
