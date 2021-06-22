@@ -151,7 +151,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
-### 1.2.0 (2021-06-22)
+### 1.2.1 (2021-06-22)
 * (crycode-de) Added option to automatically set a certain value in a given interval for each parser
 * (crycode-de) Added checks for duplicate parser IDs
 * (VeSler) Russian translation updates
