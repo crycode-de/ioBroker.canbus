@@ -150,10 +150,12 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 ## Changelog
 
-### 1.1.5 (WIP)
+### 1.2.0 (WIP)
+* (crycode-de) Added option to automatically set a certain value in a given interval for each parser
 * (crycode-de) Added checks for duplicate parser IDs
 * (VeSler) Russian translation updates
 * (crycode-de) Use inline sourcemaps for the adapter build files to make remote debugging work
+* (crycode-de) Updated dependencies
 
 ### 1.1.4 (2021-04-30)
 * (crycode-de) Added license information to import of well-known configurations

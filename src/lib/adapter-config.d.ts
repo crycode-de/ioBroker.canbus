@@ -57,6 +57,21 @@ declare global {
        * Common states (for common.states) for predefined values or `false` if not used.
        */
       commonStates: string | false;
+
+      /**
+       * Automatically set a value in the given interval. `false` to disable.
+       */
+      autoSetInterval?: number | false;
+
+      /**
+       * Value to set automatically.
+       */
+      autoSetValue?: number | string | boolean;
+
+      /**
+       * Trigger send action if the value is set automatically.
+       */
+      autoSetTriggerSend?: boolean;
     }
 
     type AdapterConfigMessageParsers<T extends AdapterConfigMessageParser = AdapterConfigMessageParser> = {

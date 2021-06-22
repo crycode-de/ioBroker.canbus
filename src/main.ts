@@ -26,6 +26,11 @@ export class CanBusAdapter extends utils.Adapter {
    */
   private canId2Message: Record<string, MessageConfig> = {};
 
+  /**
+   * Set of intervals that needs to be cleared on adapter unload.
+   */
+  private intervals: Set<NodeJS.Timeout> = new Set<NodeJS.Timeout>();
+
   constructor(options: Partial<utils.AdapterOptions> = {}) {
     super({
       ...options,
@@ -54,6 +59,7 @@ export class CanBusAdapter extends utils.Adapter {
     this.canInterface.on('message', this.handleCanMsg);
 
     if (this.canInterface.start()) {
+      this.log.debug('can interface started');
       this.setState('info.connection', true, true);
     }
 
@@ -68,6 +74,11 @@ export class CanBusAdapter extends utils.Adapter {
     try {
       if (this.canInterface) {
         this.canInterface.stop();
+      }
+
+      // stop intervals
+      for (const interv of this.intervals) {
+        clearInterval(interv);
       }
 
       this.log.debug('cleaned everything up...');
@@ -708,6 +719,7 @@ export class CanBusAdapter extends utils.Adapter {
         }
       }
 
+      // prepare state object
       const obj: ioBroker.PartialStateObject = {
         type: 'state',
         common: {
@@ -729,6 +741,7 @@ export class CanBusAdapter extends utils.Adapter {
         obj.common.role = parser.commonRole;
       }
 
+      // update/set the ioBroker state
       await this.extendObjectAsync(`${msgCfg.idWithDlc}.${parser.id}`, obj);
     }
 
@@ -770,8 +783,27 @@ export class CanBusAdapter extends utils.Adapter {
           break;
         }
       }
+
+      // check if an instance is created
       if (!msgCfg.parsers[parserUuid].instance) {
         this.log.warn(`No matching parser found for message ID ${msgCfg.idWithDlc} parser ID ${msgCfg.parsers[parserUuid].id} data type ${msgCfg.parsers[parserUuid].dataType}`);
+        continue;
+      }
+
+      // set a defined state value in a certain interval if configured
+      if (typeof msgCfg.parsers[parserUuid].autoSetInterval === 'number') {
+        this.log.debug(`setup interval for automatic value set for ${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id} to ${msgCfg.parsers[parserUuid].autoSetValue} every ${msgCfg.parsers[parserUuid].autoSetInterval}ms`);
+        this.intervals.add( // add the interval to the set of running intervals to clear it on adapter unload
+          setInterval(async () => {
+            // set the state
+            await this.setStateAsync(`${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id}`, msgCfg.parsers[parserUuid].autoSetValue as ioBroker.StateValue);
+
+            // trigger send if enabled and autosend is disables
+            if (msgCfg.parsers[parserUuid].autoSetTriggerSend && !msgCfg.autosend) {
+              await this.setStateAsync(`${msgCfg.idWithDlc}.send`, true, false);
+            }
+          }, msgCfg.parsers[parserUuid].autoSetInterval as number)
+        );
       }
     }
   }

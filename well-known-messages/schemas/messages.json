@@ -147,6 +147,30 @@
                     ],
                     "description": "Common states (for common.states) for predefined values or `false` if not used."
                 },
+                "autoSetInterval": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "boolean",
+                            "const": false
+                        }
+                    ],
+                    "description": "Automatically set a value in the given interval. `false` to disable."
+                },
+                "autoSetValue": {
+                    "type": [
+                        "number",
+                        "string",
+                        "boolean"
+                    ],
+                    "description": "Value to set automatically."
+                },
+                "autoSetTriggerSend": {
+                    "type": "boolean",
+                    "description": "Trigger send action if the value is set automatically."
+                },
                 "nameLang": {
                     "type": "object",
                     "properties": {

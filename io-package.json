@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.1.4",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "Added option to automatically set a certain value in a given interval for each parser",
+                "de": "Option hinzugefügt, um für jeden Parser automatisch einen bestimmten Wert in einem bestimmten Intervall zu setzen",
+                "ru": "Добавлена возможность автоматически устанавливать определенное значение в заданном интервале для каждого парсера.",
+                "pt": "Adicionada opção para definir automaticamente um certo valor em um determinado intervalo para cada analisador",
+                "nl": "Optie toegevoegd om automatisch een bepaalde waarde in te stellen in een bepaald interval voor elke parser",
+                "fr": "Ajout d'une option pour définir automatiquement une certaine valeur dans un intervalle donné pour chaque analyseur",
+                "it": "Aggiunta l'opzione per impostare automaticamente un determinato valore in un determinato intervallo per ogni parser",
+                "es": "Opción agregada para establecer automáticamente un cierto valor en un intervalo dado para cada analizador",
+                "pl": "Dodano opcję automatycznego ustawiania określonej wartości w zadanym przedziale dla każdego parsera",
+                "zh-cn": "添加了在给定间隔内为每个解析器自动设置特定值的选项"
+            },
             "1.1.4": {
                 "en": "Added license information to import of well-known configurations, Fixed \"Parser returned wrong data type undefined\" log message",
                 "de": "Es wurden Lizenzinformationen zum Importieren bekannter Konfigurationen hinzugefügt, Die Protokollmeldung \"Parser returned wrong data type undefined\" wurde behoben",

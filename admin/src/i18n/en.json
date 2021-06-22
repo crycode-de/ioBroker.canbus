@@ -105,5 +105,13 @@
     "Role": "Role",
     "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.": "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.",
     "Information about the state roles in ioBroker on GitHub": "Information about the state roles in ioBroker on GitHub",
-    "License": "License"
+    "License": "License",
+    "Automatically set a certain value": "Automatically set a certain value",
+    "Set a certain value automatically in a given interval": "Set a certain value automatically in a given interval",
+    "Interval for automatic set": "Interval for automatic set",
+    "Interval in milliseconds to automatically set the value": "Interval in milliseconds to automatically set the value",
+    "Value to set": "Value to set",
+    "The value to set automatically in the given interval (%s)": "The value to set automatically in the given interval (%s)",
+    "Trigger send": "Trigger send",
+    "Trigger the send action every time the value is set automatically": "Trigger the send action every time the value is set automatically"
 }

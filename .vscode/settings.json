@@ -24,5 +24,13 @@
             ],
             "url": "./well-known-messages/schemas/index.json"
         },
+    ],
+    "cSpell.words": [
+        "acked",
+        "consts",
+        "dayofweek",
+        "playid",
+        "unreach",
+        "uuidv"
     ]
 }

@@ -357,6 +357,21 @@ interface ParserProps {
   msgId: string;
 
   /**
+   * If the message to which the parser belongs is configured for receiving.
+   */
+  msgReceive?: boolean;
+
+  /**
+   * If the message to which the parser belongs is configured for sending.
+   */
+  msgSend?: boolean;
+
+  /**
+   * If the message to which the parser belongs is configured for automatic sending.
+   */
+  msgAutoSend?: boolean;
+
+  /**
    * UUID of the parser.
    */
   uuid: string;
@@ -417,6 +432,15 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
 
   public render(): React.ReactNode {
     const { classes } = this.props;
+
+    let dataType = 'number';
+    if (this.state.dataType === 'boolean' || (this.state.dataType === 'custom' && this.state.customDataType === 'boolean')) {
+      dataType = 'boolean';
+    }
+    if (this.state.dataType === 'string' || (this.state.dataType === 'custom' && this.state.customDataType === 'string')) {
+      dataType = 'string';
+    }
+
     return (
       <>
         <div className={classes.fabTopRight}>
@@ -637,6 +661,79 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             </InputText>
           </Grid>
         }
+
+        {this.props.msgSend && <Grid container spacing={3}>
+          <InputCheckbox
+            sm={6} md={4} lg={3}
+            label={I18n.t('Automatically set a certain value')}
+            value={typeof this.state.autoSetInterval === 'number'}
+            disabled={this.props.readonly}
+            onChange={(v) => this.handleChange('autoSetInterval', v ? 60000 : false)}
+          >
+            {I18n.t('Set a certain value automatically in a given interval')}
+          </InputCheckbox>
+          {typeof this.state.autoSetInterval === 'number' &&
+            <>
+              <InputText
+                sm={6} md={4} lg={3}
+                label={I18n.t('Interval for automatic set')}
+                value={this.state.autoSetInterval.toString()}
+                disabled={this.props.readonly}
+                onChange={(v) => this.handleChange('autoSetInterval', parseInt(v, 10) || 0)}
+                transform={(v) => v.replace(/\D/g, '') /* remove anything but numbers */}
+              >
+                {I18n.t('Interval in milliseconds to automatically set the value')}
+              </InputText>
+
+              {dataType === 'number' &&
+                <InputText
+                  sm={6} md={4} lg={3}
+                  label={I18n.t('Value to set')}
+                  value={(this.state.autoSetValue || 0).toString()}
+                  disabled={this.props.readonly}
+                  onChange={(v) => this.handleChange('autoSetValue', parseFloat(v) || 0)}
+                  transform={(v) => v.replace(',', '.').replace(/[^\d.]/g, '')}
+                >
+                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                </InputText>
+              }
+              {dataType === 'boolean' &&
+                <InputCheckbox
+                  sm={6} md={4} lg={3}
+                  label={I18n.t('Value to set')}
+                  value={!!this.state.autoSetValue}
+                  disabled={this.props.readonly}
+                  onChange={(v) => this.handleChange('autoSetValue', v)}
+                >
+                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                </InputCheckbox>
+              }
+              {dataType === 'string' &&
+                <InputText
+                  sm={6} md={4} lg={3}
+                  label={I18n.t('Value to set')}
+                  value={this.state.autoSetValue as string || ''}
+                  disabled={this.props.readonly}
+                  onChange={(v) => this.handleChange('autoSetValue', v)}
+                >
+                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                </InputText>
+              }
+
+              {!this.props.msgAutoSend && /* setting "trigger send" make only sense if autosend is disabled */
+                <InputCheckbox
+                  sm={6} md={4} lg={3}
+                  label={I18n.t('Trigger send')}
+                  value={!!this.state.autoSetTriggerSend}
+                  disabled={this.props.readonly}
+                  onChange={(v) => this.handleChange('autoSetTriggerSend', v)}
+                >
+                  {I18n.t('Trigger the send action every time the value is set automatically')}
+                </InputCheckbox>
+              }
+            </>
+          }
+        </Grid>}
       </>
     );
   }
@@ -660,6 +757,9 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       customDataType: this.state.customDataType,
       commonRole: this.state.commonRole,
       commonStates: this.state.commonStates,
+      autoSetInterval: this.state.autoSetInterval,
+      autoSetValue: this.state.autoSetValue,
+      autoSetTriggerSend: this.state.autoSetTriggerSend,
     });
   }
 

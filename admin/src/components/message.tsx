@@ -18,7 +18,7 @@ import {
   ContentPasteIcon,
 } from '../lib/icons';
 
-import { internalClipboard } from '../lib/helpers';
+import { internalClipboard, uuidv4 } from '../lib/helpers';
 
 import { TabPanel } from './tab-panel';
 import { InputCheckbox } from './input-checkbox';
@@ -28,7 +28,6 @@ import { InputSelect } from './input-select';
 import { Parser } from './parser';
 
 import { MESSAGE_ID_REGEXP } from '../../../src/consts';
-import { uuidv4 } from '../lib/helpers';
 
 interface MessageProps {
   /**
@@ -296,6 +295,9 @@ export class Message extends React.Component<MessageProps, MessageState> {
                 uuid={parserUuid}
                 config={this.state.parsers[parserUuid]}
                 msgId={this.state.dlc >= 0 ? `${this.state.id}-${this.state.dlc}` : this.state.id}
+                msgReceive={this.state.receive}
+                msgSend={this.state.send}
+                msgAutoSend={this.state.autosend}
                 onChange={this.onParserChange}
                 onValidate={this.onParserValidate}
                 onDelete={this.onParserDelete}
@@ -455,6 +457,8 @@ export class Message extends React.Component<MessageProps, MessageState> {
       customDataType: 'number',
       commonRole: 'state',
       commonStates: false,
+      autoSetInterval: false,
+      autoSetValue: undefined,
     };
 
     const parsers = { ...this.state.parsers };
