@@ -69,6 +69,8 @@ class App extends GenericApp {
       return super.render();
     }
 
+    const { theme } = this.state;
+
     const context: AppContext = {
       socket: this.socket,
       adapterName: this.adapterName,
@@ -76,7 +78,7 @@ class App extends GenericApp {
     };
 
     return (
-      <div className='App'>
+      <div className='App' style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}>
         <Settings
           common={this.common}
           context={context}
