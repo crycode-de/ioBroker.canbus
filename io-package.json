@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.2.1",
+        "version": "1.2.2",
         "news": {
+            "1.2.2": {
+                "en": "Fixed text colors in dark theme of admin 5 and updated dependencies",
+                "de": "Textfarben im dunklen Thema von Admin 5 korrigiert und Abhängigkeiten aktualisiert",
+                "ru": "Исправлены цвета текста в темной теме admin 5 и обновлены зависимости",
+                "pt": "Cores de texto corrigidas no tema escuro do admin 5 e dependências atualizadas",
+                "nl": "Vaste tekstkleuren in donker thema van admin 5 en bijgewerkte afhankelijkheden",
+                "fr": "Couleurs de texte fixes dans le thème sombre de l'admin 5 et dépendances mises à jour",
+                "it": "Corretti i colori del testo nel tema scuro di admin 5 e le dipendenze aggiornate",
+                "es": "Colores de texto fijos en el tema oscuro de admin 5 y dependencias actualizadas",
+                "pl": "Poprawiono kolory tekstu w ciemnym motywie admina 5 i zaktualizowano zależności",
+                "zh-cn": "修复了 admin 5 深色主题中的文本颜色和更新的依赖项"
+            },
             "1.2.1": {
                 "en": "Added option to automatically set a certain value in a given interval for each parser",
                 "de": "Option hinzugefügt, um für jeden Parser automatisch einen bestimmten Wert in einem bestimmten Intervall zu setzen",
