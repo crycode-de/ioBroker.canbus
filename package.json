@@ -46,7 +46,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@sentry/integrations": "^6.13.2",
     "@sentry/react": "^6.13.2",
-    "@types/chai": "^4.2.21",
+    "@types/chai": "^4.2.22",
     "@types/chai-as-promised": "^7.1.4",
     "@types/gulp": "^4.0.9",
     "@types/iobroker": "^3.3.4",
