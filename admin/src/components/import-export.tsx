@@ -354,7 +354,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         wellKnownMessagesSelectedVersions,
       });
 
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       this.props.onError(err.toString());
     }
@@ -612,8 +612,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
           // parse json
           msgs = JSON.parse(contents);
         }
-      } catch (e) {
-        this.props.onError(I18n.t('Error parsing file! %s', e.toString()));
+      } catch (err: any) {
+        this.props.onError(I18n.t('Error parsing file! %s', err.toString()));
         return;
       }
 
@@ -656,7 +656,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
     try {
       msgs = await this.fetchJson('configs/' + release.file);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       this.props.onError(err.toString());
     }

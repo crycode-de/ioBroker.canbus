@@ -44,7 +44,7 @@ export class ParserCustom extends ParserBase {
         `);
       } catch (err) {
         this.adapter.log.warn(`Error loading custom read script for parser ${this.cfg.id}! ${err}`);
-        if (typeof err.stack === 'string') {
+        if (err instanceof Error && typeof err.stack === 'string') {
           this.adapter.log.warn(err.stack.replace(/^\s*vm\.js:\d+.*$(\n)/im, '').replace(/^\s*at new Script[^]*$/im, ''));
         }
       }
@@ -63,7 +63,7 @@ export class ParserCustom extends ParserBase {
         `);
       } catch (err) {
         this.adapter.log.warn(`Error loading custom write script for parser ${this.cfg.id}! ${err}`);
-        if (typeof err.stack === 'string') {
+        if (err instanceof Error && typeof err.stack === 'string') {
           this.adapter.log.warn(err.stack.replace(/^\s*vm\.js:\d+.*$(\n)/im, '').replace(/^\s*at new Script[^]*$/im, ''));
         }
       }
@@ -97,7 +97,7 @@ export class ParserCustom extends ParserBase {
     }
     try {
       return await this.scriptWrite(buf, val);
-    } catch (err) {
+    } catch (err: any) {
       return err;
     }
   }

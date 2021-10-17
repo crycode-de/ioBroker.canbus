@@ -46,7 +46,7 @@ export class ParserNumber extends ParserBase {
         case 'double64_le': return buf.readDoubleLE(this.cfg.dataOffset);
         default: return new Error(`This parser can't handle the type ${this.cfg.dataType}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       return err;
     }
   }
@@ -70,7 +70,7 @@ export class ParserNumber extends ParserBase {
         case 'double64_le': buf.writeDoubleLE(val, this.cfg.dataOffset); break;
         default: return new Error(`This parser can't handle the type ${this.cfg.dataType}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       return err;
     }
     return buf;

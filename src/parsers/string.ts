@@ -17,7 +17,7 @@ export class ParserString extends ParserBase {
   public async read(buf: Buffer): Promise<string | Error> {
     try {
       return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
-    } catch (err) {
+    } catch (err: any) {
       return err;
     }
   }
@@ -26,7 +26,7 @@ export class ParserString extends ParserBase {
     const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
     try {
       buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
-    } catch (err) {
+    } catch (err: any) {
       return err;
     }
     return buf;

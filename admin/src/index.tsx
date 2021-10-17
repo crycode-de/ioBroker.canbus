@@ -15,7 +15,7 @@ function build(): void {
   ReactDOM.render(
     <MuiThemeProvider theme={theme(themeName)}>
       <Sentry.ErrorBoundary
-        fallback={'An error has occurred'}
+        fallback={<p>An error has occurred</p>}
         showDialog
       >
         <App
