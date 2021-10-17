@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "news": {
+            "1.2.3": {
+                "en": "Added missing `autoSet...` parser options to csv export/import",
+                "de": "Fehlende `autoSet...`-Parser-Optionen zum CSV-Export/-Import hinzugefügt",
+                "ru": "В экспорт / импорт CSV добавлены отсутствующие параметры парсера autoSet ...",
+                "pt": "Adicionadas opções do analisador `autoSet ...` ausentes para exportar / importar csv",
+                "nl": "Ontbrekende `autoSet...` parser-opties toegevoegd aan csv export/import",
+                "fr": "Ajout d'options d'analyseur manquantes \"autoSet...\" à l'export/import csv",
+                "it": "Aggiunte opzioni del parser `autoSet...` mancanti all'esportazione/importazione csv",
+                "es": "Se agregaron opciones faltantes del analizador `autoSet ...` a la exportación / importación de csv",
+                "pl": "Dodano brakujące opcje parsera `autoSet...` do eksportu/importu csv",
+                "zh-cn": "向 csv 导出/导入添加了缺少的 `autoSet...` 解析器选项"
+            },
             "1.2.2": {
                 "en": "Fixed text colors in dark theme of admin 5 and updated dependencies",
                 "de": "Textfarben im dunklen Thema von Admin 5 korrigiert und Abhängigkeiten aktualisiert",

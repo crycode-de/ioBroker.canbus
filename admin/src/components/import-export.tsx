@@ -56,6 +56,9 @@ const CSV_HEADER_FIELDS = [
   'parserCustomScriptWrite',
   'parserCommonRole',
   'parserCommonStates',
+  'parserAutoSetInterval',
+  'parserAutoSetValue',
+  'parserAutoSetTriggerSend',
 ] as const;
 
 /**
@@ -456,7 +459,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             msg.receive ? 1 : 0,
             msg.send ? 1 : 0,
             msg.autosend ? 1 : 0,
-            null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
+            null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, // no parser
           ].join(';'));
         } else {
           // with parsers
@@ -485,6 +488,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               this.escapeCsvValue(parser.customScriptWrite),
               this.escapeCsvValue(parser.commonRole),
               parser.commonStates ? this.escapeCsvValue(parser.commonStates) : '',
+              parser.autoSetInterval ? parser.autoSetInterval : 0,
+              parser.dataType === 'boolean' ? (parser.autoSetValue ? 1 : 0) : (parser.dataType === 'string') ? this.escapeCsvValue(parser.autoSetValue) : parser.autoSetValue,
+              parser.autoSetTriggerSend ? 1 : 0,
             ].join(';'));
           });
         }
@@ -589,6 +595,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
             // add parser if defined
             if (obj.parserUuid) {
+              const parserDataType = obj.parserDataType === 'custom' ? obj.parserCustomDataType : obj.parserDataType;
+
               msgs[obj.msgUuid].parsers[obj.parserUuid] = {
                 id: obj.parserId,
                 name: obj.parserName,
@@ -604,6 +612,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 customScriptWrite: obj.parserCustomScriptWrite,
                 commonRole: obj.parserCommonRole,
                 commonStates: obj.parserCommonStates || false,
+                autoSetInterval: parseInt(obj.parserAutoSetInterval, 10) || false,
+                autoSetValue: (parserDataType === 'number') ? parseInt(obj.parserAutoSetValue, 10) : parserDataType === 'boolean' ? strToBool(obj.parserAutoSetValue) : obj.parserAutoSetValue !== undefined ? obj.parserAutoSetValue : '',
+                autoSetTriggerSend: strToBool(obj.parserAutoSetTriggerSend),
               };
             }
           });

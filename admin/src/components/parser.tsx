@@ -952,7 +952,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
           this.props.showToast(I18n.t('Pasted'));
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       if (this.props.showToast) {
         this.props.showToast(I18n.t('Error while pasting: %s', err.toString()));
       }
