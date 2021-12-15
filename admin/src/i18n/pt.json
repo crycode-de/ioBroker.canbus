@@ -41,5 +41,14 @@
     "Remove": "Remover",
     "Reload": "recarregar",
     "General": "Geral",
-    "Message": "Mensagem"
+    "Message": "Mensagem",
+    "This ID is configured multiple times with this data length": "Este ID foi configurado várias vezes com este comprimento de dados",
+    "ID missing": "Faltando ID",
+    "Optionally set a fixed data length for this message": "Um comprimento fixo dos dados pode ser opcionalmente especificado",
+    "Are you sure you want to remove this message? This will also remove all it's parsers. The message will be treated as unconfigured and may be deleted on adapter restart.": "Tem certeza que deseja remover esta mensagem? Isso também removerá todos os analisadores associados. A mensagem é tratada como não configurada e pode ser excluída quando o adaptador é reiniciado.",
+    "Data type in the can message": "Tipo de dados na mensagem CAN",
+    "Data type in ioBroker": "Tipo de dados em ioBroker",
+    "Not set": "Não configurado",
+    "Remove this message?": "Apagar mensagem?",
+    "Data length": "Comprimento de dado"
 }
