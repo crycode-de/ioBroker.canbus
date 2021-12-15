@@ -58,7 +58,6 @@
     "Import": "Importer",
     "Export": "Exporter",
     "Using this import feature you are able to import message configurations to extend your existing configuration.": "Grâce à cette fonction d'importation, vous pouvez importer des configurations de message pour étendre votre configuration existante.",
-    "Save configuration to file": "Enregistrer la configuration dans un fichier",
     "Import from file": "Importer depuis un fichier",
     "Using this export feature you are able to export your message configurations.": "Grâce à cette fonction d'exportation, vous pouvez exporter vos configurations de messages.",
     "The exported files can be shared or edited externally and reimported to update your configuration.": "Les fichiers exportés peuvent être partagés ou modifiés en externe et réimportés pour mettre à jour votre configuration.",

@@ -55,8 +55,6 @@
     "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Skript um den Wert vom Buffer zu lesen. Der Buffer ist verfügbar als %s und der Wert muss in %s geschrieben werden.",
     "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Skript um den Wert in den Buffer zu schreiben. Der Buffer ist verfügbar als %s und der Wert als %s.",
     "Your configuration is invalid. Please check the settings marked in red.": "Die Konfiguration enthält Fehler. Bitte die rot markierten Einstellungen prüfen.",
-    "Save configuration to file": "Aktuelle Konfiguration in Datei speichern",
-    "Load configuration from file": "Konfiguration aus Datei laden",
     "Use raw states": "Verwende raw-States",
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Nutzung von raw-States aktivieren, die mit jeder empfangenen oder gesendeten Nachricht aktualisiert werden und zum Senden von eigenen Nachrichten verwendet werden können. Dies ermöglicht die Verwendung in Scripts, kann jedoch zu einer höheren Belastung von Systemen mit einem hohem Nachrichtendurchsatz führen.",
     "and": "und",

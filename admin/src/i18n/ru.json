@@ -48,8 +48,6 @@
     "Are you sure you want to remove this message? This will also remove all it's parsers. The message will be treated as unconfigured and may be deleted on adapter restart.": "Вы уверены, что хотите удалить это сообщение? Это также удалит все его парсеры. Сообщение будет считаться ненастроенным и может быть удалено при перезапуске адаптера.",
     "Use raw states": "Использовать необработанные состояния",
     "Your configuration is invalid. Please check the settings marked in red.": "Конфигурация содержит ошибки. Пожалуйста, проверьте настройки, отмеченные красным.",
-    "Save configuration to file": "Сохранить текущую конфигурацию в файл",
-    "Load configuration from file": "Загрузить конфигурацию из файла",
     "and": "и",
     "This ID is configured multiple times with this data length": "Этот ID настраивается несколько раз с этой длиной данных",
     "Data length": "Длина данных",

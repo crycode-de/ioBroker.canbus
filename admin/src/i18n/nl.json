@@ -55,8 +55,6 @@
     "Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.": "Script om de waarde uit de buffer te lezen. De buffer is beschikbaar als % s en de waarde moet in % s worden geschreven.",
     "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Script om de waarde naar de buffer te schrijven. De buffer is beschikbaar als% s en de waarde als% s.",
     "Your configuration is invalid. Please check the settings marked in red.": "Uw configuratie is ongeldig. Controleer de rood gemarkeerde instellingen.",
-    "Save configuration to file": "Sla de configuratie op in een bestand",
-    "Load configuration from file": "Laad de configuratie uit een bestand",
     "Custom script read": "Aangepast script lezen",
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "Gebruik de ruwe statussen, die worden bijgewerkt met elk ontvangen of verzonden bericht en kunnen worden gebruikt om uw eigen berichten te verzenden. Dit maakt het gebruik in scripts mogelijk, maar kan leiden tot een hogere belasting van systemen met een hoge berichtdoorvoer.",
     "Use rtr flag": "Gebruik rtr flag",
