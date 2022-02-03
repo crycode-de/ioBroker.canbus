@@ -18,18 +18,23 @@
     ]
   },
   "rotex-hpsu": {
-    "name": "Rotex HPSU Compact",
-    "description": "Read and set may parameters of the heat pump.\n\nTested with _Rotex HPSU compact 516_ (construction year 2013/2017).\n\n_State names are currently only available in German language._\n\n**Note:** If the wrong CAN messages are sent, the heat pump can crash and, in the worst case, even have to be set up again.",
+    "name": "Rotex HPSU Compact / Daikin Altherma",
+    "description": "Read and set may parameters of the heat pump.\n\nTested with _Rotex HPSU compact 516_ (construction year 2013/2017) and _Altherma 3 ECH2O_.\n\n_State names are currently only available in German language._\n\n**Note:** If the wrong CAN messages are sent, the heat pump can crash and, in the worst case, even have to be set up again.",
     "descriptionLang": {
-      "de": "Rotex Wärmepumpe _HPSU Compact_\n\nAuslesen und Setzen vieler Parameter der einzelnen Module der Wärmepumpe.\n\nKeine speziellen Zugriffsrechte erforderlich.\n\nGetestet mit _Rotex HPSU compact 516_ (Baujahr 2013/2017).\n\n**Achtung:** Beim Senden von falschen CAN-Nachrichten kann die Wärmepumpe abstürzen und im schlimmsten Fall sogar eine erneute Einrichtung erforderlich werden."
+      "de": "Wärmepumpe _Rotex HPSU Compact_ / _Daikin Altherma_\n\nAuslesen und Setzen vieler Parameter der einzelnen Module der Wärmepumpe.\n\nKeine speziellen Zugriffsrechte erforderlich.\n\nGetestet mit _Rotex HPSU compact 516_ (Baujahr 2013/2017) und _Altherma 3 ECH2O_.\n\n**Achtung:** Beim Senden von falschen CAN-Nachrichten kann die Wärmepumpe abstürzen und im schlimmsten Fall sogar eine erneute Einrichtung erforderlich werden."
     },
     "authors": [
       "Michael Wind",
       "cb187",
+      "shortcircuit0815",
       "[Peter Müller](https://crycode.de)"
     ],
     "license": "CC-BY-NC-SA-4.0",
     "releases": [
+      {
+        "version": "1.4.0",
+        "file": "rotex-hpsu-1.4.0.json"
+      },
       {
         "version": "1.3.0",
         "file": "rotex-hpsu-1.3.0.json"
