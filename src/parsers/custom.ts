@@ -27,7 +27,8 @@ export class ParserCustom extends ParserBase {
         sandbox: {
           getStateAsync: this.adapter.getForeignStateAsync,
           getObjectAsync: this.adapter.getForeignObjectAsync,
-          log: this.adapter.log
+          log: this.adapter.log,
+          sharedData: {}, // object to share some data between custom parsers
         }
       });
     }
