@@ -47,3 +47,14 @@ Request data starts with `21 0A`.
 | Main | `0x180` | `31 00` | `32 00` | `30 00` (?) |
 | Boiler | `0x300` | `61 00` | `62 00` | `60 00` |
 | ??? | `0x500` | `A1 00` | `A2 00` | `A0 00` (?) |
+
+## Changelog
+
+### v1.5.0
+
+- Added `180.fa0144`, `680.fa0144`, `680.fa0144-set` - "WW Install"
+
+### v1.4.0
+
+- Use DLC of 7 for all messages
+- Added `180.fa1388`, `500.fafdac`, `500.61`, `680.fa1388`, `680.fa06d2-set`, `680.0f`, `680.fafd8c`, `680.61`, `600.0f`
