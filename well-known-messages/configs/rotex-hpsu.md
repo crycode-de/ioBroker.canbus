@@ -52,7 +52,8 @@ Request data starts with `21 0A`.
 
 ### latest
 
-- Added `180.fa0144`, `680.fa0144`, `680.fa0144-set` - "WW Install"
+- Added `180.fa0144`, `680.fa0144`, `680.fa0144-set`
+- Added `680.fa010e-set`
 
 ### v1.4.0
 

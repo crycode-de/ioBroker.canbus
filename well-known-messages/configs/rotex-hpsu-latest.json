@@ -3227,6 +3227,23 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "25b7edbd-48e8-4f21-abc9-9e748817aaf0": {
+        "id": "fa0696-set",
+        "name": "Flüsterbetrieb setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x96, 0x00, 0x00]);\nbuffer[6] = value ? 0x01 : 0x00;",
+        "customDataType": "boolean",
+        "commonRole": "switch",
+        "commonStates": false,
+        "autoSetInterval": false
+      },
       "e5265fb9-b78a-4af9-980d-41541f5a3dfc": {
         "id": "fa0699",
         "name": "Innengerät abfragen",
@@ -4268,6 +4285,23 @@
         "customDataType": "boolean",
         "commonRole": "button",
         "commonStates": false
+      },
+      "2d070bd9-dc31-4b05-83d6-3148892648a1": {
+        "id": "fa010e-set",
+        "name": "Heizkurve setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x0E, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 100), 5);",
+        "customDataType": "number",
+        "commonRole": "state",
+        "commonStates": false,
+        "autoSetInterval": false
       },
       "97e3415b-6cca-42fa-af9a-4dda789e99ba": {
         "id": "fa010f",
