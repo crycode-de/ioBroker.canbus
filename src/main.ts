@@ -792,11 +792,39 @@ export class CanBusAdapter extends utils.Adapter {
 
       // set a defined state value in a certain interval if configured
       if (typeof msgCfg.parsers[parserUuid].autoSetInterval === 'number') {
-        this.log.debug(`setup interval for automatic value set for ${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id} to ${msgCfg.parsers[parserUuid].autoSetValue} every ${msgCfg.parsers[parserUuid].autoSetInterval}ms`);
+        let val = msgCfg.parsers[parserUuid].autoSetValue;
+        // use defaults if autoSetValue is undefined
+        if (val === undefined) {
+          switch (msgCfg.parsers[parserUuid].dataType) {
+            case 'boolean':
+              val = false;
+              break;
+            case 'string':
+              val = '';
+              break;
+            case 'custom':
+              switch (msgCfg.parsers[parserUuid].customDataType) {
+                case 'boolean':
+                  val = false;
+                  break;
+                case 'string':
+                  val = '';
+                  break;
+                case 'number':
+                  val = 0;
+                  break;
+                // case 'mixed': - mixed can be undefined
+              }
+              break;
+            default: // any number
+              val = 0;
+          }
+        }
+        this.log.debug(`setup interval for automatic value set for ${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id} to ${val} every ${msgCfg.parsers[parserUuid].autoSetInterval}ms`);
         this.intervals.add( // add the interval to the set of running intervals to clear it on adapter unload
           setInterval(async () => {
             // set the state
-            await this.setStateAsync(`${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id}`, msgCfg.parsers[parserUuid].autoSetValue as ioBroker.StateValue);
+            await this.setStateAsync(`${msgCfg.idWithDlc}.${msgCfg.parsers[parserUuid].id}`, val as ioBroker.StateValue);
 
             // trigger send if enabled and autosend is disables
             if (msgCfg.parsers[parserUuid].autoSetTriggerSend && !msgCfg.autosend) {
