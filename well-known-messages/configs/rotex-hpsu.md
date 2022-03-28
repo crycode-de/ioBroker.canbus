@@ -54,6 +54,7 @@ Request data starts with `21 0A`.
 
 - Added `180.fa0144`, `680.fa0144`, `680.fa0144-set`
 - Added `680.fa010e-set`
+- Added `180.fac105`, `180.fac106`
 
 ### v1.4.0
 

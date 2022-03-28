@@ -1178,7 +1178,7 @@
       },
       "bec979ea-8310-46f3-9982-2f46fde42909": {
         "id": "fac0fd",
-        "name": "Tdhw",
+        "name": "TDHW",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
@@ -1303,6 +1303,40 @@
         "customDataType": "number",
         "commonRole": "value.temperature",
         "commonStates": false
+      },
+      "4ee921bd-e566-44a9-a55d-b6f52cbfba9d": {
+        "id": "fac105",
+        "name": "TA2",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0xC1 && buffer[4] === 0x05) {\n  value = buffer.readInt16BE(5) / 10;\n}",
+        "customScriptWrite": "//",
+        "customDataType": "number",
+        "commonRole": "value.temperature",
+        "commonStates": false,
+        "autoSetInterval": false
+      },
+      "86079dd0-4581-444a-8042-5ddbd77aa9fe": {
+        "id": "fac106",
+        "name": "TDHW2",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0xC1 && buffer[4] === 0x06) {\n  value = buffer.readInt16BE(5) / 10;\n}",
+        "customScriptWrite": "//",
+        "customDataType": "number",
+        "commonRole": "value.temperature",
+        "commonStates": false,
+        "autoSetInterval": false
       },
       "8fd708dd-0a66-4fd3-8761-2d2dd3c0c67e": {
         "id": "fa1388",
@@ -3710,7 +3744,7 @@
       },
       "55119b8b-8459-46dd-ba75-13523617e372": {
         "id": "fac0fd",
-        "name": "Tdhw abfragen",
+        "name": "TDHW abfragen",
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
