@@ -148,7 +148,7 @@ describe('ParserCustom', () => {
       customScriptWrite: `/* ... */`
     });
 
-    expect(warnMsg).to.match(/SyntaxError/).and.to.match(/value = 'test;\s*\^\^/);
+    expect(warnMsg).to.match(/SyntaxError/).and.to.match(/value = 'test;\s*\^/);
   });
 
   it(`script returning wrong data type should log a warning`, async () => {
