@@ -9,11 +9,15 @@ import { GenericAppProps, GenericAppSettings } from '@iobroker/adapter-react/typ
 
 import I18n from '@iobroker/adapter-react/i18n';
 
+import * as Sentry from '@sentry/react';
+
 import { AppContext } from './common';
 
 import Settings from './components/settings';
 
 import { compareObjects } from './lib/helpers';
+
+import * as ioPkg from '../../io-package.json';
 
 const styles = (_theme: Theme): StyleRules => ({
   root: {},
@@ -21,19 +25,22 @@ const styles = (_theme: Theme): StyleRules => ({
 
 class App extends GenericApp {
   constructor(props: GenericAppProps) {
-    const extendedProps: GenericAppSettings = { ...props };
-    extendedProps.encryptedFields = [];
-    extendedProps.translations = {
-      en: require('./i18n/en.json'),
-      de: require('./i18n/de.json'),
-      ru: require('./i18n/ru.json'),
-      pt: require('./i18n/pt.json'),
-      nl: require('./i18n/nl.json'),
-      fr: require('./i18n/fr.json'),
-      it: require('./i18n/it.json'),
-      es: require('./i18n/es.json'),
-      pl: require('./i18n/pl.json'),
-      'zh-cn': require('./i18n/zh-cn.json'),
+    const extendedProps: GenericAppSettings & { sentryDSN: string } = {
+      ...props,
+      encryptedFields: [],
+      translations: {
+        'en': require('./i18n/en.json'),
+        'de': require('./i18n/de.json'),
+        'ru': require('./i18n/ru.json'),
+        'pt': require('./i18n/pt.json'),
+        'nl': require('./i18n/nl.json'),
+        'fr': require('./i18n/fr.json'),
+        'it': require('./i18n/it.json'),
+        'es': require('./i18n/es.json'),
+        'pl': require('./i18n/pl.json'),
+        'zh-cn': require('./i18n/zh-cn.json'),
+      },
+      sentryDSN: ioPkg.common.plugins.sentry.dsn,
     };
 
     super(props, extendedProps);
@@ -78,21 +85,26 @@ class App extends GenericApp {
     };
 
     return (
-      <div className='App' style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}>
-        <Settings
-          common={this.common}
-          context={context}
-          native={this.state.native}
-          onChange={(attr, value) => this.updateNativeValue(attr, value)}
-          onError={(err) => this.showError(err)}
-          onValidate={(isValid) => this.setState({ isConfigurationError: isValid ? '' : I18n.t('Your configuration is invalid. Please check the settings marked in red.') })}
-          setNative={this.setNative}
-          showToast={(text) => this.showToast(text)}
-        />
-        {this.renderError()}
-        {this.renderToast()}
-        {this.renderSaveCloseButtons()}
-      </div>
+      <Sentry.ErrorBoundary
+        fallback={<p>An error has occurred</p>}
+        showDialog
+      >
+        <div className='App' style={{ background: theme.palette.background.default, color: theme.palette.text.primary }}>
+          <Settings
+            common={this.common}
+            context={context}
+            native={this.state.native as ioBroker.AdapterConfig}
+            onChange={(attr, value) => this.updateNativeValue(attr, value)}
+            onError={(err) => this.showError(err)}
+            onValidate={(isValid) => this.setState({ isConfigurationError: isValid ? '' : I18n.t('Your configuration is invalid. Please check the settings marked in red.') })}
+            setNative={this.setNative}
+            showToast={(text) => this.showToast(text)}
+          />
+          {this.renderError()}
+          {this.renderToast()}
+          {this.renderSaveCloseButtons()}
+        </div>
+      </Sentry.ErrorBoundary>
     );
   }
 

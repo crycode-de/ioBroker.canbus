@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "canbus",
-        "version": "1.3.0",
+        "version": "1.3.1",
         "news": {
+            "1.3.1": {
+                "en": "Fixed `autoSetValue` defaults for parsers, Fixed sentry admin integration, Updated dependencies",
+                "de": "`autoSetValue`-Standardwerte für Parser korrigiert, Sentry-Admin-Integration korrigiert, Abhängigkeiten aktualisiert",
+                "ru": "Исправлены значения по умолчанию `autoSetValue` для парсеров, Исправлена интеграция с сторожевым администратором, Обновлены зависимости",
+                "pt": "Corrigidos padrões `autoSetValue` para analisadores, integração de administração sentry fixa, dependências atualizadas",
+                "nl": "Vaste `autoSetValue`-standaardinstellingen voor parsers, Vaste Sentry-beheerdersintegratie, Bijgewerkte afhankelijkheden",
+                "fr": "Correction des valeurs par défaut de `autoSetValue` pour les analyseurs, intégration de l'administrateur de la sentinelle fixe, dépendances mises à jour",
+                "it": "Risolti i valori predefiniti di `autoSetValue` per i parser, risolta l'integrazione dell'amministratore della sentinella, Aggiornate le dipendenze",
+                "es": "Se corrigieron los valores predeterminados de `autoSetValue` para los analizadores, se corrigió la integración del administrador centinela, se actualizaron las dependencias",
+                "pl": "Poprawiono domyślne ustawienia `autoSetValue` dla parserów, Poprawiono integrację admina Sentry, Zaktualizowano zależności",
+                "zh-cn": "修复了解析器的“autoSetValue”默认值，修复了哨兵管理员集成，更新了依赖项"
+            },
             "1.3.0": {
                 "en": "Added sharedData object in custom parsers.",
                 "de": "sharedData-Objekt in benutzerdefinierten Parsern hinzugefügt.",
