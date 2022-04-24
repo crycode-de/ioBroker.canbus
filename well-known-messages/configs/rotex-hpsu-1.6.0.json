@@ -2749,23 +2749,6 @@
         "commonRole": "button",
         "commonStates": false
       },
-      "26724f55-eaab-4fbf-8a6f-fecc2353bb65": {
-        "id": "fa0182-set",
-        "name": "Zirk mit WW Prog setzen",
-        "dataType": "custom",
-        "dataLength": 8,
-        "dataOffset": 0,
-        "dataUnit": "",
-        "dataEncoding": "latin1",
-        "booleanMask": 0,
-        "booleanInvert": false,
-        "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x01, 0x82, 0x00, 0x00]);\nbuffer[6] = value ? 0x01 : 0x00;",
-        "customDataType": "boolean",
-        "commonRole": "switch",
-        "commonStates": false,
-        "autoSetInterval": false
-      },
       "78540a22-ae21-4c7d-83c8-01378c90b6cb": {
         "id": "fa0199",
         "name": "SwNrRegler abfragen",
@@ -2894,23 +2877,6 @@
         "commonRole": "button",
         "commonStates": false
       },
-      "55a0c9ff-92a6-4ceb-b73a-97da549eb957": {
-        "id": "fa065e-set",
-        "name": "Zirk Intervall Ein setzen",
-        "dataType": "custom",
-        "dataLength": 8,
-        "dataOffset": 0,
-        "dataUnit": "s",
-        "dataEncoding": "latin1",
-        "booleanMask": 0,
-        "booleanInvert": false,
-        "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x5E, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value), 5);",
-        "customDataType": "number",
-        "commonRole": "state",
-        "commonStates": false,
-        "autoSetInterval": false
-      },
       "07c6d166-c33e-4d90-8783-294178f6afed": {
         "id": "fa065f",
         "name": "Zirk Intervall Aus abfragen",
@@ -2926,23 +2892,6 @@
         "customDataType": "boolean",
         "commonRole": "button",
         "commonStates": false
-      },
-      "bc19dedb-212e-4089-9009-520b7601f244": {
-        "id": "fa065f-set",
-        "name": "Zirk Intervall Aus setzen",
-        "dataType": "custom",
-        "dataLength": 8,
-        "dataOffset": 0,
-        "dataUnit": "s",
-        "dataEncoding": "latin1",
-        "booleanMask": 0,
-        "booleanInvert": false,
-        "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x5F, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value), 5);",
-        "customDataType": "number",
-        "commonRole": "state",
-        "commonStates": false,
-        "autoSetInterval": false
       },
       "4285c20f-b42a-463c-aa90-c7d9fa913286": {
         "id": "fa0668",

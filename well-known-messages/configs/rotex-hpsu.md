@@ -54,6 +54,10 @@ Request data starts with `21 0A`.
 
 - _TODO_
 
+### v1.6.0
+
+- Added `fa0182-set`, `fa065e-set`, `680.fa065f-set`
+
 ### v1.5.0
 
 - Added `180.fa0144`, `680.fa0144`, `680.fa0144-set`
