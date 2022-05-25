@@ -81,7 +81,7 @@
     "Failed to open file!": "Failed to open file!",
     "Unsupported file type!": "Unsupported file type!",
     "File is empty!": "File is empty!",
-    "Error parsing file! %s": "Error parsing file %s!",
+    "Error parsing file! %s": "Error parsing file! %s",
     "Version": "Version",
     "Author": "Author",
     "Validation error:": "Validation error:",
