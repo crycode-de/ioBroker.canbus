@@ -52,7 +52,7 @@ Request data starts with `21 0A`.
 
 ### latest
 
-- _TODO_
+- Added `fa0129-set`, `fa012A-set`
 
 ### v1.6.0
 
