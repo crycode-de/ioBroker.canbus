@@ -4241,6 +4241,23 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "64a535bb-a296-4bfb-aea9-7c9db56c33c2": {
+        "id": "fa0129-set",
+        "name": "T Vorlauf Tag setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x29, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
+        "commonStates": false,
+        "autoSetInterval": false
+      },
       "67b88b76-30f2-4742-a5f0-c3c64ac59681": {
         "id": "fa012a",
         "name": "T Vorlauf Nacht abfragen",
@@ -4256,6 +4273,23 @@
         "customDataType": "boolean",
         "commonRole": "button",
         "commonStates": false
+      },
+      "9a90af5a-0f46-4657-8fa0-d27c820f2c62": {
+        "id": "fa012a-set",
+        "name": "T Vorlauf Nacht setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x2A, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
+        "commonStates": false,
+        "autoSetInterval": false
       },
       "d48cf588-f9b5-4efb-a322-29d456877b80": {
         "id": "fa012b",
@@ -4286,7 +4320,7 @@
         "customScriptRead": "//",
         "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x2B, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
         "customDataType": "number",
-        "commonRole": "value.temperature",
+        "commonRole": "level.temperature",
         "commonStates": false,
         "autoSetInterval": false
       },
@@ -4319,7 +4353,7 @@
         "customScriptRead": "//",
         "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0x28, 0x00, 0x00, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 3);",
         "customDataType": "number",
-        "commonRole": "value.temperature",
+        "commonRole": "level.temperature",
         "commonStates": false,
         "autoSetInterval": false
       },
