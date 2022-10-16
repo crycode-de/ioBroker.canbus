@@ -3697,6 +3697,22 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "60e63f76-eb83-429e-a5ae-e45afa1f4861": {
+        "id": "fac0f6-set",
+        "name": "Betriebsart setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0xC0, 0xF6, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value), 5);",
+        "customDataType": "number",
+        "commonRole": "state",
+        "commonStates": "0=Standby,1=Heizen,2=Kühlen,3=Abtauen,4=Warmwasserbereitung"
+      },
       "aa6e74e5-30fd-41a7-9ba3-69c6d284da08": {
         "id": "fac0f7",
         "name": "Pump abfragen",

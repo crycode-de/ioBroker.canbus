@@ -53,6 +53,7 @@ Request data starts with `21 0A`.
 ### latest
 
 - Added `fa0129-set`, `fa012A-set`
+- Added `fac0f6-set`
 
 ### v1.6.0
 
