@@ -4094,7 +4094,23 @@
         "customScriptRead": "//",
         "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 3);",
         "customDataType": "number",
-        "commonRole": "state",
+        "commonRole": "level.temperature",
+        "commonStates": false
+      },
+      "51859bfa-ae57-41dd-bc1d-dcd6ba1dbcae": {
+        "id": "08-set",
+        "name": "T Absenkung setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 3);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
         "commonStates": false
       },
       "a28796d2-1a17-429b-b6e9-14113f1d9f1c": {
