@@ -20,7 +20,7 @@
     "CAN message ID in hex": "CAN message ID in hex",
     "This ID is configured multiple times with this data length": "This ID is configured multiple times with this data length",
     "or": "or",
-    "Name": "Name",
+    "Name": "name",
     "My super message": "My super message",
     "Data length": "Data length",
     "Not set": "Not set",
