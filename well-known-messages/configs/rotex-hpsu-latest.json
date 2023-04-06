@@ -3761,6 +3761,22 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "8caf2f34-53c8-41cc-91de-40cdbef1c420": {
+        "id": "fac0f9-set",
+        "name": "EHS setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0xC0, 0xF9, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 1000), 5);",
+        "customDataType": "number",
+        "commonRole": "state",
+        "commonStates": false
+      },
       "e962cbc3-7239-48d1-aba1-7f012922b75e": {
         "id": "fac0fa",
         "name": "RT abfragen",
@@ -4157,6 +4173,22 @@
         "booleanInvert": false,
         "customScriptRead": "//",
         "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x83, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
+        "commonStates": false
+      },
+      "903b5eca-d828-4c14-940b-09f4b3d75b8a": {
+        "id": "fa0691-set",
+        "name": "WP Hyst TDHW setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "K",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x91, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
         "customDataType": "number",
         "commonRole": "level.temperature",
         "commonStates": false

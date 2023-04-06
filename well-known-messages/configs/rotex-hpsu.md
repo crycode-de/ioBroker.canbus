@@ -56,6 +56,8 @@ Request data starts with `21 0A`.
 - Added `fac0f6-set`
 - Added `08-set`
 - Added `fa0a00-set`
+- Added `fa0691-set`
+- Added `fac0f9-set`
 
 ### v1.6.0
 
