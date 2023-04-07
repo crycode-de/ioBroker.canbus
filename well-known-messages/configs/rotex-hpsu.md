@@ -46,6 +46,7 @@ Request data starts with `21 0A`.
 | RoCon | `0x10A` | `21 0A` | `22 0A` | `20 0A` |
 | Main | `0x180` | `31 00` | `32 00` | `30 00` (?) |
 | Boiler | `0x300` | `61 00` | `62 00` | `60 00` |
+| Boiler (after some change?) | `0x301` | `61 01` | `62 01` | `60 01` |
 | ??? | `0x500` | `A1 00` | `A2 00` | `A0 00` (?) |
 
 ## Changelog

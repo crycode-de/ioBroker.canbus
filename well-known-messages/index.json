@@ -58,6 +58,10 @@
       {
         "version": "latest",
         "file": "rotex-hpsu-latest.json"
+      },
+      {
+        "version": "0x301-latest",
+        "file": "rotex-hpsu-301-latest.json"
       }
     ]
   }
