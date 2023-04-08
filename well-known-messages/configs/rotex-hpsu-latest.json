@@ -350,14 +350,14 @@
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
-        "dataUnit": "kWh",
+        "dataUnit": "kW",
         "dataEncoding": "latin1",
         "booleanMask": 0,
         "booleanInvert": false,
         "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x68) {\n  value = buffer.readInt16BE(5) / 100;\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
-        "commonRole": "value.power.consumption",
+        "commonRole": "value.power",
         "commonStates": false
       },
       "a006ab48-49e1-4945-af45-a321a1cc8912": {
@@ -2958,6 +2958,22 @@
         "customScriptWrite": "buffer = Buffer.from([0x31, 0x00, 0xFA, 0x06, 0x68, 0x00, 0x00]);",
         "customDataType": "boolean",
         "commonRole": "button",
+        "commonStates": false
+      },
+      "9eaa5db7-feb8-4ec9-ab88-6e0058dc9843": {
+        "id": "fa0668-set",
+        "name": "Leistung WW setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "kW",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x68, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 100), 5);",
+        "customDataType": "number",
+        "commonRole": "level.power",
         "commonStates": false
       },
       "c2af9290-208d-47eb-bb2b-12e3773c6481": {
