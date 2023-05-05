@@ -60,6 +60,8 @@ Request data starts with `21 0A`.
 - Added `fa0691-set`
 - Added `fac0f9-set`
 - Added `fa0668-set`
+- Added `fa066c-set`
+- Fixed data type and unit of `fa066c`
 
 ### v1.6.0
 

@@ -414,14 +414,14 @@
         "dataType": "custom",
         "dataLength": 8,
         "dataOffset": 0,
-        "dataUnit": "°C",
+        "dataUnit": "",
         "dataEncoding": "latin1",
         "booleanMask": 0,
         "booleanInvert": false,
-        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x6C) {\n  value = buffer.readInt16BE(5);\n}",
+        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x06 && buffer[4] === 0x6C) {\n  value = buffer.readInt16BE(5) ? true : false;\n}",
         "customScriptWrite": "//",
-        "customDataType": "number",
-        "commonRole": "state",
+        "customDataType": "boolean",
+        "commonRole": "indicator",
         "commonStates": false
       },
       "c30a70aa-d2cc-431f-af5f-0c739d886a14": {
@@ -3038,6 +3038,22 @@
         "customScriptWrite": "buffer = Buffer.from([0x31, 0x00, 0xFA, 0x06, 0x6C, 0x00, 0x00]);",
         "customDataType": "boolean",
         "commonRole": "button",
+        "commonStates": false
+      },
+      "7d170c28-a2cc-43d2-bd76-1463652f1243": {
+        "id": "fa066c-set",
+        "name": "HZ Unterstützung setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x6C, 0x00, 0x00]);\nbuffer[6] = value ? 0x01 : 0x00;",
+        "customDataType": "boolean",
+        "commonRole": "switch",
         "commonStates": false
       },
       "49ac03cc-081d-4954-be76-910b5ab07622": {
