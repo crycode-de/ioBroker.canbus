@@ -3312,6 +3312,23 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "5c0a0d3d-7be2-4caa-9fa0-fbcf5cc72835": {
+        "id": "fa0694-set",
+        "name": "Modus SG setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x06, 0x94, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value), 5);",
+        "customDataType": "number",
+        "commonRole": "state",
+        "commonStates": "0=0,1=1,2=2",
+        "autoSetInterval": false
+      },
       "20bdcfc8-9a60-46f1-98a6-ba7c16ed55d6": {
         "id": "fa0695",
         "name": "Entlüftungsfunktion abfragen",
