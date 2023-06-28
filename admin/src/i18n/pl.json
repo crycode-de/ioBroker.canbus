@@ -13,7 +13,7 @@
     "Message ID": "ID wiadomości",
     "CAN message ID in hex": "Identyfikator wiadomości CAN w formacie szesnastkowym",
     "or": "lub",
-    "Name": "Imię",
+    "Name": "Nazwa",
     "My super message": "Moja super wiadomość",
     "Receive": "Otrzymać",
     "Receive messages with the given ID": "Odbieraj wiadomości z podanym identyfikatorem",
@@ -26,7 +26,7 @@
     "Parser ID": "Identyfikator parsera",
     "Temperature": "Temperatura",
     "Data type": "Typ danych",
-    "Offset": "Offsetowy",
+    "Offset": "Dodaj",
     "Length": "Długość",
     "Encoding": "Kodowanie",
     "Unit": "Jednostka",
@@ -40,6 +40,6 @@
     "Add": "Dodaj",
     "Remove": "Usunąć",
     "Reload": "Przeładować",
-    "General": "Generał",
+    "General": "Główne",
     "Message": "Wiadomość"
 }
