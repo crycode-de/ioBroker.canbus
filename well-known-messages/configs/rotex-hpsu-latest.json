@@ -1365,11 +1365,11 @@
         "dataEncoding": "latin1",
         "booleanMask": 0,
         "booleanInvert": false,
-        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x0A && buffer[4] === 0x20) {\n  value = 0;\n  if (buffer[5] & 0b00001000) value++; // T1\n  if (buffer[5] & 0b00000010) value++; // T2\n  if (buffer[5] & 0b00000100) value++; // T3\n}",
+        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x0A && buffer[4] === 0x20) {\n  value = 0;\n  if (buffer[5] & 0b00001000) value += 3; // T1\n  if (buffer[5] & 0b00000010) value += 3; // T2\n  if (buffer[5] & 0b00000100) value += 3; // T3\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
         "commonRole": "value.power",
-        "commonStates": "0=0,1=3,2=6,3=9",
+        "commonStates": false,
         "autoSetInterval": false
       }
     }
@@ -5048,10 +5048,10 @@
         "booleanMask": 0,
         "booleanInvert": false,
         "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x0A, 0x20, 0x01, 0x00]);\nif (value === 1) buffer[5] |= 0b00001000; // T1\nif (value === 2) buffer[5] |= 0b00001010; // T1 + T2\nif (value === 3) buffer[5] |= 0b00001110; // T1 + T2 + T3",
+        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x0A, 0x20, 0x01, 0x00]);\nif (value >= 3) buffer[5] |= 0b00001000; // T1\nif (value >= 6) buffer[5] |= 0b00001010; // T1 + T2\nif (value >= 9) buffer[5] |= 0b00001110; // T1 + T2 + T3",
         "customDataType": "number",
         "commonRole": "level.power",
-        "commonStates": "0=0,1=3,2=6,3=9"
+        "commonStates": "0=0,3=3,6=6,9=9"
       }
     }
   },
