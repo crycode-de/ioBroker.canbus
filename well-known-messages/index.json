@@ -36,6 +36,10 @@
         "file": "rotex-hpsu-1.7.0.json"
       },
       {
+        "version": "1.8.0",
+        "file": "rotex-hpsu-1.8.0.json"
+      },
+      {
         "version": "1.6.0",
         "file": "rotex-hpsu-1.6.0.json"
       },
