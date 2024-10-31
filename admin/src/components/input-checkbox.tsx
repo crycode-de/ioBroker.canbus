@@ -35,23 +35,23 @@ interface InputCheckboxState {
  */
 export class InputCheckbox extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputCheckboxProps, InputCheckboxState> {
 
-  constructor(props: InputCheckboxProps) {
+  constructor (props: InputCheckboxProps) {
     super(props);
 
     this.state = {
-      value: this.props.value
+      value: this.props.value,
     };
   }
 
   public componentDidUpdate (prevProps: InputCheckboxProps): void {
     if (prevProps.value !== this.props.value) {
       this.setState({
-        value: this.props.value
+        value: this.props.value,
       });
     }
   }
 
-  public render(): JSX.Element {
+  public render (): React.ReactElement {
     return (
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl>
@@ -68,7 +68,7 @@ export class InputCheckbox extends React.PureComponent<Partial<Record<Breakpoint
 
   private handleChange (checked: boolean): void {
     this.setState({
-      value: checked
+      value: checked,
     }, () => {
       this.props.onChange(this.state.value);
     });

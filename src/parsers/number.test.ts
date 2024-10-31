@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { ParserNumber } from './number';
+import type { CanBusAdapter } from '../main';
 
 const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   booleanInvert: false,
@@ -16,16 +17,16 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   commonRole: 'state',
   commonStates: false,
   id: '',
-  name: ''
+  name: '',
 };
 
 describe('ParserNumber => uint8', () => {
-  const parser = new ParserNumber({} as any, {
+  const parser = new ParserNumber({} as unknown as CanBusAdapter, {
     ...genericParserConfig,
     dataType: 'uint8',
-    dataOffset: 1
+    dataOffset: 1,
   });
-  const buf = Buffer.from([10,20,30,40]);
+  const buf = Buffer.from([ 10, 20, 30, 40 ]);
 
   it(`should read 20`, async () => {
     const result = await parser.read(buf);
@@ -37,7 +38,7 @@ describe('ParserNumber => uint8', () => {
     expect(buf[1]).to.equal(42);
   });
   it(`should return an error`, async () => {
-    const result = await parser.read(Buffer.from([1]));
+    const result = await parser.read(Buffer.from([ 1 ]));
     expect(result).to.be.instanceof(Error);
   });
 

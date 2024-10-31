@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/method-signature-style */
 declare module 'socketcan' {
 
   interface CanMessage {
@@ -98,13 +99,13 @@ declare module 'socketcan' {
    * @param timestamps Whether or not timestamps shall be generated when reading a message
    * @param protocol optionally provide another default protocol value (default is 1/CAN_RAW)
    */
-  function createRawChannel(channel: string, timestamps?: boolean, protocol?: number): RawChannel;
+  function createRawChannel (channel: string, timestamps?: boolean, protocol?: number): RawChannel;
 
   /**
    * Create a raw can channel
    * @param channel Channel name (e.g. vcan0)
    * @param options list of options (timestamps, protocol, non_block_send)
    */
-  function createRawChannelWithOptions(channel: string, options?: RawChannelOptions): RawChannel;
+  function createRawChannelWithOptions (channel: string, options?: RawChannelOptions): RawChannel;
 
 }

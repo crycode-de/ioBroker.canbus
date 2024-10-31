@@ -26,10 +26,10 @@ import { AppContext } from '../common';
 import { InputCheckbox } from './input-checkbox';
 import { InputSelect } from './input-select';
 
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports,@typescript-eslint/no-unsafe-assignment */
 const schemaMessages = require('../../../well-known-messages/schemas/messages.json');
 const schemaIndex = require('../../../well-known-messages/schemas/index.json');
-/* eslint-enable @typescript-eslint/no-var-requires */
+/* eslint-enable @typescript-eslint/no-require-imports,@typescript-eslint/no-unsafe-assignment */
 
 import { validate } from 'jsonschema';
 
@@ -75,7 +75,7 @@ interface ImportExportProps {
   /**
    * Show an error message.
    */
-  onError: (text: string | JSX.Element) => void;
+  onError: (text: string | React.ReactElement) => void;
 
   /**
    * Set the native config.
@@ -132,7 +132,6 @@ interface ImportExportState {
   /**
    * Selected versions of the well known message configs.
    */
-  //[wellKnownMessagesSelectedVersionKey: string]: string;
   wellKnownMessagesSelectedVersions: Record<string, string>;
 }
 
@@ -152,7 +151,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   }
 
   public render (): React.ReactNode {
-    const messages = this.props.native.messages || {};
+    const messages = this.props.native.messages ?? {};
     const messagesKeys = Object.keys(messages).sort((a, b) => sortMessagesById(messages, a, b));
 
     return (
@@ -172,7 +171,10 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
         <Grid container spacing={3}>
           <InputCheckbox
-            sm={12} md={12} lg={8}
+            xs={12}
+            sm={12}
+            md={12}
+            lg={8}
             label={I18n.t('Overwrite existing messages on import')}
             value={this.state.importOverwrite}
             onChange={(v) => this.setState({ importOverwrite: v })}
@@ -189,68 +191,79 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
           </Grid>
         </Grid>
 
-        {!this.state.wellKnownMessagesIndexLoaded && <Grid container spacing={3}>
-          <Grid item sm={12} md={6} lg={4}>
-            <Button color='primary' variant='contained' fullWidth startIcon={<Cached />} onClick={this.fetchPredefinedConfigs}>
-              {I18n.t('Fetch configurations from GitHub')}
-            </Button>
+        {!this.state.wellKnownMessagesIndexLoaded && (
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12} md={6} lg={4}>
+              <Button color='primary' variant='contained' fullWidth startIcon={<Cached />} onClick={this.fetchPredefinedConfigs}>
+                {I18n.t('Fetch configurations from GitHub')}
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>}
+        )}
 
-        {this.state.wellKnownMessagesIndexLoaded && <>
-          <br />
-          <Typography>
-            <strong><em>{I18n.t('Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.')}</em></strong>
-          </Typography>
+        {this.state.wellKnownMessagesIndexLoaded && (
+          <>
+            <br />
+            <Typography>
+              <strong><em>{I18n.t('Hint: All configurations are provided without any warranty! Depending on the connected system, sending incorrect messages may damage the system.')}</em></strong>
+            </Typography>
 
-          {Object.keys(this.state.wellKnownMessagesIndex).map((id) => (<React.Fragment key={id}>
-            <h3>{this.state.wellKnownMessagesIndex[id].name}</h3>
-            <Grid container spacing={3}>
-              <Grid item sm={12} dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.wellKnownMessagesIndex[id].description) }} />
-            </Grid>
-            <Grid container spacing={3}>
-              <Grid item sm={12} md={8}>
-                <span>{I18n.t('Author')}: </span><span dangerouslySetInnerHTML={{ __html: this.state.wellKnownMessagesIndex[id].authors.map((a) => this.renderMarkdown(a)).join(', ') }} />
-              </Grid>
-              {this.state.wellKnownMessagesIndex[id].license && <Grid item sm={12} md={4}>
-                <span>{I18n.t('License')}: </span><span><a href={`https://spdx.org/licenses/${this.state.wellKnownMessagesIndex[id].license}.html`} target='_blank' rel='external nofollow'>{this.state.wellKnownMessagesIndex[id].license}</a></span>
-              </Grid>}
-            </Grid>
-            <Grid container spacing={3}>
-              <InputSelect
-                sm={6} md={2} lg={2}
-                label={I18n.t('Version')}
-                value={this.state.wellKnownMessagesSelectedVersions[id]}
-                onChange={(v) => this.setState({ wellKnownMessagesSelectedVersions: { ...this.state.wellKnownMessagesSelectedVersions, [id]: v } })}
-                options={this.state.wellKnownMessagesIndex[id].releases.map((r) => r.version)}
-              />
-              <Grid item sm={6} md={6} lg={4}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  fullWidth
-                  startIcon={<Visibility />}
-                  onClick={() => this.showPredefinedConfig(id)}
-                  disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
-                >
-                  {I18n.t('Show on GitHub')}
-                </Button>
-              </Grid>
-              <Grid item sm={6} md={6} lg={4}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  fullWidth
-                  startIcon={<VerticalAlignTop />}
-                  onClick={() => this.importPredefinedConfig(id)}
-                  disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
-                >
-                  {I18n.t('Import from GitHub')}
-                </Button>
-              </Grid>
-            </Grid>
-          </React.Fragment>))}
-        </>}
+            {Object.keys(this.state.wellKnownMessagesIndex).map((id) => (
+              <React.Fragment key={id}>
+                <h3>{this.state.wellKnownMessagesIndex[id].name}</h3>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={12} dangerouslySetInnerHTML={{ __html: this.renderMarkdown(this.state.wellKnownMessagesIndex[id].description) }} />
+                </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={12} md={8}>
+                    <span>{I18n.t('Author')}: </span><span dangerouslySetInnerHTML={{ __html: this.state.wellKnownMessagesIndex[id].authors.map((a) => this.renderMarkdown(a)).join(', ') }} />
+                  </Grid>
+                  {this.state.wellKnownMessagesIndex[id].license && (
+                    <Grid item xs={12} sm={12} md={4}>
+                      <span>{I18n.t('License')}: </span><span><a href={`https://spdx.org/licenses/${this.state.wellKnownMessagesIndex[id].license}.html`} target='_blank' rel='external nofollow'>{this.state.wellKnownMessagesIndex[id].license}</a></span>
+                    </Grid>
+                  )}
+                </Grid>
+                <Grid container spacing={3}>
+                  <InputSelect
+                    xs={12}
+                    sm={6}
+                    md={2}
+                    lg={2}
+                    label={I18n.t('Version')}
+                    value={this.state.wellKnownMessagesSelectedVersions[id]}
+                    onChange={(v) => this.setState({ wellKnownMessagesSelectedVersions: { ...this.state.wellKnownMessagesSelectedVersions, [id]: v } })}
+                    options={this.state.wellKnownMessagesIndex[id].releases.map((r) => r.version)}
+                  />
+                  <Grid item xs={12} sm={6} md={6} lg={4}>
+                    <Button
+                      color='primary'
+                      variant='contained'
+                      fullWidth
+                      startIcon={<Visibility />}
+                      onClick={() => this.showPredefinedConfig(id)}
+                      disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
+                    >
+                      {I18n.t('Show on GitHub')}
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} lg={4}>
+                    <Button
+                      color='primary'
+                      variant='contained'
+                      fullWidth
+                      startIcon={<VerticalAlignTop />}
+                      onClick={() => this.importPredefinedConfig(id)}
+                      disabled={!this.state.wellKnownMessagesSelectedVersions[id]}
+                    >
+                      {I18n.t('Import from GitHub')}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            ))}
+          </>
+        )}
 
         <br /><Divider />
         <h2>{I18n.t('Export')}</h2>
@@ -267,14 +280,19 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         </Grid>
         <Grid container spacing={3}>
           <InputSelect
-            sm={6} md={4} lg={2}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={2}
             label={I18n.t('Export format')}
             value={this.state.exportFormat}
-            options={['json', 'csv']}
+            options={[ 'json', 'csv' ]}
             onChange={(v) => this.setState({ exportFormat: v })}
           />
           <InputCheckbox
-            sm={12} md={6}
+            xs={12}
+            sm={12}
+            md={6}
             label={I18n.t('Select messages to export')}
             value={this.state.exportSelected}
             onChange={(v) => this.setState({ exportSelected: v })}
@@ -282,19 +300,24 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
             {I18n.t('If checked, you can select the configured messages you want to export. If not checked, all messages will be exported.')}
           </InputCheckbox>
         </Grid>
-        {this.state.exportSelected && <Grid container spacing={0}>
-          {messagesKeys.map((msgUuid) => (
-            <InputCheckbox
-              key={msgUuid}
-              sm={12} md={6} lg={4}
-              label={`${messages[msgUuid].id} ${messages[msgUuid].name}`}
-              value={this.state.exportSelectedEntries.includes(msgUuid)}
-              onChange={(v) => this.handleExportSelectMsg(msgUuid, v)}
-            />
-          ))}
-        </Grid>}
+        {this.state.exportSelected && (
+          <Grid container spacing={0}>
+            {messagesKeys.map((msgUuid) => (
+              <InputCheckbox
+                key={msgUuid}
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                label={`${messages[msgUuid].id} ${messages[msgUuid].name}`}
+                value={this.state.exportSelectedEntries.includes(msgUuid)}
+                onChange={(v) => this.handleExportSelectMsg(msgUuid, v)}
+              />
+            ))}
+          </Grid>
+        )}
         <Grid container spacing={3}>
-          <Grid item sm={12} md={6} lg={4}>
+          <Grid item xs={12} sm={12} md={6} lg={4}>
             <Button color='primary' variant='contained' fullWidth startIcon={<VerticalAlignBottom />} onClick={this.export}>
               {I18n.t('Export to file')}
             </Button>
@@ -313,11 +336,11 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   private handleExportSelectMsg (msgUuid: string, selected: boolean): void {
     if (selected) {
       this.setState((prevState) => ({
-        exportSelectedEntries: [...prevState.exportSelectedEntries, msgUuid],
+        exportSelectedEntries: [ ...prevState.exportSelectedEntries, msgUuid ],
       }));
     } else {
       this.setState((prevState) => ({
-        exportSelectedEntries: [...prevState.exportSelectedEntries.filter((uuid) => uuid !== msgUuid)],
+        exportSelectedEntries: [ ...prevState.exportSelectedEntries.filter((uuid) => uuid !== msgUuid) ],
       }));
     }
   }
@@ -342,8 +365,8 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       const l = I18n.getLanguage();
       for (const id in wellKnownMessagesIndex) {
         // use localized names and descriptions
-        wellKnownMessagesIndex[id].name = wellKnownMessagesIndex[id].nameLang?.[l] || wellKnownMessagesIndex[id].nameLang?.en || wellKnownMessagesIndex[id].name;
-        wellKnownMessagesIndex[id].description = wellKnownMessagesIndex[id].descriptionLang?.[l] || wellKnownMessagesIndex[id].descriptionLang?.en || wellKnownMessagesIndex[id].description;
+        wellKnownMessagesIndex[id].name = wellKnownMessagesIndex[id].nameLang?.[l] ?? wellKnownMessagesIndex[id].nameLang?.en ?? wellKnownMessagesIndex[id].name;
+        wellKnownMessagesIndex[id].description = wellKnownMessagesIndex[id].descriptionLang?.[l] ?? wellKnownMessagesIndex[id].descriptionLang?.en ?? wellKnownMessagesIndex[id].description;
 
         // preset version states
         if (wellKnownMessagesIndex[id].releases.length > 0) {
@@ -357,9 +380,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         wellKnownMessagesSelectedVersions,
       });
 
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      this.props.onError(err.toString());
+      this.props.onError(`${err}`);
     }
   }
 
@@ -368,7 +391,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * @param file Path of the file to fetch relative to `WELL_KNOWN_MESSAGES_RAW_BASE_URL`.
    * @returns The object loaded from the fetched json file.
    */
-  private async fetchJson<T = any> (file: string): Promise<T> {
+  private async fetchJson<T = unknown> (file: string): Promise<T> {
     const res = await fetch(WELL_KNOWN_MESSAGES_RAW_BASE_URL + file, {
       cache: 'no-cache',
       credentials: 'omit',
@@ -379,7 +402,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
       throw new Error(`HTTP Error: ${res.status} ${res.statusText}`);
     }
 
-    return res.json();
+    return (await res.json()) as T;
   }
 
   /**
@@ -418,7 +441,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     };
 
     // create an object with the messages to export with defaults set if some config parts are missing
-    const messages = this.props.native.messages || {};
+    const messages = this.props.native.messages ?? {};
     const exportMessages: ioBroker.AdapterConfigMessages = {};
     for (const msgUuid in messages) {
       // export only selected?
@@ -566,13 +589,13 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
           // convert to messages object
           const headerFields = arr.shift() as typeof CSV_HEADER_FIELDS | undefined;
-          if (!headerFields || !headerFields.includes('msgUuid')) {
+          if (!headerFields?.includes('msgUuid')) {
             throw new Error('Invalid file');
           }
 
           arr.forEach((msgFields, idx) => {
             const objParts = headerFields.map((k, i) => ({ [k]: msgFields[i] } as Record<typeof CSV_HEADER_FIELDS[number], string>));
-            const obj: Record<typeof CSV_HEADER_FIELDS[number], string> = Object.assign({}, ...objParts);
+            const obj = Object.assign({}, ...objParts) as Record<typeof CSV_HEADER_FIELDS[number], string>;
 
             if (!obj.msgUuid) {
               console.warn(`Ignore invalid entry on line ${idx + 2}!`, msgFields);
@@ -613,7 +636,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
                 commonRole: obj.parserCommonRole,
                 commonStates: obj.parserCommonStates || false,
                 autoSetInterval: parseInt(obj.parserAutoSetInterval, 10) || false,
-                autoSetValue: (parserDataType === 'number') ? parseInt(obj.parserAutoSetValue, 10) : parserDataType === 'boolean' ? strToBool(obj.parserAutoSetValue) : obj.parserAutoSetValue !== undefined ? obj.parserAutoSetValue : '',
+                autoSetValue: (parserDataType === 'number') ? parseInt(obj.parserAutoSetValue, 10) : parserDataType === 'boolean' ? strToBool(obj.parserAutoSetValue) : obj.parserAutoSetValue ?? '',
                 autoSetTriggerSend: strToBool(obj.parserAutoSetTriggerSend),
               };
             }
@@ -621,10 +644,10 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
         } else {
           // parse json
-          msgs = JSON.parse(contents);
+          msgs = JSON.parse(contents) as ioBroker.AdapterConfigMessagesLang;
         }
-      } catch (err: any) {
-        this.props.onError(I18n.t('Error parsing file! %s', err.toString()));
+      } catch (err) {
+        this.props.onError(I18n.t('Error parsing file! %s', `${err}`));
         return;
       }
 
@@ -641,7 +664,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     const version = this.state.wellKnownMessagesSelectedVersions[id];
     const release = this.state.wellKnownMessagesIndex[id]?.releases.find((r) => r.version === version);
 
-    if (!release || !release.file) {
+    if (!release?.file) {
       this.props.onError('Release not found');
       return;
     }
@@ -658,7 +681,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     const version = this.state.wellKnownMessagesSelectedVersions[id];
     const release = this.state.wellKnownMessagesIndex[id]?.releases.find((r) => r.version === version);
 
-    if (!release || !release.file) {
+    if (!release?.file) {
       this.props.onError('Release not found');
       return;
     }
@@ -667,9 +690,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
     try {
       msgs = await this.fetchJson('configs/' + release.file);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      this.props.onError(err.toString());
+      this.props.onError(`${err}`);
     }
 
     this.importMessagesObject(msgs);
@@ -695,11 +718,14 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               color='default'
               variant='contained'
               fullWidth
-              onClick={() => { this.props.onError(''); this.importMessagesObject(msgs, true); }}
+              onClick={() => {
+                this.props.onError('');
+                this.importMessagesObject(msgs, true);
+              }}
             >
               {I18n.t('Ignore this error and try to import')}
             </Button>
-          </div>
+          </div>,
         );
 
         return;
@@ -713,7 +739,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
     for (const msgUuid in msgs) {
       // get the name from nameLang if available in the current language and remove nameLang attribute
-      msgs[msgUuid].name = msgs[msgUuid].nameLang?.[I18n.getLanguage()] || msgs[msgUuid].nameLang?.en || msgs[msgUuid].name || msgs[msgUuid].id;
+      msgs[msgUuid].name = (msgs[msgUuid].nameLang?.[I18n.getLanguage()] ?? msgs[msgUuid].nameLang?.en ?? msgs[msgUuid].name) || msgs[msgUuid].id;
       delete msgs[msgUuid].nameLang;
 
       if (!native.messages[msgUuid]) {
@@ -732,7 +758,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
         // check parsers
         for (const parserUuid in msgs[msgUuid].parsers) {
           // get the name from nameLang if available in the current language and remove nameLang attribute
-          msgs[msgUuid].parsers[parserUuid].name = msgs[msgUuid].parsers[parserUuid].nameLang?.[I18n.getLanguage()] || msgs[msgUuid].parsers[parserUuid].nameLang?.en || msgs[msgUuid].parsers[parserUuid].name || msgs[msgUuid].parsers[parserUuid].id;
+          msgs[msgUuid].parsers[parserUuid].name = (msgs[msgUuid].parsers[parserUuid].nameLang?.[I18n.getLanguage()] ?? msgs[msgUuid].parsers[parserUuid].nameLang?.en ?? msgs[msgUuid].parsers[parserUuid].name) || msgs[msgUuid].parsers[parserUuid].id;
           delete msgs[msgUuid].parsers[parserUuid].nameLang;
 
           if (!native.messages[msgUuid].parsers[parserUuid]) {
@@ -764,10 +790,10 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * @param value The string to escape.
    * @returns The escaped string.
    */
-  private escapeCsvValue (value: any): string {
+  private escapeCsvValue (value: unknown): string {
     if (typeof value !== 'string') {
       try {
-        return value.toString();
+        return `${value}`;
       } catch (_err) {
         return '';
       }
@@ -775,9 +801,9 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
 
     if (value.match(/[;"\r\n]/)) {
       value = value.replace(/"/g, '""');
-      value = `"${value}"`
+      value = `"${value}"`;
     }
-    return value;
+    return value as string;
   }
 
   /**
@@ -788,18 +814,19 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * @returns Array of lines containing arrays of line values.
    */
   private readArrayFromCsv (text: string): string[][] {
-    let p = '', row = [''], i = 0, r = 0, s = !0, l;
-    const ret = [row];
+    let p = '', row = [ '' ], i = 0, r = 0, s = !0, l;
+    const ret = [ row ];
     for (l of text) {
-      if ('"' === l) {
+      if (l === '"') {
         if (s && l === p) row[i] += l;
         s = !s;
-      } else if (';' === l && s) l = row[++i] = '';
-      else if ('\n' === l && s) {
-        if ('\r' === p) row[i] = row[i].slice(0, -1);
-        row = ret[++r] = [l = '']; i = 0;
+      } else if (l === ';' && s) l = row[++i] = '';
+      else if (l === '\n' && s) {
+        if (p === '\r') row[i] = row[i].slice(0, -1);
+        row = ret[++r] = [ l = '' ];
+        i = 0;
       } else row[i] += l;
-      p = l;
+      p = l as string;
     }
     return ret;
   }

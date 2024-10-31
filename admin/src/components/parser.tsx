@@ -24,9 +24,9 @@ import { InputSelect } from './input-select';
 import { InputBitmask } from './input-bitmask';
 
 import {
+  PARSER_COMMON_STATES_REGEXP,
   PARSER_ID_REGEXP,
   PARSER_ID_RESERVED,
-  PARSER_COMMON_STATES_REGEXP,
 } from '../../../src/consts';
 
 /**
@@ -430,7 +430,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     }));
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { classes } = this.props;
 
     let dataType = 'number';
@@ -459,6 +459,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             aria-label='paste'
             title={I18n.t('Paste')}
             onClick={this.paste}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={this.props.readonly || !internalClipboard.parser}
           >
             <ContentPasteIcon />
@@ -469,6 +470,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             aria-label='delete'
             title={I18n.t('Remove')}
             onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={this.props.readonly || !this.props.onDelete}
           >
             <DeleteIcon />
@@ -477,7 +479,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
 
         <Grid container spacing={3}>
           <InputText
-            sm={6} md={4} lg={4}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={4}
             label={I18n.t('Parser ID')}
             value={this.state.id}
             disabled={this.props.readonly}
@@ -490,7 +495,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
           </InputText>
 
           <InputText
-            sm={6} md={6} lg={4}
+            xs={12}
+            sm={6}
+            md={6}
+            lg={4}
             label={I18n.t('Name')}
             value={this.state.name}
             disabled={this.props.readonly}
@@ -502,7 +510,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
 
         <Grid container spacing={3}>
           <InputSelect
-            sm={6} md={4} lg={2}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={2}
             label={I18n.t('Data type')}
             value={this.state.dataType}
             disabled={this.props.readonly}
@@ -512,52 +523,69 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             {I18n.t('Data type in the can message')}
           </InputSelect>
 
-          {this.state.dataType === 'custom' &&
+          {this.state.dataType === 'custom' && (
             <InputSelect
-              sm={6} md={4} lg={2}
+              xs={12}
+              sm={6}
+              md={4}
+              lg={2}
               label={I18n.t('Data type')}
               value={this.state.customDataType}
               disabled={this.props.readonly}
               onChange={(v) => this.handleChange('customDataType', v as ioBroker.CommonType)}
-              options={['boolean', 'number', 'string', 'mixed']}
+              options={[ 'boolean', 'number', 'string', 'mixed' ]}
             >
               {I18n.t('Data type in ioBroker')}
             </InputSelect>
-          }
+          )}
 
-          {!this.state.disabledDataOffsetAndLength && <>
+          {!this.state.disabledDataOffsetAndLength && (
+            <>
+              <InputSelect
+                xs={12}
+                sm={6}
+                md={2}
+                lg={1}
+                label={I18n.t('Offset')}
+                value={this.state.dataOffset.toString()}
+                disabled={this.props.readonly}
+                onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
+                options={[ '0', '1', '2', '3', '4', '5', '6', '7' ]}
+                disabledOptions={this.state.disabledDataOffsets}
+              />
+              <InputSelect
+                xs={12}
+                sm={6}
+                md={2}
+                lg={1}
+                label={I18n.t('Length')}
+                value={this.state.dataLength.toString()}
+                disabled={this.props.readonly}
+                onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
+                options={[ '1', '2', '3', '4', '5', '6', '7', '8' ]}
+                disabledOptions={this.state.disabledDataLengths}
+              />
+            </>
+          )}
+          {!this.state.disabledDataEncoding && (
             <InputSelect
-              sm={6} md={2} lg={1}
-              label={I18n.t('Offset')}
-              value={this.state.dataOffset.toString()}
-              disabled={this.props.readonly}
-              onChange={(v) => this.handleChange('dataOffset', parseInt(v, 10))}
-              options={['0', '1', '2', '3', '4', '5', '6', '7']}
-              disabledOptions={this.state.disabledDataOffsets}
-            />
-            <InputSelect
-              sm={6} md={2} lg={1}
-              label={I18n.t('Length')}
-              value={this.state.dataLength.toString()}
-              disabled={this.props.readonly}
-              onChange={(v) => this.handleChange('dataLength', parseInt(v, 10))}
-              options={['1', '2', '3', '4', '5', '6', '7', '8']}
-              disabledOptions={this.state.disabledDataLengths}
-            />
-          </>}
-          {!this.state.disabledDataEncoding &&
-            <InputSelect
-              sm={6} md={2} lg={1}
+              xs={12}
+              sm={6}
+              md={2}
+              lg={1}
               label={I18n.t('Encoding')}
               value={this.state.dataEncoding}
               disabled={this.props.readonly}
               onChange={(v) => this.handleChange('dataEncoding', v as ioBroker.AdapterConfigDataEncoding)}
-              options={['ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le']}
+              options={[ 'ascii', 'base64', 'hex', 'latin1', 'utf8', 'utf16le' ]}
             />
-          }
-          {!this.state.disabledDataUnit &&
+          )}
+          {!this.state.disabledDataUnit && (
             <InputText
-              sm={6} md={2} lg={1}
+              xs={12}
+              sm={6}
+              md={2}
+              lg={1}
               label={I18n.t('Unit')}
               value={this.state.dataUnit}
               disabled={this.props.readonly}
@@ -565,9 +593,12 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             >
               {I18n.t('e.g.')} <code>°C</code>
             </InputText>
-          }
+          )}
           <InputText
-            sm={6} md={4} lg={3}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
             label={I18n.t('Role')}
             value={this.state.commonRole}
             disabled={this.props.readonly}
@@ -585,7 +616,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             </IconButton>
           </InputText>
           <InputCheckbox
-            sm={6} md={4} lg={3}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
             label={I18n.t('Define possible states')}
             value={!!this.state.commonStates}
             disabled={this.props.readonly}
@@ -595,10 +629,13 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
           </InputCheckbox>
         </Grid>
 
-        {typeof this.state.commonStates === 'string' &&
+        {typeof this.state.commonStates === 'string' && (
           <Grid container spacing={3}>
             <InputText
-              sm={12} md={12} lg={12}
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
               label={I18n.t('Possible states')}
               value={this.state.commonStates}
               disabled={this.props.readonly}
@@ -608,12 +645,15 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               {I18n.t('Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto')}
             </InputText>
           </Grid>
-        }
+        )}
 
-        {this.state.dataType === 'boolean' &&
+        {this.state.dataType === 'boolean' && (
           <Grid container spacing={3}>
             <InputBitmask
-              sm={12} md={12} lg={8}
+              xs={12}
+              sm={12}
+              md={12}
+              lg={8}
               label={I18n.t('Boolean bitmask')}
               bits={8}
               value={this.state.booleanMask}
@@ -624,7 +664,10 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             </InputBitmask>
 
             <InputCheckbox
-              sm={12} md={6} lg={3}
+              xs={12}
+              sm={12}
+              md={6}
+              lg={3}
               label={I18n.t('Boolean invert')}
               value={this.state.booleanInvert}
               disabled={this.props.readonly}
@@ -633,12 +676,14 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               {I18n.t('Invert the boolean value')}
             </InputCheckbox>
           </Grid>
-        }
+        )}
 
-        {this.state.dataType === 'custom' &&
+        {this.state.dataType === 'custom' && (
           <Grid container spacing={3}>
             <InputText
-              sm={12} md={6}
+              xs={12}
+              sm={12}
+              md={6}
               label={I18n.t('Custom script read')}
               multiline={true}
               value={this.state.customScriptRead}
@@ -649,7 +694,9 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               <span dangerouslySetInnerHTML={{ __html: I18n.t('Script to read the value from the buffer. The buffer is available as %s and the value has to be written into %s.', '<code>buffer</code>', '<code>value</code>') }}></span>
             </InputText>
             <InputText
-              sm={12} md={6}
+              xs={12}
+              sm={12}
+              md={6}
               label={I18n.t('Custom script write')}
               multiline={true}
               value={this.state.customScriptWrite}
@@ -660,80 +707,101 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
               <span dangerouslySetInnerHTML={{ __html: I18n.t('Script to write the value to the buffer. The buffer is available as %s and the value as %s.', '<code>buffer</code>', '<code>value</code>') }}></span>
             </InputText>
           </Grid>
-        }
+        )}
 
-        {this.props.msgSend && <Grid container spacing={3}>
-          <InputCheckbox
-            sm={6} md={4} lg={3}
-            label={I18n.t('Automatically set a certain value')}
-            value={typeof this.state.autoSetInterval === 'number'}
-            disabled={this.props.readonly}
-            onChange={(v) => this.handleChange('autoSetInterval', v ? 60000 : false)}
-          >
-            {I18n.t('Set a certain value automatically in a given interval')}
-          </InputCheckbox>
-          {typeof this.state.autoSetInterval === 'number' &&
-            <>
-              <InputText
-                sm={6} md={4} lg={3}
-                label={I18n.t('Interval for automatic set')}
-                value={this.state.autoSetInterval.toString()}
-                disabled={this.props.readonly}
-                onChange={(v) => this.handleChange('autoSetInterval', parseInt(v, 10) || 0)}
-                transform={(v) => v.replace(/\D/g, '') /* remove anything but numbers */}
-              >
-                {I18n.t('Interval in milliseconds to automatically set the value')}
-              </InputText>
-
-              {dataType === 'number' &&
+        {this.props.msgSend && (
+          <Grid container spacing={3}>
+            <InputCheckbox
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              label={I18n.t('Automatically set a certain value')}
+              value={typeof this.state.autoSetInterval === 'number'}
+              disabled={this.props.readonly}
+              onChange={(v) => this.handleChange('autoSetInterval', v ? 60000 : false)}
+            >
+              {I18n.t('Set a certain value automatically in a given interval')}
+            </InputCheckbox>
+            {typeof this.state.autoSetInterval === 'number' && (
+              <>
                 <InputText
-                  sm={6} md={4} lg={3}
-                  label={I18n.t('Value to set')}
-                  value={(this.state.autoSetValue || 0).toString()}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  label={I18n.t('Interval for automatic set')}
+                  value={this.state.autoSetInterval.toString()}
                   disabled={this.props.readonly}
-                  onChange={(v) => this.handleChange('autoSetValue', parseFloat(v) || 0)}
-                  transform={(v) => v.replace(',', '.').replace(/[^\d.]/g, '')}
+                  onChange={(v) => this.handleChange('autoSetInterval', parseInt(v, 10) || 0)}
+                  transform={(v) => v.replace(/\D/g, '') /* remove anything but numbers */}
                 >
-                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                  {I18n.t('Interval in milliseconds to automatically set the value')}
                 </InputText>
-              }
-              {dataType === 'boolean' &&
-                <InputCheckbox
-                  sm={6} md={4} lg={3}
-                  label={I18n.t('Value to set')}
-                  value={!!this.state.autoSetValue}
-                  disabled={this.props.readonly}
-                  onChange={(v) => this.handleChange('autoSetValue', v)}
-                >
-                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
-                </InputCheckbox>
-              }
-              {dataType === 'string' &&
-                <InputText
-                  sm={6} md={4} lg={3}
-                  label={I18n.t('Value to set')}
-                  value={this.state.autoSetValue as string || ''}
-                  disabled={this.props.readonly}
-                  onChange={(v) => this.handleChange('autoSetValue', v)}
-                >
-                  {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
-                </InputText>
-              }
 
-              {!this.props.msgAutoSend && /* setting "trigger send" make only sense if autosend is disabled */
-                <InputCheckbox
-                  sm={6} md={4} lg={3}
-                  label={I18n.t('Trigger send')}
-                  value={!!this.state.autoSetTriggerSend}
-                  disabled={this.props.readonly}
-                  onChange={(v) => this.handleChange('autoSetTriggerSend', v)}
-                >
-                  {I18n.t('Trigger the send action every time the value is set automatically')}
-                </InputCheckbox>
-              }
-            </>
-          }
-        </Grid>}
+                {dataType === 'number' && (
+                  <InputText
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    label={I18n.t('Value to set')}
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                    value={(this.state.autoSetValue || 0).toString()}
+                    disabled={this.props.readonly}
+                    onChange={(v) => this.handleChange('autoSetValue', parseFloat(v) || 0)}
+                    transform={(v) => v.replace(',', '.').replace(/[^\d.]/g, '')}
+                  >
+                    {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                  </InputText>
+                )}
+                {dataType === 'boolean' && (
+                  <InputCheckbox
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    label={I18n.t('Value to set')}
+                    value={!!this.state.autoSetValue}
+                    disabled={this.props.readonly}
+                    onChange={(v) => this.handleChange('autoSetValue', v)}
+                  >
+                    {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                  </InputCheckbox>
+                )}
+                {dataType === 'string' && (
+                  <InputText
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    label={I18n.t('Value to set')}
+                    value={this.state.autoSetValue as string || ''}
+                    disabled={this.props.readonly}
+                    onChange={(v) => this.handleChange('autoSetValue', v)}
+                  >
+                    {I18n.t('The value to set automatically in the given interval (%s)', dataType)}
+                  </InputText>
+                )}
+
+                {!this.props.msgAutoSend && (/* setting "trigger send" make only sense if autosend is disabled */
+                  <InputCheckbox
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    label={I18n.t('Trigger send')}
+                    value={!!this.state.autoSetTriggerSend}
+                    disabled={this.props.readonly}
+                    onChange={(v) => this.handleChange('autoSetTriggerSend', v)}
+                  >
+                    {I18n.t('Trigger the send action every time the value is set automatically')}
+                  </InputCheckbox>
+                )}
+              </>
+            )}
+          </Grid>
+        )}
       </>
     );
   }
@@ -741,7 +809,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
   /**
    * Submit changes to the parent component.
    */
-  private onChange(): void {
+  private onChange (): void {
     this.props.onChange(this.props.uuid, {
       id: this.state.id,
       name: this.state.name,
@@ -770,7 +838,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
    */
   private handleChange<T extends keyof ParserState>(key: T, value: ParserState[T]): void {
     const newState = {
-      [key]: value
+      [key]: value,
     } as unknown as Pick<ParserState, keyof ParserState>;
 
     this.updateDependedElements(newState);
@@ -789,11 +857,12 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
    * @return The updated state with the options for the depended elements set.
    */
   private updateDependedElements<T extends Partial<ParserState>>(state: T): T {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const dataType = state.dataType || this.state?.dataType || 'uint8';
     switch (dataType) {
       case 'boolean':
         state.disabledDataOffsets = [];
-        state.disabledDataLengths = ['2', '3', '4', '5', '6', '7', '8'];
+        state.disabledDataLengths = [ '2', '3', '4', '5', '6', '7', '8' ];
         state.dataLength = 1;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = true;
@@ -803,7 +872,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       case 'int8':
       case 'uint8':
         state.disabledDataOffsets = [];
-        state.disabledDataLengths = ['2', '3', '4', '5', '6', '7', '8'];
+        state.disabledDataLengths = [ '2', '3', '4', '5', '6', '7', '8' ];
         state.dataLength = 1;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
@@ -813,8 +882,8 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       case 'int16_le':
       case 'uint16_be':
       case 'uint16_le':
-        state.disabledDataOffsets = ['7'];
-        state.disabledDataLengths = ['1', '3', '4', '5', '6', '7', '8'];
+        state.disabledDataOffsets = [ '7' ];
+        state.disabledDataLengths = [ '1', '3', '4', '5', '6', '7', '8' ];
         state.dataLength = 2;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
@@ -826,8 +895,8 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
       case 'uint32_le':
       case 'float32_be':
       case 'float32_le':
-        state.disabledDataOffsets = ['5', '6', '7'];
-        state.disabledDataLengths = ['1', '2', '3', '5', '6', '7', '8'];
+        state.disabledDataOffsets = [ '5', '6', '7' ];
+        state.disabledDataLengths = [ '1', '2', '3', '5', '6', '7', '8' ];
         state.dataLength = 4;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
@@ -835,14 +904,14 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         break;
       case 'double64_be':
       case 'double64_le':
-        state.disabledDataOffsets = ['1', '2', '3', '4', '5', '6', '7'];
-        state.disabledDataLengths = ['1', '2', '3', '4', '5', '6', '7'];
+        state.disabledDataOffsets = [ '1', '2', '3', '4', '5', '6', '7' ];
+        state.disabledDataLengths = [ '1', '2', '3', '4', '5', '6', '7' ];
         state.dataLength = 8;
         state.disabledDataEncoding = true;
         state.disabledDataUnit = false;
         state.disabledDataOffsetAndLength = false;
         break;
-      case 'string':
+      case 'string': {
         state.disabledDataOffsets = [];
         state.disabledDataLengths = [];
         state.disabledDataEncoding = false;
@@ -851,17 +920,18 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
         state.dataUnit = '';
 
         // disable data lengths depending on the selected offset
-        const dataOffset = state.dataOffset !== undefined ? state.dataOffset : this.state.dataOffset;
-        const dataLength = state.dataLength !== undefined ? state.dataLength : this.state.dataLength;
+        const dataOffset = state.dataOffset ?? this.state.dataOffset;
+        const dataLength = state.dataLength ?? this.state.dataLength;
         if ((dataLength + dataOffset) > 8) {
           state.dataLength = 8 - dataOffset;
         }
-        for (let i = 1; i<=8; i++) {
+        for (let i = 1; i <= 8; i++) {
           if (i + dataOffset > 8) {
             state.disabledDataLengths.push(i.toString());
           }
         }
         break;
+      }
       case 'custom':
         state.disabledDataOffsets = [];
         state.disabledDataLengths = [];
@@ -942,19 +1012,19 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
     }
 
     try {
-      const ps: ParserState = JSON.parse(internalClipboard.parser);
+      const ps: ParserState = JSON.parse(internalClipboard.parser) as ParserState;
 
       this.setState(this.validateState({
-        ...ps
+        ...ps,
       }), () => {
         this.onChange();
         if (this.props.showToast) {
           this.props.showToast(I18n.t('Pasted'));
         }
       });
-    } catch (err: any) {
+    } catch (err) {
       if (this.props.showToast) {
-        this.props.showToast(I18n.t('Error while pasting: %s', err.toString()));
+        this.props.showToast(I18n.t('Error while pasting: %s', `${err}`));
       }
     }
   }

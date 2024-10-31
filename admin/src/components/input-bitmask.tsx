@@ -50,17 +50,17 @@ interface InputBitmaskState {
  */
 export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputBitmaskProps, InputBitmaskState> {
 
-  constructor(props: InputBitmaskProps) {
+  constructor (props: InputBitmaskProps) {
     super(props);
 
     const bits: boolean[] = [];
-    for (let i=0; i < this.props.bits; i++) {
-      bits[i] = ((this.props.value & (1<<i)) > 0)
+    for (let i = 0; i < this.props.bits; i++) {
+      bits[i] = ((this.props.value & (1 << i)) > 0);
     }
 
     this.state = {
       value: this.props.value,
-      bits: bits
+      bits: bits,
     };
   }
 
@@ -68,20 +68,20 @@ export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint,
     if (prevProps.value !== this.props.value) {
       const bits: boolean[] = [];
       for (let i = 0; i < this.props.bits; i++) {
-        bits[i] = ((this.props.value & (1 << i)) > 0)
+        bits[i] = ((this.props.value & (1 << i)) > 0);
       }
       this.setState({
         value: this.props.value,
-        bits: bits
+        bits: bits,
       });
     }
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     return (
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl>
-          <InputLabel shrink={true} style={{ marginTop: '-5px'}}>{this.props.label}</InputLabel>
+          <InputLabel shrink={true} style={{ marginTop: '-5px' }}>{this.props.label}</InputLabel>
           <div>
             {this.state.bits.map((bitValue, idx) => {
               return (
@@ -101,19 +101,19 @@ export class InputBitmask extends React.PureComponent<Partial<Record<Breakpoint,
   }
 
   private changeBit (idx: number): void {
-    const bits = [...this.state.bits];
+    const bits = [ ...this.state.bits ];
     bits[idx] = !bits[idx];
 
     let value = 0;
     bits.forEach((b, i) => {
       if (b) {
-        value |= (1<<i);
+        value |= (1 << i);
       }
     });
 
     this.setState({
       bits: bits,
-      value: value
+      value: value,
     }, () => {
       this.props.onChange(this.state.value);
     });

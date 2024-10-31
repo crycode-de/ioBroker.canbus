@@ -1,21 +1,38 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.knownParsers = void 0;
-const boolean_1 = require("./boolean");
-const custom_1 = require("./custom");
-const number_1 = require("./number");
-const string_1 = require("./string");
-/**
- * Array of all known parsers.
- *
- * Each parser which may be used must be listed here!
- * The parsers will be loaded dynamically based on this list in `main.ts`.
- * No need to add new parsers somewhere else than here.
- */
-exports.knownParsers = [
-    boolean_1.ParserBoolean,
-    number_1.ParserNumber,
-    string_1.ParserString,
-    custom_1.ParserCustom
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var parsers_exports = {};
+__export(parsers_exports, {
+  knownParsers: () => knownParsers
+});
+module.exports = __toCommonJS(parsers_exports);
+var import_boolean = require("./boolean");
+var import_custom = require("./custom");
+var import_number = require("./number");
+var import_string = require("./string");
+const knownParsers = [
+  import_boolean.ParserBoolean,
+  import_number.ParserNumber,
+  import_string.ParserString,
+  import_custom.ParserCustom
 ];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvcGFyc2Vycy9pbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSx1Q0FBMEM7QUFDMUMscUNBQXdDO0FBQ3hDLHFDQUF3QztBQUN4QyxxQ0FBd0M7QUFFeEM7Ozs7OztHQU1HO0FBQ1UsUUFBQSxZQUFZLEdBQUc7SUFDMUIsdUJBQWE7SUFDYixxQkFBWTtJQUNaLHFCQUFZO0lBQ1oscUJBQVk7Q0FDYixDQUFDIn0=
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  knownParsers
+});
+//# sourceMappingURL=index.js.map

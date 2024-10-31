@@ -1,27 +1,17 @@
 import * as socketcan from 'socketcan';
 import { autobind } from 'core-decorators';
-import { CanBusAdapter } from './main';
 import { EventEmitter } from 'events';
+import type { CanBusAdapter } from './main';
 
 interface CanInterfaceEvents {
-  'message': (msg: socketcan.CanMessage) => void;
-  'stopped': () => void;
-}
-
-export declare interface CanInterface {
-  on<U extends keyof CanInterfaceEvents>(
-    event: U, listener: CanInterfaceEvents[U]
-  ): this;
-
-  emit<U extends keyof CanInterfaceEvents>(
-    event: U, ...args: Parameters<CanInterfaceEvents[U]>
-  ): boolean;
+  message: [msg: socketcan.CanMessage];
+  stopped: [];
 }
 
 /**
  * Interface to the CAN bus using socketcan.
  */
-export class CanInterface extends EventEmitter {
+export class CanInterface extends EventEmitter<CanInterfaceEvents> {
   private adapter: CanBusAdapter;
   private channel: socketcan.RawChannel | null = null;
   private started: boolean = false;
@@ -44,7 +34,7 @@ export class CanInterface extends EventEmitter {
       this.channel.addListener('onStopped', this.handleStopped);
       this.channel.start();
     } catch (err) {
-      this.adapter.log.error(`Error starting can interface: ` + err);
+      this.adapter.log.error(`Error starting can interface: ${err}`);
       return false;
     }
 
@@ -90,7 +80,7 @@ export class CanInterface extends EventEmitter {
       id: id,
       ext: ext,
       rtr: !!rtr,
-      data: data
+      data: data,
     };
     this.adapter.log.debug(`sending can message: ${JSON.stringify(msg)}`);
 

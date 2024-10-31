@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import AddIcon from '@material-ui/icons/Add'
-import DeleteIcon from '@material-ui/icons/Delete'
-import ConfirmDialog from '@iobroker/adapter-react/Dialogs/Confirm'
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ConfirmDialog from '@iobroker/adapter-react/Dialogs/Confirm';
 
 import I18n from '@iobroker/adapter-react/i18n';
 import { AppContext } from '../common';
@@ -75,7 +75,7 @@ interface MessageProps {
   /**
    * Known IDs of other configured messages.
    */
-  knownMessageIds: {id: string, dlc: number, uuid: string}[];
+  knownMessageIds: { id: string, dlc: number, uuid: string }[];
 
   /**
    * Classes to apply for some elements.
@@ -88,7 +88,6 @@ interface MessageProps {
   readonly?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface MessageState extends ioBroker.AdapterConfigMessage {
   /**
    * Index of the currently selected parser tab.
@@ -112,7 +111,7 @@ interface MessageState extends ioBroker.AdapterConfigMessage {
 }
 
 export class Message extends React.Component<MessageProps, MessageState> {
-  constructor(props: MessageProps) {
+  constructor (props: MessageProps) {
     super(props);
     // settings are our state
     this.state = this.validateState({
@@ -126,16 +125,16 @@ export class Message extends React.Component<MessageProps, MessageState> {
       autosend: this.props.config.autosend || false,
       parsers: this.props.config.parsers || {},
       parsersValid: {},
-      showRemoveConfirm: false
+      showRemoveConfirm: false,
     });
   }
 
-  public componentDidMount(): void {
+  public componentDidMount (): void {
     // revalidate parseres
     this.validateState();
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { classes, context } = this.props;
     return (
       <>
@@ -155,6 +154,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             aria-label='paste'
             title={I18n.t('Paste')}
             onClick={this.paste}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={this.props.readonly || !internalClipboard.message}
           >
             <ContentPasteIcon />
@@ -165,6 +165,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
             aria-label='delete'
             title={I18n.t('Remove')}
             onClick={() => this.setState({ showRemoveConfirm: true })}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={this.props.readonly || !this.props.onDelete}
           >
             <DeleteIcon />
@@ -187,7 +188,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
 
         <Grid container spacing={3}>
           <InputText
-            sm={6} md={4} lg={2}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={2}
             label={I18n.t('Message ID')}
             value={this.state.id}
             required
@@ -199,7 +203,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
             {I18n.t('CAN message ID in hex')}, {I18n.t('e.g.')} <code>00A0123B</code> {I18n.t('or')} <code>1AB</code>
           </InputText>
           <InputText
-            sm={6} md={4} lg={4}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={4}
             label={I18n.t('Name')}
             value={this.state.name}
             disabled={this.props.readonly}
@@ -208,10 +215,14 @@ export class Message extends React.Component<MessageProps, MessageState> {
             {I18n.t('e.g.')} <code>{I18n.t('My super message')}</code>
           </InputText>
           <InputSelect
-            sm={6} md={4} lg={3}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
             label={I18n.t('Data length')}
             value={this.state.dlc.toString()}
             options={{
+              /* eslint-disable @stylistic/quote-props */
               '-1': I18n.t('Not set'),
               '0': '0',
               '1': '1',
@@ -222,6 +233,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
               '6': '6',
               '7': '7',
               '8': '8',
+              /* eslint-enable @stylistic/quote-props */
             }}
             disabled={this.props.readonly}
             onChange={(v) => this.handleChange('dlc', parseInt(v, 10))}
@@ -231,7 +243,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
         </Grid>
         <Grid container spacing={3}>
           <InputCheckbox
-            sm={12} md={4} lg={4}
+            xs={12}
+            sm={12}
+            md={4}
+            lg={4}
             label={I18n.t('Receive')}
             value={this.state.receive}
             disabled={this.props.readonly}
@@ -240,7 +255,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
             {I18n.t('Receive messages with the given ID')}
           </InputCheckbox>
           <InputCheckbox
-            sm={12} md={4} lg={4}
+            xs={12}
+            sm={12}
+            md={4}
+            lg={4}
             label={I18n.t('Send')}
             value={this.state.send}
             disabled={this.props.readonly}
@@ -249,7 +267,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
             {I18n.t('Send messages with the given ID')}
           </InputCheckbox>
           <InputCheckbox
-            sm={12} md={4} lg={4}
+            xs={12}
+            sm={12}
+            md={4}
+            lg={4}
             label={I18n.t('Autosend')}
             value={this.state.autosend}
             disabled={this.props.readonly}
@@ -277,16 +298,16 @@ export class Message extends React.Component<MessageProps, MessageState> {
                 className={classes.tab}
                 style={{
                   color: this.state.parsersValid[parserUuid] === false ? 'red' : undefined,
-                  fontStyle: this.state.parsers[parserUuid].id ? undefined : 'italic'
+                  fontStyle: this.state.parsers[parserUuid].id ? undefined : 'italic',
                 }}
               />
             ))}
 
-            {!this.props.readonly &&
+            {!this.props.readonly && (
               <Button color='primary' startIcon={<AddIcon />} onClick={this.onParserAdd}>
                 {I18n.t('Add')}
               </Button>
-            }
+            )}
           </Tabs>
 
           {Object.keys(this.state.parsers).map((parserUuid, i) => (
@@ -310,7 +331,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
           ))}
         </div>
 
-        {this.state.showRemoveConfirm &&
+        {this.state.showRemoveConfirm && (
           <ConfirmDialog
             title={I18n.t('Remove this message?')}
             text={I18n.t('Are you sure you want to remove this message? This will also remove all it\'s parsers. The message will be treated as unconfigured and may be deleted on adapter restart.')}
@@ -321,7 +342,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
               this.setState({ showRemoveConfirm: false });
             }}
           />
-        }
+        )}
       </>
     );
   }
@@ -346,7 +367,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * Handler for tab changes.
    */
   @autobind
-  private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
+  private handleTabChange (_event: React.ChangeEvent<unknown>, newValue: number): void {
     this.setState({ tabIndex: newValue });
   }
 
@@ -357,7 +378,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    */
   private async handleChange<T extends keyof MessageState>(key: T, value: MessageState[T]): Promise<void> {
     const newState = {
-      [key]: value
+      [key]: value,
     } as unknown as Pick<MessageState, keyof MessageState>;
 
     // to validate the id we need the dlc and vice versa, so we take the missing one from the current state
@@ -440,7 +461,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * Add a new parser.
    */
   @autobind
-  private async onParserAdd(): Promise<void> {
+  private async onParserAdd (): Promise<void> {
     const uuid = uuidv4();
     const parser: ioBroker.AdapterConfigMessageParser = {
       id: '',
@@ -469,7 +490,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
     await this.onParserValidate(uuid, false);
 
     this.setState({
-      tabIndex: Object.keys(this.state.parsers).length - 1
+      tabIndex: Object.keys(this.state.parsers).length - 1,
     });
   }
 
@@ -479,13 +500,13 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param valid If the parser is valid.
    */
   @autobind
-  private async onParserValidate(uuid: string, valid: boolean): Promise<void> {
+  private async onParserValidate (uuid: string, valid: boolean): Promise<void> {
     const parsersValid = { ...this.state.parsersValid };
     parsersValid[uuid] = valid;
 
-    return new Promise((resolve) => {
+    return await new Promise((resolve) => {
       this.setState({
-        parsersValid: parsersValid
+        parsersValid: parsersValid,
       }, () => {
         // trigger own revalidate to proxy the parser validation state
         this.validateState();
@@ -501,10 +522,10 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param parser The new parser config.
    */
   @autobind
-  private onParserChange(uuid: string, parser: ioBroker.AdapterConfigMessageParser): void {
+  private onParserChange (uuid: string, parser: ioBroker.AdapterConfigMessageParser): void {
     const parsers = { ...this.state.parsers };
     parsers[uuid] = parser;
-    this.handleChange('parsers', parsers);
+    void this.handleChange('parsers', parsers);
   }
 
   /**
@@ -512,7 +533,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param uuid The UUID of the parser.
    */
   @autobind
-  private async onParserDelete(uuid: string): Promise<void> {
+  private async onParserDelete (uuid: string): Promise<void> {
     const parsers = { ...this.state.parsers };
     const parsersValid = { ...this.state.parsersValid };
     delete parsers[uuid];
@@ -559,7 +580,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
     }
 
     try {
-      const ms: MessageState = JSON.parse(internalClipboard.message);
+      const ms: MessageState = JSON.parse(internalClipboard.message) as MessageState;
 
       // need to create new parser UUIDs to keep them unique
       const parserUuids = Object.keys(ms.parsers);
@@ -570,7 +591,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
       }
 
       this.setState(this.validateState({
-        ...ms
+        ...ms,
       }), () => {
         this.onChange();
         if (this.props.showToast) {
@@ -579,7 +600,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
       });
     } catch (err) {
       if (this.props.showToast) {
-        this.props.showToast(I18n.t('Error while pasting: %s', err.toString()));
+        this.props.showToast(I18n.t('Error while pasting: %s', `${err}`));
       }
     }
   }

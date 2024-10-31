@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import I18n from '@iobroker/adapter-react/i18n';
 import Logo from '@iobroker/adapter-react/Components/Logo';
 
-import { AppContext } from '../common';
+import type { AppContext, CommonObj } from '../common';
 
 import { InputCheckbox } from './input-checkbox';
 import { InputText } from './input-text';
@@ -18,7 +18,7 @@ interface GeneralProps {
    * @param attr Name of the changed attribute.
    * @param value The new value.
    */
-  onChange: (attr: string, value: any) => void;
+  onChange: (attr: string, value: unknown) => void;
 
   /**
    * Will be called if the inputs are validated.
@@ -29,7 +29,7 @@ interface GeneralProps {
   /**
    * Show an error message.
    */
-  onError: (text: string | JSX.Element) => void;
+  onError: (text: string | React.ReactElement) => void;
 
   /**
    * Set the native config.
@@ -49,7 +49,7 @@ interface GeneralProps {
   /**
    * The common adapter options.
    */
-  common: (ioBroker.StateCommon & Record<string, any>) | (ioBroker.ChannelCommon & Record<string, any>) | (ioBroker.DeviceCommon & Record<string, any>) | (ioBroker.OtherCommon & Record<string, any>) | (ioBroker.EnumCommon & Record<string, any>);
+  common: CommonObj;
 }
 
 interface GeneralState extends ioBroker.AdapterConfigMainSettings {
@@ -60,7 +60,7 @@ interface GeneralState extends ioBroker.AdapterConfigMainSettings {
 }
 
 export class General extends React.Component<GeneralProps, GeneralState> {
-  constructor(props: GeneralProps) {
+  constructor (props: GeneralProps) {
     super(props);
     // native settings are our state
     this.state = this.validateState({
@@ -73,7 +73,7 @@ export class General extends React.Component<GeneralProps, GeneralState> {
     });
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     return (
       <>
         <Logo
@@ -82,11 +82,17 @@ export class General extends React.Component<GeneralProps, GeneralState> {
           native={this.props.native}
           onError={this.props.onError}
           onLoad={this.props.setNative}
-          classes={{} as any}
+          classes={{
+            buttons: '',
+            logo: '',
+          }}
         />
         <Grid container spacing={3}>
           <InputText
-            xs={12} sm={12} md={6} lg={4}
+            xs={12}
+            sm={12}
+            md={6}
+            lg={4}
             label={I18n.t('Interface')}
             value={this.state.interface}
             errorMsg={this.state.interfaceError}
@@ -98,7 +104,9 @@ export class General extends React.Component<GeneralProps, GeneralState> {
         </Grid>
         <Grid container spacing={3}>
           <InputCheckbox
-            sm={12} md={6}
+            xs={12}
+            sm={12}
+            md={6}
             label={I18n.t('Auto add seen messages')}
             value={this.state.autoAddSeenMessages}
             onChange={(v) => this.handleChange('autoAddSeenMessages', v)}
@@ -106,7 +114,9 @@ export class General extends React.Component<GeneralProps, GeneralState> {
             {I18n.t('Automatically add new messages to the list of our known messages when they are received.')}
           </InputCheckbox>
           <InputCheckbox
-            sm={12} md={6}
+            xs={12}
+            sm={12}
+            md={6}
             label={I18n.t('Delete unconfigured messages')}
             value={this.state.deleteUnconfiguredMessages}
             onChange={(v) => this.handleChange('deleteUnconfiguredMessages', v)}
@@ -116,7 +126,9 @@ export class General extends React.Component<GeneralProps, GeneralState> {
         </Grid>
         <Grid container spacing={3}>
           <InputCheckbox
-            sm={12} md={6}
+            xs={12}
+            sm={12}
+            md={6}
             label={I18n.t('Use raw states')}
             value={this.state.useRawStates}
             onChange={(v) => this.handleChange('useRawStates', v)}
@@ -125,7 +137,9 @@ export class General extends React.Component<GeneralProps, GeneralState> {
             <code>{this.props.context.adapterName}.{this.props.context.instance}.raw.received</code> {I18n.t('and')} <code>{this.props.context.adapterName}.{this.props.context.instance}.raw.send</code>
           </InputCheckbox>
           <InputCheckbox
-            sm={12} md={6}
+            xs={12}
+            sm={12}
+            md={6}
             label={I18n.t('Use rtr flag')}
             value={this.state.useRtrFlag}
             onChange={(v) => this.handleChange('useRtrFlag', v)}
@@ -144,7 +158,7 @@ export class General extends React.Component<GeneralProps, GeneralState> {
    */
   private handleChange<T extends keyof GeneralState>(key: T, value: GeneralState[T]): void {
     const newState = {
-      [key]: value
+      [key]: value,
     } as unknown as Pick<GeneralState, keyof GeneralState>;
 
     this.validateState(newState);

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/parsers/index.ts"],
+  "sourcesContent": ["import { ParserBoolean } from './boolean';\nimport { ParserCustom } from './custom';\nimport { ParserNumber } from './number';\nimport { ParserString } from './string';\n\n/**\n * Array of all known parsers.\n *\n * Each parser which may be used must be listed here!\n * The parsers will be loaded dynamically based on this list in `main.ts`.\n * No need to add new parsers somewhere else than here.\n */\nexport const knownParsers = [\n  ParserBoolean,\n  ParserNumber,\n  ParserString,\n  ParserCustom,\n];\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,qBAA8B;AAC9B,oBAA6B;AAC7B,oBAA6B;AAC7B,oBAA6B;AAStB,MAAM,eAAe;AAAA,EAC1B;AAAA,EACA;AAAA,EACA;AAAA,EACA;AACF;",
+  "names": []
+}

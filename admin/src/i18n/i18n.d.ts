@@ -22,7 +22,7 @@ declare module '@iobroker/adapter-react/i18n' {
    * @param word The (key) word to look up the string. Has to be defined at least in `i18n/en.json`.
    * @param args Optional arguments which will replace the first (second, third, ...) occurrence of %s
    */
-  function t(word: AdminWord, ...args: string[]): string;
+  function t (word: AdminWord, ...args: string[]): string;
 
   /**
    * Get the current language code.

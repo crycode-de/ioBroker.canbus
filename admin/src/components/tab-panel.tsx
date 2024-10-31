@@ -3,12 +3,12 @@ import Box from '@material-ui/core/Box';
 
 interface TabPanelProps {
   children?: React.ReactNode;
-  index: any;
-  value: any;
+  index: unknown;
+  value: unknown;
   className?: string;
 }
 
-export const TabPanel = (props: TabPanelProps): JSX.Element => {
+export const TabPanel = (props: TabPanelProps): React.ReactElement => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -22,4 +22,4 @@ export const TabPanel = (props: TabPanelProps): JSX.Element => {
       {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
-}
+};

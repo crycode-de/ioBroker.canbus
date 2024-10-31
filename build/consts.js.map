@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/consts.ts"],
+  "sourcesContent": ["export const INTERFACE_REGEXP = /^[\\w-/]{1,}$/;\n\nexport const MESSAGE_ID_REGEXP = /^([0-7][0-9A-F]{2}|[01][0-9A-F]{7})$/;\nexport const MESSAGE_ID_REGEXP_WITH_DLC = /^([0-7][0-9A-F]{2}|[01][0-9A-F]{7})(-[0-8])?$/;\n\nexport const PARSER_ID_REGEXP = /^[0-9a-z-_]{1,64}$/;\nexport const PARSER_ID_RESERVED = [ 'rtr', 'raw', 'json', 'send' ];\n\nexport const PARSER_COMMON_STATES_REGEXP = /^([^=]+=[^,]+,)*([^=]+=[^,]+)$/;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAO,MAAM,mBAAmB;AAEzB,MAAM,oBAAoB;AAC1B,MAAM,6BAA6B;AAEnC,MAAM,mBAAmB;AACzB,MAAM,qBAAqB,CAAE,OAAO,OAAO,QAAQ,MAAO;AAE1D,MAAM,8BAA8B;",
+  "names": []
+}

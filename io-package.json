@@ -160,7 +160,6 @@
                 "zh-cn": "对管理员中的邮件进行排序，俄语翻译已更新"
             }
         },
-        "title": "CAN-Bus",
         "titleLang": {
             "en": "CAN-Bus",
             "de": "CAN-Bus",
@@ -194,9 +193,12 @@
             "can-bus",
             "network"
         ],
-        "license": "CC-BY-NC-SA-4.0",
+        "licenseInformation": {
+            "license": "CC-BY-NC-SA-4.0",
+            "type": "free"
+        },
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
+        "tier": 3,
         "icon": "canbus.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/crycode-de/ioBroker.canbus/master/admin/canbus.png",
@@ -210,7 +212,12 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=2.0.0"
+                "js-controller": ">=5.0.19"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=6.17"
             }
         ],
         "plugins": {

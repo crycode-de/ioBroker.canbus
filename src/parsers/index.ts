@@ -14,5 +14,5 @@ export const knownParsers = [
   ParserBoolean,
   ParserNumber,
   ParserString,
-  ParserCustom
+  ParserCustom,
 ];

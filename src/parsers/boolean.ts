@@ -1,4 +1,4 @@
-import { CanBusAdapter } from '../main';
+import type { CanBusAdapter } from '../main';
 import { ParserBase } from './base';
 
 /**
@@ -7,14 +7,15 @@ import { ParserBase } from './base';
 export class ParserBoolean extends ParserBase {
 
   protected static readonly handledDataTypes: ioBroker.AdapterConfigDataType[] = [
-    'boolean'
+    'boolean',
   ];
 
-  constructor(adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
+  constructor (adapter: CanBusAdapter, parserConfig: ioBroker.AdapterConfigMessageParser) {
     super(adapter, parserConfig);
   }
 
-  public async read(buf: Buffer): Promise<boolean | Error> {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async read (buf: Buffer): Promise<boolean | Error> {
     if (this.cfg.dataOffset >= buf.length) {
       return new Error('Data is too short for given offset');
     }
@@ -37,7 +38,8 @@ export class ParserBoolean extends ParserBase {
     return ret;
   }
 
-  public async write(buf: Buffer, val: boolean): Promise<Buffer | Error> {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  public async write (buf: Buffer, val: boolean): Promise<Buffer | Error> {
     if (this.cfg.dataOffset >= buf.length) {
       return new Error('Data is too short for given offset');
     }

@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import { Theme, withStyles } from '@material-ui/core/styles';
 import { CreateCSSProperties } from '@material-ui/core/styles/withStyles';
-import AddIcon from '@material-ui/icons/Add'
+import AddIcon from '@material-ui/icons/Add';
 
 import I18n from '@iobroker/adapter-react/i18n';
 
@@ -15,7 +15,7 @@ import { TabPanel } from './tab-panel';
 import { General } from './general';
 import { ImportExport } from './import-export';
 import { Message } from './message';
-import { AppContext } from '../common';
+import type { AppContext, CommonObj } from '../common';
 import {
   sortMessagesById,
   uuidv4,
@@ -27,18 +27,18 @@ const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: 'calc(100% - 102px)'
+    height: 'calc(100% - 102px)',
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
+    borderRight: `1px solid ${theme.palette.divider}`,
   },
   tab: {
-    textTransform: 'none'
+    textTransform: 'none',
   },
   tabpanel: {
     position: 'relative',
     width: '100%',
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   fabTopRight: {
     '& > button': {
@@ -46,8 +46,8 @@ const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
     },
     position: 'absolute',
     top: theme.spacing(2),
-    right: theme.spacing(2)
-  }
+    right: theme.spacing(2),
+  },
 });
 
 interface SettingsProps {
@@ -64,7 +64,7 @@ interface SettingsProps {
   /**
    * The common adapter options.
    */
-  common: (ioBroker.StateCommon & Record<string, any>) | (ioBroker.ChannelCommon & Record<string, any>) | (ioBroker.DeviceCommon & Record<string, any>) | (ioBroker.OtherCommon & Record<string, any>) | (ioBroker.EnumCommon & Record<string, any>);
+  common: CommonObj;
 
   /**
    * The app context.
@@ -74,6 +74,7 @@ interface SettingsProps {
   /**
    * The settings were changed.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (attr: string, value: any) => void;
 
   /**
@@ -94,7 +95,7 @@ interface SettingsProps {
   /**
    * Show an error message.
    */
-  onError: (text: string | JSX.Element) => void;
+  onError: (text: string | React.ReactElement) => void;
 }
 
 interface SettingsState {
@@ -136,10 +137,10 @@ interface SettingsState {
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
 
-  constructor(props: SettingsProps) {
+  constructor (props: SettingsProps) {
     super(props);
 
-    const messages = this.props.native.messages || {};
+    const messages = this.props.native.messages ?? {};
     this.state = {
       tabIndex: 0,
       generalValid: true,
@@ -151,22 +152,22 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     };
   }
 
-  public componentDidMount(): void {
+  public componentDidMount (): void {
     const { socket, instance, adapterName } = this.props.context;
 
     // subscribe to object changes to live display new unconfigured messages.
-    socket.subscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
+    void socket.subscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
 
     // get unconfigured messages
-    this.loadUnconfiguredMessages();
+    void this.loadUnconfiguredMessages();
   }
 
-  public componentWillUnmount(): void {
+  public componentWillUnmount (): void {
     const { socket, instance, adapterName } = this.props.context;
-    socket.unsubscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
+    void socket.unsubscribeObject(`${adapterName}.${instance}.*`, this.handleObjChange);
   }
 
-  public render(): React.ReactNode {
+  public render (): React.ReactNode {
     const { classes, native, common, context } = this.props;
 
     /**
@@ -174,7 +175,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
      */
     let tabIndex: number = 0;
 
-    const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({id: this.state.messages[uuid].id, dlc: this.state.messages[uuid].dlc, uuid: uuid}));
+    const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({ id: this.state.messages[uuid].id, dlc: this.state.messages[uuid].dlc, uuid: uuid }));
 
     return (
       <div className={classes.root}>
@@ -190,7 +191,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             id='tab-0'
             className={classes.tab}
             style={{
-              color: this.state.generalValid === false ? 'red' : undefined
+              color: this.state.generalValid === false ? 'red' : undefined,
             }}
           />
           <Tab
@@ -208,14 +209,14 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               className={classes.tab}
               style={{
                 color: this.state.messagesValid[msgUuid] === false ? 'red' : undefined,
-                fontStyle: this.state.messages[msgUuid].id ? undefined : 'italic'
+                fontStyle: this.state.messages[msgUuid].id ? undefined : 'italic',
               }}
             />
           ))}
 
-          {this.state.messagesUnconfiguredKeys.length > 0 &&
+          {this.state.messagesUnconfiguredKeys.length > 0 && (
             <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>
-          }
+          )}
           {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
             <Tab
               key={`tab-unconf-${i}`}
@@ -273,11 +274,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           </TabPanel>
         ))}
 
-        {this.state.messagesUnconfiguredKeys.length > 0 &&
+        {this.state.messagesUnconfiguredKeys.length > 0 && (
           <TabPanel value={this.state.tabIndex} index={tabIndex++}>
             {/* dummy for unconfigured messages divider */}
           </TabPanel>
-        }
+        )}
 
         {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
           <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
@@ -319,7 +320,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Handler for tab changes.
    */
   @autobind
-  private handleTabChange(_event: React.ChangeEvent<any>, newValue: number): void {
+  private handleTabChange (_event: React.ChangeEvent<unknown>, newValue: number): void {
     this.setState({ tabIndex: newValue });
   }
 
@@ -329,22 +330,22 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param value The new value.
    */
   @autobind
-  private async onGeneralChange(attr: string, value: any): Promise<void> {
+  private async onGeneralChange (attr: string, value: unknown): Promise<void> {
     this.props.onChange(attr, value);
 
     if (attr === 'messages') {
-      if (Object.keys(value).length === 0) {
+      if (Object.keys(value as ioBroker.AdapterConfigMessages).length === 0) {
         // activate the first tab if there are no messages
         await new Promise<void>((resolve) => {
           this.setState({
-            messages: value,
-            tabIndex: 0
+            messages: value as ioBroker.AdapterConfigMessages,
+            tabIndex: 0,
           }, resolve);
         });
       } else {
         await new Promise<void>((resolve) => {
           this.setState({
-            messages: value
+            messages: value as ioBroker.AdapterConfigMessages,
           }, resolve);
         });
       }
@@ -357,10 +358,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param msg The new message config.
    */
   @autobind
-  private onMessageChange(uuid: string, msg: ioBroker.AdapterConfigMessage): void {
+  private onMessageChange (uuid: string, msg: ioBroker.AdapterConfigMessage): void {
     const msgs = { ...this.state.messages };
     msgs[uuid] = msg;
-    this.onGeneralChange('messages', msgs);
+    void this.onGeneralChange('messages', msgs);
   }
 
   /**
@@ -368,7 +369,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param uuid The UUID of the message.
    */
   @autobind
-  private async onMessageDelete(uuid: string): Promise<void> {
+  private async onMessageDelete (uuid: string): Promise<void> {
     const messages = { ...this.state.messages };
     const messagesValid = { ...this.state.messagesValid };
     const messagesKeys = this.state.messagesKeys.filter((k) => k !== uuid);
@@ -391,7 +392,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     });
 
     // reload unconfigured messages since the deleted message may still exists as an object
-    this.loadUnconfiguredMessages();
+    void this.loadUnconfiguredMessages();
   }
 
   /**
@@ -399,10 +400,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param valid If the general settings are valid.
    */
   @autobind
-  private async onGeneralValidate(valid: boolean): Promise<void> {
-    return new Promise((resolve) => {
+  private async onGeneralValidate (valid: boolean): Promise<void> {
+    return await new Promise((resolve) => {
       this.setState({
-        generalValid: valid
+        generalValid: valid,
       }, () => {
         this.validate();
         resolve();
@@ -416,11 +417,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param valid If the message is valid.
    */
   @autobind
-  private async onMessageValidate(uuid: string, valid: boolean): Promise<void> {
+  private async onMessageValidate (uuid: string, valid: boolean): Promise<void> {
     const messagesValid = { ...this.state.messagesValid };
     messagesValid[uuid] = valid;
 
-    return new Promise((resolve) => {
+    return await new Promise((resolve) => {
       this.setState({
         messagesValid,
       }, () => {
@@ -434,7 +435,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Add a new message.
    */
   @autobind
-  private async onMessageAdd(): Promise<void> {
+  private async onMessageAdd (): Promise<void> {
     const uuid = uuidv4();
     const msg: ioBroker.AdapterConfigMessage = {
       id: '',
@@ -468,10 +469,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param id The ID (not UUID!) of the unconfigured message.
    */
   @autobind
-  private async onMessageAddFromUnconfigured(id: string): Promise<void> {
+  private async onMessageAddFromUnconfigured (id: string): Promise<void> {
     const uuid = uuidv4();
     const msg: ioBroker.AdapterConfigMessage = {
-      ...this.state.messagesUnconfigured[id]
+      ...this.state.messagesUnconfigured[id],
     };
 
     const messages = { ...this.state.messages };
@@ -500,7 +501,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * This will overwrite the current state of unconfigured messages.
    */
   @autobind
-  private async loadUnconfiguredMessages(): Promise<void> {
+  private async loadUnconfiguredMessages (): Promise<void> {
     const { socket, instance, adapterName } = this.props.context;
 
     const objs = await socket.getObjectView(`${adapterName}.${instance}.`, `${adapterName}.${instance}.\u9999`, 'channel');
@@ -525,7 +526,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param obj ioBroker object to add.
    * @return `true` if the message is added.
    */
-  private addPossiblyUnconfiguredMessage(unconfMessages: ioBroker.AdapterConfigMessages, obj: ioBroker.Object): boolean {
+  private addPossiblyUnconfiguredMessage (unconfMessages: ioBroker.AdapterConfigMessages, obj: ioBroker.Object): boolean {
 
     if (obj.type !== 'channel') return false;
 
@@ -533,7 +534,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     const idParts = obj._id.split('.');
     if (!idParts[2].match(MESSAGE_ID_REGEXP_WITH_DLC)) return false;
 
-    const [id, dlcStr] = idParts[2].split('-');
+    const [ id, dlcStr ] = idParts[2].split('-');
     const dlc = (dlcStr === undefined) ? -1 : parseInt(dlcStr, 10);
 
     // check if the message ID exists in currently configures messages
@@ -549,7 +550,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
       receive: true,
       send: false,
       autosend: false,
-      parsers: {}
+      parsers: {},
     };
 
     return true;
@@ -563,7 +564,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param obj The ioBroker object or `null` if the object was deleted.
    */
   @autobind
-  private handleObjChange(id: string, obj: ioBroker.Object | null | undefined): void {
+  private handleObjChange (id: string, obj: ioBroker.Object | null | undefined): void {
     const { instance, adapterName } = this.props.context;
 
     // don't handle any foreign objects
@@ -614,7 +615,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * This will use the results of the previous general/message validation results.
    * @return `true` if all settings are valid.
    */
-  private validate(): boolean {
+  private validate (): boolean {
     let isValid = this.state.generalValid;
 
     if (isValid) {

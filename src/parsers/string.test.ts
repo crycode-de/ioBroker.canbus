@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { ParserString } from './string';
+import type { CanBusAdapter } from '../main';
 
 const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   booleanInvert: false,
@@ -16,23 +17,23 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   commonRole: 'state',
   commonStates: false,
   id: '',
-  name: ''
+  name: '',
 };
 
 describe('ParserString', () => {
   const buf = Buffer.alloc(8);
 
   it(`should read 'Testäöüß' latin1`, async () => {
-    const parser = new ParserString({} as any, genericParserConfig);
+    const parser = new ParserString({} as unknown as CanBusAdapter, genericParserConfig);
     buf.write('Testäöüß', 'latin1');
     const result = await parser.read(buf);
     expect(result).to.equal('Testäöüß');
   });
 
   it(`should read 'äöüß' utf8`, async () => {
-    const parser = new ParserString({} as any, {
+    const parser = new ParserString({} as unknown as CanBusAdapter, {
       ...genericParserConfig,
-      dataEncoding: 'utf8'
+      dataEncoding: 'utf8',
     });
     buf.write('äöüß', 'utf8');
     const result = await parser.read(buf);
@@ -40,10 +41,10 @@ describe('ParserString', () => {
   });
 
   it(`should read 'bar' latin1 with offset and length`, async () => {
-    const parser = new ParserString({} as any, {
+    const parser = new ParserString({} as unknown as CanBusAdapter, {
       ...genericParserConfig,
       dataOffset: 4,
-      dataLength: 3
+      dataLength: 3,
     });
     buf.write('foo bar!', 'latin1');
     const result = await parser.read(buf);
@@ -51,16 +52,16 @@ describe('ParserString', () => {
   });
 
   it(`should write 'Testäöüß' latin1`, async () => {
-    const parser = new ParserString({} as any, genericParserConfig);
+    const parser = new ParserString({} as unknown as CanBusAdapter, genericParserConfig);
     buf.fill(0);
     await parser.write(buf, 'Testäöüß');
     expect(buf.toString('latin1')).to.equal('Testäöüß');
   });
 
   it(`should write 'äöüß' utf8`, async () => {
-    const parser = new ParserString({} as any, {
+    const parser = new ParserString({} as unknown as CanBusAdapter, {
       ...genericParserConfig,
-      dataEncoding: 'utf8'
+      dataEncoding: 'utf8',
     });
     buf.fill(0);
     await parser.write(buf, 'äöüß');
@@ -68,10 +69,10 @@ describe('ParserString', () => {
   });
 
   it(`should write 'foo bar!' latin1 with offset and length`, async () => {
-    const parser = new ParserString({} as any, {
+    const parser = new ParserString({} as unknown as CanBusAdapter, {
       ...genericParserConfig,
       dataOffset: 4,
-      dataLength: 3
+      dataLength: 3,
     });
     buf.write('foo foo!', 'latin1');
     await parser.write(buf, 'bar?');

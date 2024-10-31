@@ -9,6 +9,7 @@
         "allowJs": true,
         "checkJs": true,
 
+        "skipLibCheck": true, // Don't report errors in 3rd party definitions
         "noEmitOnError": true,
         "outDir": "./build/",
         "removeComments": false,
@@ -31,20 +32,17 @@
         // "noUnusedLocals": true,
         // "noUnusedParameters": true,
 
-        // Consider targetting es2019 or higher if you only support Node.js 12+
-        "target": "es2018",
+        "target": "es2021",
+        "lib": ["es2021"],
 
         "experimentalDecorators": true,
 
-        "sourceMap": false,
-        "inlineSourceMap": true,
-        //"inlineSources": true,
-        //"sourceRoot": "/",
+        "sourceMap": true
 
-        "watch": false
     },
     "include": [
-        "**/*.ts"
+        "**/*.ts",
+        "eslint.config.mjs"
     ],
     "exclude": [
         "build/**",

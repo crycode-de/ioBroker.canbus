@@ -11,24 +11,31 @@ import I18n from '@iobroker/adapter-react/i18n';
 
 import * as Sentry from '@sentry/react';
 
-import { AppContext } from './common';
+import type { AppContext, CommonObj } from './common';
 
 import Settings from './components/settings';
 
 import { compareObjects } from './lib/helpers';
 
 import * as ioPkg from '../../io-package.json';
+import Connection from '@iobroker/adapter-react/Connection';
 
 const styles = (_theme: Theme): StyleRules => ({
   root: {},
 });
 
-class App extends GenericApp {
-  constructor(props: GenericAppProps) {
+class App extends GenericApp implements AppContext {
+
+  public socket!: Connection;
+  public adapterName!: string;
+  public common!: CommonObj;
+
+  constructor (props: GenericAppProps) {
     const extendedProps: GenericAppSettings & { sentryDSN: string } = {
       ...props,
       encryptedFields: [],
       translations: {
+        /* eslint-disable @typescript-eslint/no-require-imports,@stylistic/quote-props,@typescript-eslint/no-unsafe-assignment */
         'en': require('./i18n/en.json'),
         'de': require('./i18n/de.json'),
         'ru': require('./i18n/ru.json'),
@@ -39,6 +46,7 @@ class App extends GenericApp {
         'es': require('./i18n/es.json'),
         'pl': require('./i18n/pl.json'),
         'zh-cn': require('./i18n/zh-cn.json'),
+        /* eslint-enable @typescript-eslint/no-require-imports,@stylistic/quote-props,@typescript-eslint/no-unsafe-assignment */
       },
       sentryDSN: ioPkg.common.plugins.sentry.dsn,
     };
@@ -46,17 +54,15 @@ class App extends GenericApp {
     super(props, extendedProps);
   }
 
-  public onConnectionReady (): void {
+  public async onConnectionReady (): Promise<void> {
     // executed when connection is ready
 
     // read the saved native config to allow compare in `getIsChanged()`
-    this.socket.getObject(this.instanceId)
-      .then((obj) => {
-        this.savedNative = obj?.native || {};
-      });
+    const obj = await this.socket.getObject(this.instanceId);
+    this.savedNative = obj?.native ?? {};
   }
 
-  public getIsChanged (native?: Record<string, any>): boolean {
+  public getIsChanged (native?: ioBroker.AdapterConfig): boolean {
     // use own implementation to compare the native objects
     return !compareObjects(this.savedNative, native);
   }
@@ -71,7 +77,7 @@ class App extends GenericApp {
     return super.onPrepareSave(settings);
   }
 
-  public render (): React.ReactNode {
+  public render (): React.ReactElement {
     if (!this.state.loaded) {
       return super.render();
     }
@@ -81,7 +87,7 @@ class App extends GenericApp {
     const context: AppContext = {
       socket: this.socket,
       adapterName: this.adapterName,
-      instance: this.instance
+      instance: this.instance,
     };
 
     return (
@@ -117,14 +123,14 @@ class App extends GenericApp {
   @autobind
   private setNative (native: ioBroker.AdapterConfig): void {
     // create new object
-    native = JSON.parse(JSON.stringify(native));
+    native = JSON.parse(JSON.stringify(native)) as ioBroker.AdapterConfig;
 
     const changed = this.getIsChanged(native);
 
     // set loaded to false and then back to true to force a remount of the
     // settings component which will reload all settings
     this.setState({
-      loaded: false
+      loaded: false,
     }, () => {
       this.setState({
         native,

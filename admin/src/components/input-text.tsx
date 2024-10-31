@@ -77,23 +77,23 @@ interface InputTextState {
 export class InputText extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputTextProps, InputTextState> {
   private textArea: HTMLTextAreaElement | null | undefined;
 
-  constructor(props: InputTextProps) {
+  constructor (props: InputTextProps) {
     super(props);
 
     this.state = {
-      value: this.props.value
+      value: this.props.value,
     };
   }
 
   public componentDidUpdate (prevProps: InputTextProps): void {
     if (prevProps.value !== this.props.value) {
       this.setState({
-        value: this.props.value
+        value: this.props.value,
       });
     }
   }
 
-  public render(): JSX.Element {
+  public render (): React.ReactElement {
     return (
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl fullWidth>
@@ -102,13 +102,13 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
               freeSolo
               options={this.props.autoCompleteOptions}
               value={this.state.value}
-              onChange={(e, v) => this.handleChange(v || '')}
+              onChange={(_e, v) => this.handleChange(v ?? '')}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label={this.props.label}
                   required={this.props.required}
-                  type={this.props.type || 'string'}
+                  type={this.props.type ?? 'string'}
                   disabled={this.props.disabled}
                   error={!!this.props.errorMsg}
                   helperText={this.props.errorMsg}
@@ -121,10 +121,10 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
             />
           ) : (
             <TextField
-              label = {this.props.label}
+              label={this.props.label}
               value={this.state.value}
               required={this.props.required}
-              type={this.props.type || 'string'}
+              type={this.props.type ?? 'string'}
               disabled={this.props.disabled}
               error={!!this.props.errorMsg}
               helperText={this.props.errorMsg}
@@ -146,6 +146,7 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
     if (typeof this.props.transform === 'function') {
       value = this.props.transform(value, this.state.value);
     } else {
+      // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
       switch (this.props.transform) {
         case 'lowerCase':
           value = value.toLowerCase();
@@ -161,7 +162,7 @@ export class InputText extends React.PureComponent<Partial<Record<Breakpoint, bo
     }
 
     this.setState({
-      value
+      value,
     }, () => {
       this.props.onChange(this.state.value);
     });

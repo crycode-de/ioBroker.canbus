@@ -1,35 +1,55 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ParserString = void 0;
-const base_1 = require("./base");
-/**
- * Parser for handling of string values.
- */
-class ParserString extends base_1.ParserBase {
-    constructor(adapter, parserConfig) {
-        super(adapter, parserConfig);
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var string_exports = {};
+__export(string_exports, {
+  ParserString: () => ParserString
+});
+module.exports = __toCommonJS(string_exports);
+var import_base = require("./base");
+class ParserString extends import_base.ParserBase {
+  constructor(adapter, parserConfig) {
+    super(adapter, parserConfig);
+  }
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async read(buf) {
+    try {
+      return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
+    } catch (err) {
+      return err;
     }
-    async read(buf) {
-        try {
-            return buf.toString(this.cfg.dataEncoding, this.cfg.dataOffset, this.cfg.dataOffset + this.cfg.dataLength);
-        }
-        catch (err) {
-            return err;
-        }
+  }
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async write(buf, val) {
+    const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
+    try {
+      buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
+    } catch (err) {
+      return err;
     }
-    async write(buf, val) {
-        const len = Math.min(Buffer.byteLength(val, this.cfg.dataEncoding), this.cfg.dataLength);
-        try {
-            buf.write(val, this.cfg.dataOffset, len, this.cfg.dataEncoding);
-        }
-        catch (err) {
-            return err;
-        }
-        return buf;
-    }
+    return buf;
+  }
 }
-exports.ParserString = ParserString;
 ParserString.handledDataTypes = [
-    'string'
+  "string"
 ];
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RyaW5nLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vc3JjL3BhcnNlcnMvc3RyaW5nLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLGlDQUFvQztBQUVwQzs7R0FFRztBQUNILE1BQWEsWUFBYSxTQUFRLGlCQUFVO0lBTTFDLFlBQVksT0FBc0IsRUFBRSxZQUFpRDtRQUNuRixLQUFLLENBQUMsT0FBTyxFQUFFLFlBQVksQ0FBQyxDQUFDO0lBQy9CLENBQUM7SUFFTSxLQUFLLENBQUMsSUFBSSxDQUFDLEdBQVc7UUFDM0IsSUFBSTtZQUNGLE9BQU8sR0FBRyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsR0FBRyxDQUFDLFlBQVksRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLFVBQVUsRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUMsR0FBRyxDQUFDLFVBQVUsQ0FBQyxDQUFDO1NBQzVHO1FBQUMsT0FBTyxHQUFRLEVBQUU7WUFDakIsT0FBTyxHQUFHLENBQUM7U0FDWjtJQUNILENBQUM7SUFFTSxLQUFLLENBQUMsS0FBSyxDQUFDLEdBQVcsRUFBRSxHQUFXO1FBQ3pDLE1BQU0sR0FBRyxHQUFHLElBQUksQ0FBQyxHQUFHLENBQUMsTUFBTSxDQUFDLFVBQVUsQ0FBQyxHQUFHLEVBQUUsSUFBSSxDQUFDLEdBQUcsQ0FBQyxZQUFZLENBQUMsRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLFVBQVUsQ0FBQyxDQUFDO1FBQ3pGLElBQUk7WUFDRixHQUFHLENBQUMsS0FBSyxDQUFDLEdBQUcsRUFBRSxJQUFJLENBQUMsR0FBRyxDQUFDLFVBQVUsRUFBRSxHQUFHLEVBQUUsSUFBSSxDQUFDLEdBQUcsQ0FBQyxZQUFZLENBQUMsQ0FBQztTQUNqRTtRQUFDLE9BQU8sR0FBUSxFQUFFO1lBQ2pCLE9BQU8sR0FBRyxDQUFDO1NBQ1o7UUFDRCxPQUFPLEdBQUcsQ0FBQztJQUNiLENBQUM7O0FBMUJILG9DQTJCQztBQXpCMkIsNkJBQWdCLEdBQXFDO0lBQzdFLFFBQVE7Q0FDVCxDQUFDIn0=
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  ParserString
+});
+//# sourceMappingURL=string.js.map

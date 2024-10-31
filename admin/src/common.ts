@@ -19,3 +19,5 @@ export interface AppContext {
    */
   adapterName: string;
 }
+
+export type CommonObj = (ioBroker.StateCommon & Record<string, unknown>) | (ioBroker.ChannelCommon & Record<string, unknown>) | (ioBroker.DeviceCommon & Record<string, unknown>) | (ioBroker.OtherCommon & Record<string, unknown>) | (ioBroker.EnumCommon & Record<string, unknown>);

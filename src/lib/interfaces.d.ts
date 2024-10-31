@@ -39,7 +39,7 @@ declare global {
     instance?: ParserBase;
   }
 
-  type ParserConfigs = {
+  interface ParserConfigs {
     [uuid: string]: ParserConfig;
-  };
+  }
 }

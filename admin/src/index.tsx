@@ -9,12 +9,12 @@ import * as ioPkg from '../../io-package.json';
 
 let themeName = Utils.getThemeName();
 
-function build(): void {
+function build (): void {
   ReactDOM.render(
     <MuiThemeProvider theme={theme(themeName)}>
       <App
         adapterName={ioPkg.common.name}
-        onThemeChange={(_theme) => {
+        onThemeChange={(_theme: string) => {
           themeName = _theme;
           build();
         }}

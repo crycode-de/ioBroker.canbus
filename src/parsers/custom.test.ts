@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CanBusAdapter } from '../main';
+import type { CanBusAdapter } from '../main';
 import { ParserCustom } from './custom';
 
 const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
@@ -17,12 +17,12 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   commonRole: 'state',
   commonStates: false,
   id: 'test',
-  name: ''
+  name: '',
 };
 
 const fakeAdapter = {
   log: {
-    warn: () => { /* just discard in this test */ }
+    warn: () => { /* just discard in this test */ },
   },
   // getForeignStateAsync is mapped to getStateAsync in the vm
   getForeignStateAsync: (_id: string): Promise<ioBroker.State> => {
@@ -32,7 +32,7 @@ const fakeAdapter = {
         ack: true,
         from: 'test.0',
         lc: Date.now(),
-        ts: Date.now()
+        ts: Date.now(),
       };
       setTimeout(() => resolve(state), 100); // simulate async behavior
     });
@@ -46,12 +46,12 @@ const fakeAdapter = {
           name: 'Test object',
           read: true,
           write: true,
-          role: 'state'
+          role: 'state',
         },
         native: {
-          data: 42
+          data: 42,
         },
-        type: 'state'
+        type: 'state',
       };
       setTimeout(() => resolve(obj), 100); // simulate async behavior
     });
@@ -69,7 +69,7 @@ describe('ParserCustom', () => {
         // read value with a mask
         value = buffer[0] & 0b00001111;
         `,
-      customScriptWrite: `/* ... */`
+      customScriptWrite: `/* ... */`,
     });
     buf[0] = 0xff;
     const result = await parser.read(buf);
@@ -83,7 +83,7 @@ describe('ParserCustom', () => {
       customScriptWrite: `
         buffer[1] = value & 0b11001100;
         buffer[2] = 0x42;
-        `
+        `,
     });
     buf = (await parser.write(buf, 0b11111111)) as Buffer;
     expect(buf[1]).to.equal(0b11001100);
@@ -96,7 +96,7 @@ describe('ParserCustom', () => {
       customScriptRead: `/* ... */`,
       customScriptWrite: `
         buffer = Buffer.from([1, 2, 3]);
-        `
+        `,
     });
     buf = (await parser.write(buf, null)) as Buffer;
     expect(buf.length).to.equal(3);
@@ -117,16 +117,16 @@ describe('ParserCustom', () => {
         buffer[0] = state.val;
         const obj = await getObjectAsync('test.0.some.id');
         buffer[1] = obj.native.data;
-        `
+        `,
     });
     buf = (await parser.write(buf, null)) as Buffer;
     expect(buf[0]).to.equal(123);
     expect(buf[1]).to.equal(42);
   });
 
-  it(`script with syntax error should log a warning`, async () => {
+  it(`script with syntax error should log a warning`, () => {
     let warnMsg: string = '';
-    const logWarn = (msg: string) => {
+    const logWarn = (msg: string): void => {
       if (warnMsg !== '') {
         warnMsg += '\n';
       }
@@ -137,15 +137,15 @@ describe('ParserCustom', () => {
     const parser = new ParserCustom({
       ...fakeAdapter,
       log: {
-        warn: logWarn
-      }
+        warn: logWarn,
+      },
     } as unknown as CanBusAdapter, {
       ...genericParserConfig,
       customScriptRead: `
         // missing ' at the end to throw a SyntaxError
         value = 'test;
         `,
-      customScriptWrite: `/* ... */`
+      customScriptWrite: `/* ... */`,
     });
 
     expect(warnMsg).to.match(/SyntaxError/).and.to.match(/value = 'test;\s*\^/);
@@ -153,7 +153,7 @@ describe('ParserCustom', () => {
 
   it(`script returning wrong data type should log a warning`, async () => {
     let warnMsg: string = '';
-    const logWarn = (msg: string) => {
+    const logWarn = (msg: string): void => {
       if (warnMsg !== '') {
         warnMsg += '\n';
       }
@@ -163,15 +163,15 @@ describe('ParserCustom', () => {
     const parser = new ParserCustom({
       ...fakeAdapter,
       log: {
-        warn: logWarn
-      }
+        warn: logWarn,
+      },
     } as unknown as CanBusAdapter, {
       ...genericParserConfig,
       customDataType: 'string',
       customScriptRead: `
         value = 42;
         `,
-      customScriptWrite: `/* ... */`
+      customScriptWrite: `/* ... */`,
     });
 
     await parser.read(buf);

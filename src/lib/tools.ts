@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 
 /**
  * Tests whether the given variable is a real object and not an Array
  * @param it The variable to test
  */
-export function isObject(it: unknown): it is Record<string, any> {
+export function isObject (it: unknown): it is Record<string, unknown> {
   // This is necessary because:
   // typeof null === 'object'
   // typeof [] === 'object'
@@ -16,8 +16,8 @@ export function isObject(it: unknown): it is Record<string, any> {
  * Tests whether the given variable is really an Array
  * @param it The variable to test
  */
-export function isArray(it: unknown): it is any[] {
-  if (Array.isArray != null) return Array.isArray(it);
+export function isArray (it: unknown): it is unknown[] {
+  if (Array.isArray !== null) return Array.isArray(it);
   return Object.prototype.toString.call(it) === '[object Array]';
 }
 
@@ -27,16 +27,18 @@ export function isArray(it: unknown): it is any[] {
  * @param targetLang The target language
  * @param yandexApiKey The yandex API key. You can create one for free at https://translate.yandex.com/developers
  */
-export async function translateText(text: string, targetLang: string, yandexApiKey?: string): Promise<string> {
+export async function translateText (text: string, targetLang: string, yandexApiKey?: string): Promise<string> {
   if (targetLang === 'en') {
     return text;
   } else if (!text) {
     return '';
   }
   if (yandexApiKey) {
-    return translateYandex(text, targetLang, yandexApiKey);
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return await translateYandex(text, targetLang, yandexApiKey);
   } else {
-    return translateGoogle(text, targetLang);
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    return await translateGoogle(text, targetLang);
   }
 }
 
@@ -46,13 +48,13 @@ export async function translateText(text: string, targetLang: string, yandexApiK
  * @param targetLang The target language
  * @param apiKey The yandex API key. You can create one for free at https://translate.yandex.com/developers
  */
-async function translateYandex(text: string, targetLang: string, apiKey: string): Promise<string> {
+async function translateYandex (text: string, targetLang: string, apiKey: string): Promise<string> {
   if (targetLang === 'zh-cn') {
     targetLang = 'zh';
   }
   try {
     const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=${apiKey}&text=${encodeURIComponent(text)}&lang=en-${targetLang}`;
-    const response = await axios.request<any>({url, timeout: 15000});
+    const response = await axios.request<{ text?: string[] }>({ url, timeout: 15000 });
     if (isArray(response.data?.text)) {
       return response.data.text[0];
     }
@@ -67,19 +69,19 @@ async function translateYandex(text: string, targetLang: string, apiKey: string)
  * @param text The text to translate
  * @param targetLang The target language
  */
-async function translateGoogle(text: string, targetLang: string): Promise<string> {
+async function translateGoogle (text: string, targetLang: string): Promise<string> {
   try {
     const url = `http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}&ie=UTF-8&oe=UTF-8`;
-    const response = await axios.request<any>({url, timeout: 15000});
+    const response = await axios.request<string[][][]>({ url, timeout: 15000 });
     if (isArray(response.data)) {
       // we got a valid response
       return response.data[0][0][0];
     }
     throw new Error('Invalid response for translate request');
-  } catch (e: any) {
-    if (e.response?.status === 429) {
+  } catch (e) {
+    if ((e as AxiosError).response?.status === 429) {
       throw new Error(
-        `Could not translate to "${targetLang}": Rate-limited by Google Translate`
+        `Could not translate to "${targetLang}": Rate-limited by Google Translate`,
       );
     } else {
       throw new Error(`Could not translate to "${targetLang}": ${e}`);

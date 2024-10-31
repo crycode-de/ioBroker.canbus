@@ -63,7 +63,7 @@ interface InputSelectState {
  */
 export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, boolean | GridSize>> & InputSelectProps, InputSelectState> {
 
-  constructor(props: InputSelectProps) {
+  constructor (props: InputSelectProps) {
     super(props);
 
     let options: Record<string, string>;
@@ -77,19 +77,19 @@ export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, 
     this.state = {
       id: uuidv4(),
       value: this.props.value,
-      options: options
+      options: options,
     };
   }
 
   public componentDidUpdate (prevProps: InputSelectProps): void {
     if (prevProps.value !== this.props.value) {
       this.setState({
-        value: this.props.value
+        value: this.props.value,
       });
     }
   }
 
-  public render(): JSX.Element {
+  public render (): React.ReactElement {
     return (
       <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md} lg={this.props.lg} xl={this.props.xl}>
         <FormControl fullWidth>
@@ -105,8 +105,9 @@ export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, 
               <MenuItem
                 key={k}
                 value={k}
-                disabled={this.props.disabledOptions && this.props.disabledOptions.includes(k)}
-              >{this.state.options[k]}</MenuItem>
+                disabled={this.props.disabledOptions?.includes(k)}
+              >{this.state.options[k]}
+              </MenuItem>
             ))}
           </Select>
 
@@ -118,7 +119,7 @@ export class InputSelect extends React.PureComponent<Partial<Record<Breakpoint, 
 
   private handleChange (value: string): void {
     this.setState({
-      value: value
+      value: value,
     }, () => {
       this.props.onChange(this.state.value);
     });
