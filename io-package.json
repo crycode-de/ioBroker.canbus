@@ -129,6 +129,7 @@
     "readme": "https://github.com/crycode-de/ioBroker.canbus/blob/master/README.md",
     "loglevel": "info",
     "mode": "daemon",
+    "compact": true,
     "type": "hardware",
     "connectionType": "local",
     "dataSource": "push",
