@@ -41,7 +41,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         os: [ubuntu-latest]
 
     steps:
@@ -52,6 +52,8 @@ jobs:
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           # install-command: 'npm install'
           build: true
+          # run well-known-messages tests
+          extra-tests: npm run test:wkm
 
   # Deploys the final package to NPM
   deploy:
@@ -87,4 +89,4 @@ jobs:
           sentry-version-prefix: "iobroker.canbus"
           sentry-sourcemap-paths: "build/"
           # If your sentry project is linked to a GitHub repository, you can enable the following option
-          sentry-github-integration: true
+          #sentry-github-integration: true
