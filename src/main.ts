@@ -1,5 +1,5 @@
 import * as utils from '@iobroker/adapter-core';
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 import { CanMessage } from 'socketcan';
 
 import { CanInterface } from './can-interface';
@@ -45,7 +45,7 @@ export class CanBusAdapter extends utils.Adapter {
   /**
    * Is called when databases are connected and adapter received configuration.
    */
-  @autobind
+  @boundMethod
   private async onReady (): Promise<void> {
     // Reset the connection indicator during startup
     await this.setState('info.connection', false, true);
@@ -67,7 +67,7 @@ export class CanBusAdapter extends utils.Adapter {
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
    */
-  @autobind
+  @boundMethod
   private onUnload (callback: () => void): void {
     try {
       if (this.canInterface) {
@@ -92,7 +92,7 @@ export class CanBusAdapter extends utils.Adapter {
    * This will trigger the sending of messages and conversion from parser states
    * into message json states if configured.
    */
-  @autobind
+  @boundMethod
   private async onStateChange (id: string, state: ioBroker.State | null | undefined): Promise<void> {
     if (state) {
       // The state was changed
@@ -479,7 +479,7 @@ export class CanBusAdapter extends utils.Adapter {
    * Handler for received CAN messages.
    * @param msg The received CAN message.
    */
-  @autobind
+  @boundMethod
   private async handleCanMsg (msg: CanMessage): Promise<void> {
     // TODO: maybe need to check the numeric ID against a Set of known IDs for
     //       a better performance on systems with very high message load?

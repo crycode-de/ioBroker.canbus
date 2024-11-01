@@ -1,4 +1,4 @@
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 
 import React from 'react';
 
@@ -332,7 +332,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * @param msgUuid The UUID of the message.
    * @param selected `true` if the message was selected.
    */
-  @autobind
+  @boundMethod
   private handleExportSelectMsg (msgUuid: string, selected: boolean): void {
     if (selected) {
       this.setState((prevState) => ({
@@ -348,7 +348,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   /**
    * Fetch the well known predefined configs from GitHub using the adapter.
    */
-  @autobind
+  @boundMethod
   private async fetchPredefinedConfigs (): Promise<void> {
     // Get the index from remote server (GitHub)
     try {
@@ -408,7 +408,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   /**
    * Export the messages of the current configuration.
    */
-  @autobind
+  @boundMethod
   private export (): void {
     let content: string = '';
     let type: string = '';
@@ -541,7 +541,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   /**
    * Import messages from a file.
    */
-  @autobind
+  @boundMethod
   private importFromFile (): void {
     const input = window.document.createElement('input');
     input.setAttribute('type', 'file');
@@ -554,7 +554,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
   /**
    * Handle the file select when importing messages from a file.
    */
-  @autobind
+  @boundMethod
   private handleImportFileSelect (evt: Event): void {
 
     const f = (evt as unknown as React.ChangeEvent<HTMLInputElement>).target?.files?.[0];
@@ -676,7 +676,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
    * Import messages from a selected predefined config.
    * This will load the configuration in the selected verserion from GitHub.
    */
-  @autobind
+  @boundMethod
   private async importPredefinedConfig (id: string): Promise<void> {
     const version = this.state.wellKnownMessagesSelectedVersions[id];
     const release = this.state.wellKnownMessagesIndex[id]?.releases.find((r) => r.version === version);

@@ -41,7 +41,7 @@ __export(main_exports, {
 });
 module.exports = __toCommonJS(main_exports);
 var utils = __toESM(require("@iobroker/adapter-core"));
-var import_core_decorators = require("core-decorators");
+var import_autobind_decorator = require("autobind-decorator");
 var import_can_interface = require("./can-interface");
 var import_helpers = require("./helpers");
 var import_parsers = require("./parsers");
@@ -685,16 +685,16 @@ class CanBusAdapter extends utils.Adapter {
   }
 }
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanBusAdapter.prototype, "onReady", 1);
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanBusAdapter.prototype, "onUnload", 1);
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanBusAdapter.prototype, "onStateChange", 1);
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanBusAdapter.prototype, "handleCanMsg", 1);
 if (require.main !== module) {
   module.exports = (options) => new CanBusAdapter(options);

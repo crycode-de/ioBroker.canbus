@@ -1,5 +1,5 @@
 import * as socketcan from 'socketcan';
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 import { EventEmitter } from 'events';
 import type { CanBusAdapter } from './main';
 
@@ -89,14 +89,14 @@ export class CanInterface extends EventEmitter<CanInterfaceEvents> {
     return true;
   }
 
-  @autobind
+  @boundMethod
   private handleCanMsg (msg: socketcan.CanMessage): void {
     this.adapter.log.debug(`received can message: ${JSON.stringify(msg)}`);
 
     this.emit('message', msg);
   }
 
-  @autobind
+  @boundMethod
   private handleStopped (): void {
     this.started = false;
     this.emit('stopped');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
@@ -990,7 +990,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
   /**
    * Copy the current configuration (the state) into the internal clipboard.
    */
-  @autobind
+  @boundMethod
   private copy (): void {
     internalClipboard.parser = JSON.stringify(this.state);
 
@@ -1002,7 +1002,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
   /**
    * Load the configuration (the state) from the internal clipboard.
    */
-  @autobind
+  @boundMethod
   private paste (): void {
     if (!internalClipboard.parser) {
       if (this.props.showToast) {

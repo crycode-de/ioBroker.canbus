@@ -1,5 +1,5 @@
 import React from 'react';
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -319,7 +319,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   /**
    * Handler for tab changes.
    */
-  @autobind
+  @boundMethod
   private handleTabChange (_event: React.ChangeEvent<unknown>, newValue: number): void {
     this.setState({ tabIndex: newValue });
   }
@@ -329,7 +329,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param attr The name of the changed setting.
    * @param value The new value.
    */
-  @autobind
+  @boundMethod
   private async onGeneralChange (attr: string, value: unknown): Promise<void> {
     this.props.onChange(attr, value);
 
@@ -357,7 +357,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param uuid The UUID of the message.
    * @param msg The new message config.
    */
-  @autobind
+  @boundMethod
   private onMessageChange (uuid: string, msg: ioBroker.AdapterConfigMessage): void {
     const msgs = { ...this.state.messages };
     msgs[uuid] = msg;
@@ -368,7 +368,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Handler for message delete events.
    * @param uuid The UUID of the message.
    */
-  @autobind
+  @boundMethod
   private async onMessageDelete (uuid: string): Promise<void> {
     const messages = { ...this.state.messages };
     const messagesValid = { ...this.state.messagesValid };
@@ -399,7 +399,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Handler for validation results of the general settings.
    * @param valid If the general settings are valid.
    */
-  @autobind
+  @boundMethod
   private async onGeneralValidate (valid: boolean): Promise<void> {
     return await new Promise((resolve) => {
       this.setState({
@@ -416,7 +416,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param uuid The UUID of the message.
    * @param valid If the message is valid.
    */
-  @autobind
+  @boundMethod
   private async onMessageValidate (uuid: string, valid: boolean): Promise<void> {
     const messagesValid = { ...this.state.messagesValid };
     messagesValid[uuid] = valid;
@@ -434,7 +434,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
   /**
    * Add a new message.
    */
-  @autobind
+  @boundMethod
   private async onMessageAdd (): Promise<void> {
     const uuid = uuidv4();
     const msg: ioBroker.AdapterConfigMessage = {
@@ -468,7 +468,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Add a message from the unconfigured messages to the configured messages.
    * @param id The ID (not UUID!) of the unconfigured message.
    */
-  @autobind
+  @boundMethod
   private async onMessageAddFromUnconfigured (id: string): Promise<void> {
     const uuid = uuidv4();
     const msg: ioBroker.AdapterConfigMessage = {
@@ -500,7 +500,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * Load the currently unconfigured messages from the server.
    * This will overwrite the current state of unconfigured messages.
    */
-  @autobind
+  @boundMethod
   private async loadUnconfiguredMessages (): Promise<void> {
     const { socket, instance, adapterName } = this.props.context;
 
@@ -563,7 +563,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
    * @param id The ID of the ioBroker object
    * @param obj The ioBroker object or `null` if the object was deleted.
    */
-  @autobind
+  @boundMethod
   private handleObjChange (id: string, obj: ioBroker.Object | null | undefined): void {
     const { instance, adapterName } = this.props.context;
 

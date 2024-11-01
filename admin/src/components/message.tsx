@@ -1,5 +1,5 @@
 import React from 'react';
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -366,7 +366,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
   /**
    * Handler for tab changes.
    */
-  @autobind
+  @boundMethod
   private handleTabChange (_event: React.ChangeEvent<unknown>, newValue: number): void {
     this.setState({ tabIndex: newValue });
   }
@@ -460,7 +460,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
   /**
    * Add a new parser.
    */
-  @autobind
+  @boundMethod
   private async onParserAdd (): Promise<void> {
     const uuid = uuidv4();
     const parser: ioBroker.AdapterConfigMessageParser = {
@@ -499,7 +499,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param uuid The UUID of the parser.
    * @param valid If the parser is valid.
    */
-  @autobind
+  @boundMethod
   private async onParserValidate (uuid: string, valid: boolean): Promise<void> {
     const parsersValid = { ...this.state.parsersValid };
     parsersValid[uuid] = valid;
@@ -521,7 +521,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * @param uuid The UUID of the parser.
    * @param parser The new parser config.
    */
-  @autobind
+  @boundMethod
   private onParserChange (uuid: string, parser: ioBroker.AdapterConfigMessageParser): void {
     const parsers = { ...this.state.parsers };
     parsers[uuid] = parser;
@@ -532,7 +532,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
    * Handler for parser delete events.
    * @param uuid The UUID of the parser.
    */
-  @autobind
+  @boundMethod
   private async onParserDelete (uuid: string): Promise<void> {
     const parsers = { ...this.state.parsers };
     const parsersValid = { ...this.state.parsersValid };
@@ -558,7 +558,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
   /**
    * Copy the current configuration (the state) into the internal clipboard.
    */
-  @autobind
+  @boundMethod
   private copy (): void {
     internalClipboard.message = JSON.stringify(this.state);
 
@@ -570,7 +570,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
   /**
    * Load the configuration (the state) from the internal clipboard.
    */
-  @autobind
+  @boundMethod
   private paste (): void {
     if (!internalClipboard.message) {
       if (this.props.showToast) {

@@ -1,4 +1,4 @@
-import { autobind } from 'core-decorators';
+import { boundMethod } from 'autobind-decorator';
 
 import React from 'react';
 import { Theme, withStyles } from '@material-ui/core/styles';
@@ -120,7 +120,7 @@ class App extends GenericApp implements AppContext {
    * current changes (if they are not already in the new native config).
    * @param native The new native config.
    */
-  @autobind
+  @boundMethod
   private setNative (native: ioBroker.AdapterConfig): void {
     // create new object
     native = JSON.parse(JSON.stringify(native)) as ioBroker.AdapterConfig;

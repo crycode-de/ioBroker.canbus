@@ -41,7 +41,7 @@ __export(can_interface_exports, {
 });
 module.exports = __toCommonJS(can_interface_exports);
 var socketcan = __toESM(require("socketcan"));
-var import_core_decorators = require("core-decorators");
+var import_autobind_decorator = require("autobind-decorator");
 var import_events = require("events");
 class CanInterface extends import_events.EventEmitter {
   constructor(adapter) {
@@ -119,10 +119,10 @@ class CanInterface extends import_events.EventEmitter {
   }
 }
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanInterface.prototype, "handleCanMsg", 1);
 __decorateClass([
-  import_core_decorators.autobind
+  import_autobind_decorator.boundMethod
 ], CanInterface.prototype, "handleStopped", 1);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
