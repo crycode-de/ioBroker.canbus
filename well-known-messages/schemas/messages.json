@@ -1,276 +1,194 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$ref": "#/definitions/global.ioBroker.AdapterConfigMessagesLang",
-    "definitions": {
-        "global.ioBroker.AdapterConfigMessagesLang": {
-            "$ref": "#/definitions/global.ioBroker.AdapterConfigMessages%3Cglobal.ioBroker.AdapterConfigMessageLang%3E",
-            "description": "AdapterConfigMessages with optional `nameLang` attributes to be used in imports from predefined configurations from GitHub."
+  "description": "AdapterConfigMessages with optional `nameLang` attributes to be used in\nimports from predefined configurations from GitHub.",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/definitions/T"
+  },
+  "definitions": {
+    "T": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The ID of the message a hex string.",
+          "type": "string"
         },
-        "global.ioBroker.AdapterConfigMessages<global.ioBroker.AdapterConfigMessageLang>": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/global.ioBroker.AdapterConfigMessageLang"
-            }
+        "name": {
+          "type": "string"
         },
-        "global.ioBroker.AdapterConfigMessageLang": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": "The ID of the message a hex string."
-                },
-                "name": {
-                    "type": "string"
-                },
-                "dlc": {
-                    "type": "number"
-                },
-                "receive": {
-                    "type": "boolean"
-                },
-                "send": {
-                    "type": "boolean"
-                },
-                "autosend": {
-                    "type": "boolean"
-                },
-                "parsers": {
-                    "$ref": "#/definitions/global.ioBroker.AdapterConfigMessageParsers%3Cglobal.ioBroker.AdapterConfigMessageParserLang%3E"
-                },
-                "nameLang": {
-                    "type": "object",
-                    "properties": {
-                        "en": {
-                            "type": "string"
-                        },
-                        "de": {
-                            "type": "string"
-                        },
-                        "ru": {
-                            "type": "string"
-                        },
-                        "pt": {
-                            "type": "string"
-                        },
-                        "nl": {
-                            "type": "string"
-                        },
-                        "fr": {
-                            "type": "string"
-                        },
-                        "it": {
-                            "type": "string"
-                        },
-                        "es": {
-                            "type": "string"
-                        },
-                        "pl": {
-                            "type": "string"
-                        },
-                        "zh-cn": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false
-                }
-            },
-            "additionalProperties": false,
-            "required": [
-                "autosend",
-                "dlc",
-                "id",
-                "name",
-                "parsers",
-                "receive",
-                "send"
-            ],
-            "description": "AdapterConfigMessage with optional `nameLang` attribute to be used in imports from predefined configurations from GitHub."
+        "dlc": {
+          "type": "number"
         },
-        "global.ioBroker.AdapterConfigMessageParsers<global.ioBroker.AdapterConfigMessageParserLang>": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/global.ioBroker.AdapterConfigMessageParserLang"
-            }
+        "receive": {
+          "type": "boolean"
         },
-        "global.ioBroker.AdapterConfigMessageParserLang": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "dataType": {
-                    "$ref": "#/definitions/global.ioBroker.AdapterConfigDataType"
-                },
-                "dataOffset": {
-                    "type": "number"
-                },
-                "dataLength": {
-                    "type": "number"
-                },
-                "dataEncoding": {
-                    "$ref": "#/definitions/global.ioBroker.AdapterConfigDataEncoding"
-                },
-                "dataUnit": {
-                    "type": "string"
-                },
-                "booleanMask": {
-                    "type": "number"
-                },
-                "booleanInvert": {
-                    "type": "boolean"
-                },
-                "customDataType": {
-                    "$ref": "#/definitions/global.ioBroker.CommonType"
-                },
-                "customScriptRead": {
-                    "type": "string"
-                },
-                "customScriptWrite": {
-                    "type": "string"
-                },
-                "commonRole": {
-                    "type": "string",
-                    "description": "The role of the ioBroker state."
-                },
-                "commonStates": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "boolean",
-                            "const": false
-                        }
-                    ],
-                    "description": "Common states (for common.states) for predefined values or `false` if not used."
-                },
-                "autoSetInterval": {
-                    "anyOf": [
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "boolean",
-                            "const": false
-                        }
-                    ],
-                    "description": "Automatically set a value in the given interval. `false` to disable."
-                },
-                "autoSetValue": {
-                    "type": [
-                        "number",
-                        "string",
-                        "boolean"
-                    ],
-                    "description": "Value to set automatically."
-                },
-                "autoSetTriggerSend": {
-                    "type": "boolean",
-                    "description": "Trigger send action if the value is set automatically."
-                },
-                "nameLang": {
-                    "type": "object",
-                    "properties": {
-                        "en": {
-                            "type": "string"
-                        },
-                        "de": {
-                            "type": "string"
-                        },
-                        "ru": {
-                            "type": "string"
-                        },
-                        "pt": {
-                            "type": "string"
-                        },
-                        "nl": {
-                            "type": "string"
-                        },
-                        "fr": {
-                            "type": "string"
-                        },
-                        "it": {
-                            "type": "string"
-                        },
-                        "es": {
-                            "type": "string"
-                        },
-                        "pl": {
-                            "type": "string"
-                        },
-                        "zh-cn": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false
-                }
-            },
-            "additionalProperties": false,
-            "required": [
-                "booleanInvert",
-                "booleanMask",
-                "commonRole",
-                "commonStates",
-                "customDataType",
-                "customScriptRead",
-                "customScriptWrite",
-                "dataEncoding",
-                "dataLength",
-                "dataOffset",
-                "dataType",
-                "dataUnit",
-                "id",
-                "name"
-            ],
-            "description": "AdapterConfigMessageParser with optional `nameLang` attribute to be used in imports from predefined configurations from GitHub."
+        "send": {
+          "type": "boolean"
         },
-        "global.ioBroker.AdapterConfigDataType": {
-            "type": "string",
-            "enum": [
-                "int8",
-                "uint8",
-                "int16_be",
-                "int16_le",
-                "uint16_be",
-                "uint16_le",
-                "int32_be",
-                "int32_le",
-                "uint32_be",
-                "uint32_le",
-                "float32_be",
-                "float32_le",
-                "double64_be",
-                "double64_le",
-                "boolean",
-                "string",
-                "custom"
-            ]
+        "autosend": {
+          "type": "boolean"
         },
-        "global.ioBroker.AdapterConfigDataEncoding": {
-            "type": "string",
-            "enum": [
-                "latin1",
-                "ascii",
-                "utf8",
-                "utf16le",
-                "base64",
-                "hex"
-            ]
-        },
-        "global.ioBroker.CommonType": {
-            "type": "string",
-            "enum": [
-                "number",
-                "string",
-                "boolean",
-                "array",
-                "object",
-                "mixed",
-                "file"
-            ]
+        "parsers": {
+          "$ref": "#/definitions/ioBroker.AdapterConfigMessageParsers<ioBroker.AdapterConfigMessageParser>"
         }
+      },
+      "required": [
+        "autosend",
+        "dlc",
+        "id",
+        "name",
+        "parsers",
+        "receive",
+        "send"
+      ]
+    },
+    "ioBroker.AdapterConfigMessageParsers<ioBroker.AdapterConfigMessageParser>": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/T_1"
+      }
+    },
+    "T_1": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "dataType": {
+          "$ref": "#/definitions/global.ioBroker.AdapterConfigDataType"
+        },
+        "dataOffset": {
+          "type": "number"
+        },
+        "dataLength": {
+          "type": "number"
+        },
+        "dataEncoding": {
+          "$ref": "#/definitions/global.ioBroker.AdapterConfigDataEncoding"
+        },
+        "dataUnit": {
+          "type": "string"
+        },
+        "booleanMask": {
+          "type": "number"
+        },
+        "booleanInvert": {
+          "type": "boolean"
+        },
+        "customDataType": {
+          "$ref": "#/definitions/global.ioBroker.CommonType"
+        },
+        "customScriptRead": {
+          "type": "string"
+        },
+        "customScriptWrite": {
+          "type": "string"
+        },
+        "commonRole": {
+          "description": "The role of the ioBroker state.",
+          "type": "string"
+        },
+        "commonStates": {
+          "description": "Common states (for common.states) for predefined values or `false` if not used.",
+          "anyOf": [
+            {
+              "const": false,
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "autoSetInterval": {
+          "description": "Automatically set a value in the given interval. `false` to disable.",
+          "anyOf": [
+            {
+              "const": false,
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "autoSetValue": {
+          "description": "Value to set automatically.",
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        },
+        "autoSetTriggerSend": {
+          "description": "Trigger send action if the value is set automatically.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "booleanInvert",
+        "booleanMask",
+        "commonRole",
+        "commonStates",
+        "customDataType",
+        "customScriptRead",
+        "customScriptWrite",
+        "dataEncoding",
+        "dataLength",
+        "dataOffset",
+        "dataType",
+        "dataUnit",
+        "id",
+        "name"
+      ]
+    },
+    "global.ioBroker.AdapterConfigDataType": {
+      "enum": [
+        "boolean",
+        "custom",
+        "double64_be",
+        "double64_le",
+        "float32_be",
+        "float32_le",
+        "int16_be",
+        "int16_le",
+        "int32_be",
+        "int32_le",
+        "int8",
+        "string",
+        "uint16_be",
+        "uint16_le",
+        "uint32_be",
+        "uint32_le",
+        "uint8"
+      ],
+      "type": "string"
+    },
+    "global.ioBroker.AdapterConfigDataEncoding": {
+      "enum": [
+        "ascii",
+        "base64",
+        "hex",
+        "latin1",
+        "utf16le",
+        "utf8"
+      ],
+      "type": "string"
+    },
+    "global.ioBroker.CommonType": {
+      "enum": [
+        "array",
+        "boolean",
+        "file",
+        "mixed",
+        "number",
+        "object",
+        "string"
+      ],
+      "type": "string"
     }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }

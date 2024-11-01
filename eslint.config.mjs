@@ -48,4 +48,15 @@ export default tseslint.config(
       'no-console': 'off',
     },
   },
+
+  {
+    files: [
+      '**/*.mjs',
+    ],
+
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+    },
+  },
 );

@@ -42,7 +42,8 @@
   },
   "include": [
     "**/*.ts",
-    "eslint.config.mjs"
+    "eslint.config.mjs",
+    "build-json-schemas.mjs"
   ],
   "exclude": [
     "build/**",

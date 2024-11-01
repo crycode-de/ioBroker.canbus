@@ -1,145 +1,112 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndex",
-    "definitions": {
-        "global.ioBroker.WellKnownMessagesIndex": {
-            "type": "object",
-            "additionalProperties": {
-                "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntry"
-            },
-            "description": "The well known messages index."
+  "description": "The well known messages index.",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/definitions/ioBroker.WellKnownMessagesIndexEntry"
+  },
+  "definitions": {
+    "ioBroker.WellKnownMessagesIndexEntry": {
+      "description": "An entry in the well known messages index.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name",
+          "type": "string"
         },
-        "global.ioBroker.WellKnownMessagesIndexEntry": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Name"
-                },
-                "nameLang": {
-                    "type": "object",
-                    "properties": {
-                        "en": {
-                            "type": "string"
-                        },
-                        "de": {
-                            "type": "string"
-                        },
-                        "ru": {
-                            "type": "string"
-                        },
-                        "pt": {
-                            "type": "string"
-                        },
-                        "nl": {
-                            "type": "string"
-                        },
-                        "fr": {
-                            "type": "string"
-                        },
-                        "it": {
-                            "type": "string"
-                        },
-                        "es": {
-                            "type": "string"
-                        },
-                        "pl": {
-                            "type": "string"
-                        },
-                        "zh-cn": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "description": "Optional localized names"
-                },
-                "description": {
-                    "type": "string",
-                    "description": "Description, optionally formated with markdown"
-                },
-                "descriptionLang": {
-                    "type": "object",
-                    "properties": {
-                        "en": {
-                            "type": "string"
-                        },
-                        "de": {
-                            "type": "string"
-                        },
-                        "ru": {
-                            "type": "string"
-                        },
-                        "pt": {
-                            "type": "string"
-                        },
-                        "nl": {
-                            "type": "string"
-                        },
-                        "fr": {
-                            "type": "string"
-                        },
-                        "it": {
-                            "type": "string"
-                        },
-                        "es": {
-                            "type": "string"
-                        },
-                        "pl": {
-                            "type": "string"
-                        },
-                        "zh-cn": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false,
-                    "description": "Optional localized descriptions, optionally formated with markdown"
-                },
-                "authors": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "Array of authors, optionally formated with markdown"
-                },
-                "releases": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/global.ioBroker.WellKnownMessagesIndexEntryRelease"
-                    },
-                    "description": "Array of the releases in descending order"
-                },
-                "license": {
-                    "type": "string",
-                    "description": "License of this configuration."
-                }
-            },
-            "required": [
-                "name",
-                "description",
-                "authors",
-                "releases"
-            ],
-            "additionalProperties": false,
-            "description": "An entry in the well known messages index."
+        "nameLang": {
+          "description": "Optional localized names",
+          "$ref": "#/definitions/Partial<Record<ioBroker.Languages,string>>"
         },
-        "global.ioBroker.WellKnownMessagesIndexEntryRelease": {
-            "type": "object",
-            "properties": {
-                "version": {
-                    "type": "string",
-                    "description": "The version number of this release (semver)"
-                },
-                "file": {
-                    "type": "string",
-                    "description": "File name of this configuration in `well-known-messages/configs/`"
-                }
-            },
-            "required": [
-                "version",
-                "file"
-            ],
-            "additionalProperties": false,
-            "description": "A Release in the well known messages index."
+        "description": {
+          "description": "Description, optionally formated with markdown",
+          "type": "string"
+        },
+        "descriptionLang": {
+          "description": "Optional localized descriptions, optionally formated with markdown",
+          "$ref": "#/definitions/Partial<Record<ioBroker.Languages,string>>"
+        },
+        "authors": {
+          "description": "Array of authors, optionally formated with markdown",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releases": {
+          "description": "Array of the releases in descending order",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ioBroker.WellKnownMessagesIndexEntryRelease"
+          }
+        },
+        "license": {
+          "description": "License of this configuration.",
+          "type": "string"
         }
+      },
+      "required": [
+        "authors",
+        "description",
+        "name",
+        "releases"
+      ]
+    },
+    "Partial<Record<ioBroker.Languages,string>>": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "de": {
+          "type": "string"
+        },
+        "ru": {
+          "type": "string"
+        },
+        "pt": {
+          "type": "string"
+        },
+        "nl": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        },
+        "it": {
+          "type": "string"
+        },
+        "es": {
+          "type": "string"
+        },
+        "pl": {
+          "type": "string"
+        },
+        "uk": {
+          "type": "string"
+        },
+        "zh-cn": {
+          "type": "string"
+        }
+      }
+    },
+    "ioBroker.WellKnownMessagesIndexEntryRelease": {
+      "description": "A Release in the well known messages index.",
+      "type": "object",
+      "properties": {
+        "version": {
+          "description": "The version number of this release (semver)",
+          "type": "string"
+        },
+        "file": {
+          "description": "File name of this configuration in `well-known-messages/configs/`",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "version"
+      ]
     }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }
