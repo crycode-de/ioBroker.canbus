@@ -13,7 +13,8 @@
     "can",
     "bus",
     "canbus",
-    "network"
+    "network",
+    "ioBroker"
   ],
   "repository": {
     "type": "git",
