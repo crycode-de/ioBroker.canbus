@@ -13,7 +13,8 @@
         "it": "Risolti i valori predefiniti di `autoSetValue` per i parser, risolta l'integrazione dell'amministratore della sentinella, Aggiornate le dipendenze",
         "es": "Se corrigieron los valores predeterminados de `autoSetValue` para los analizadores, se corrigió la integración del administrador centinela, se actualizaron las dependencias",
         "pl": "Poprawiono domyślne ustawienia `autoSetValue` dla parserów, Poprawiono integrację admina Sentry, Zaktualizowano zależności",
-        "zh-cn": "修复了解析器的“autoSetValue”默认值，修复了哨兵管理员集成，更新了依赖项"
+        "zh-cn": "修复了解析器的“autoSetValue”默认值，修复了哨兵管理员集成，更新了依赖项",
+        "uk": "Виправлено значення за замовчуванням `autoSetValue` для аналізаторів, виправлено інтеграцію адміністратора sentry, оновлено залежності"
       },
       "1.3.0": {
         "en": "Added sharedData object in custom parsers.",
@@ -25,7 +26,8 @@
         "it": "Aggiunto oggetto sharedData nei parser personalizzati.",
         "es": "Se agregó el objeto sharedData en analizadores personalizados.",
         "pl": "Dodano obiekt sharedData w niestandardowych parserach.",
-        "zh-cn": "在自定义解析器中添加了 sharedData 对象。"
+        "zh-cn": "在自定义解析器中添加了 sharedData 对象。",
+        "uk": "Додано об’єкт sharedData в настроюваних парсерах."
       },
       "1.2.3": {
         "en": "Added missing `autoSet...` parser options to csv export/import",
@@ -37,7 +39,8 @@
         "it": "Aggiunte opzioni del parser `autoSet...` mancanti all'esportazione/importazione csv",
         "es": "Se agregaron opciones faltantes del analizador `autoSet ...` a la exportación / importación de csv",
         "pl": "Dodano brakujące opcje parsera `autoSet...` do eksportu/importu csv",
-        "zh-cn": "向 csv 导出/导入添加了缺少的 `autoSet...` 解析器选项"
+        "zh-cn": "向 csv 导出/导入添加了缺少的 `autoSet...` 解析器选项",
+        "uk": "Додано відсутні параметри аналізатора `autoSet...` для експорту/імпорту CSV"
       },
       "1.2.2": {
         "en": "Fixed text colors in dark theme of admin 5 and updated dependencies",
@@ -49,7 +52,8 @@
         "it": "Corretti i colori del testo nel tema scuro di admin 5 e le dipendenze aggiornate",
         "es": "Colores de texto fijos en el tema oscuro de admin 5 y dependencias actualizadas",
         "pl": "Poprawiono kolory tekstu w ciemnym motywie admina 5 i zaktualizowano zależności",
-        "zh-cn": "修复了 admin 5 深色主题中的文本颜色和更新的依赖项"
+        "zh-cn": "修复了 admin 5 深色主题中的文本颜色和更新的依赖项",
+        "uk": "Виправлено кольори тексту в темній темі admin 5 і оновлено залежності"
       },
       "1.2.1": {
         "en": "Added option to automatically set a certain value in a given interval for each parser",
@@ -61,7 +65,8 @@
         "it": "Aggiunta l'opzione per impostare automaticamente un determinato valore in un determinato intervallo per ogni parser",
         "es": "Opción agregada para establecer automáticamente un cierto valor en un intervalo dado para cada analizador",
         "pl": "Dodano opcję automatycznego ustawiania określonej wartości w zadanym przedziale dla każdego parsera",
-        "zh-cn": "添加了在给定间隔内为每个解析器自动设置特定值的选项"
+        "zh-cn": "添加了在给定间隔内为每个解析器自动设置特定值的选项",
+        "uk": "Додана опція автоматичного встановлення певного значення в заданому інтервалі для кожного аналізатора"
       },
       "1.1.4": {
         "en": "Added license information to import of well-known configurations, Fixed \"Parser returned wrong data type undefined\" log message",
@@ -73,7 +78,8 @@
         "it": "Aggiunte informazioni sulla licenza per l'importazione di configurazioni note, corretto messaggio di registro \"Parser restituito tipo di dati errato non definito\"",
         "es": "Se agregó información de licencia para importar configuraciones conocidas, se corrigió el mensaje de registro \"El analizador devolvió el tipo de datos incorrecto indefinido\"",
         "pl": "Dodano informacje o licencji do importu dobrze znanych konfiguracji, naprawiono komunikat dziennika „Parser zwrócił nieprawidłowy typ danych, niezdefiniowany”",
-        "zh-cn": "添加了许可证信息以导入知名配置，修复了“解析器返回错误的数据类型未定义”日志消息"
+        "zh-cn": "添加了许可证信息以导入知名配置，修复了“解析器返回错误的数据类型未定义”日志消息",
+        "uk": "Додано інформацію про ліцензію для імпорту відомих конфігурацій, виправлено повідомлення журналу «Аналізатор повернув неправильний тип даних, не визначений»"
       }
     },
     "titleLang": {

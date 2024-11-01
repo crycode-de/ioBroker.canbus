@@ -104,5 +104,13 @@
     "Failed to open file!": "Не удалось открыть файл!",
     "Unsupported file type!": "Неподдерживаемый формат файла!",
     "Script to write the value to the buffer. The buffer is available as %s and the value as %s.": "Скрипт для записи значения в буфер. Буфер доступен как %s, а значение как %s.",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "Добавить дополнительно Remote Transmission Request (RTR) в каждое сообщение."
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "Добавить дополнительно Remote Transmission Request (RTR) в каждое сообщение.",
+    "Automatically set a certain value": "Автоматически устанавливать определенное значение",
+    "Set a certain value automatically in a given interval": "Автоматически устанавливать определенное значение в заданном интервале",
+    "Interval for automatic set": "Интервал автоматической настройки",
+    "Interval in milliseconds to automatically set the value": "Интервал в миллисекундах для автоматической установки значения",
+    "Value to set": "Значение для установки",
+    "The value to set automatically in the given interval (%s)": "Значение, которое будет установлено автоматически в заданном интервале (%s)",
+    "Trigger send": "Триггерная отправка",
+    "Trigger the send action every time the value is set automatically": "Запускать действие отправки каждый раз, когда значение устанавливается автоматически"
 }

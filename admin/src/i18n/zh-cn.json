@@ -102,5 +102,15 @@
     "Optionally set a fixed data length for this message": "为这条信息设置一个可选的固定长度",
     "Are you sure you want to remove this message? This will also remove all it's parsers. The message will be treated as unconfigured and may be deleted on adapter restart.": "你确定要移除这条信息吗？这回一并移除其所有参数。这条信息会被系统认定为未配置的信息并且在适配器重启后可以安全移除。",
     "Use the raw states, which are updated with every received or sent message and can be used to send your own messages. This enables the usage in scripts, but may lead to a higher load on systems with a high message throughput.": "使用随着消息传递而更新且在自定义消息中可用的原始状态。这使得其在脚本中可用，但在消息密集是造成较高的系统负载。",
-    "Add an additional Remote Transmission Request (rtr) state on each message.": "在每条消息中添加远程传输请求。"
+    "Add an additional Remote Transmission Request (rtr) state on each message.": "在每条消息中添加远程传输请求。",
+    "If not checked, an import will just add new messages and parsers and those that have already been defined are ignored. An existing message or parser is determined by it's internal UUID and not the ID. If you want to reimport an exported file to update you configuration you have to set this option.": "如果未选中，导入将仅添加新消息和解析器，而已定义的消息和解析器将被忽略。现有消息或解析器由其内部 UUID 而不是 ID 确定。如果您想重新导入导出的文件以更新配置，则必须设置此选项。",
+    "The exported files can be shared or edited externally and reimported to update your configuration.": "导出的文件可以在外部共享或编辑，然后重新导入以更新您的配置。",
+    "Parser configuration copied. Use the paste button to paste this configuration to an other parser.": "已复制解析器配置。使用粘贴按钮将此配置粘贴到其他解析器。",
+    "Error while pasting: %s": "粘贴时出错：%s",
+    "Comma separated list of real values and display values. Example: 0=Off,1=On,2=Auto": "逗号分隔的实际值和显示值列表。示例：0=关闭，1=打开，2=自动",
+    "Select a suitable role for the ioBroker state or just use \"state\" if you are not sure.": "为 ioBroker 状态选择合适的角色，或者如果您不确定，则仅使用“状态”。",
+    "Information about the state roles in ioBroker on GitHub": "GitHub 上有关 ioBroker 中状态角色的信息",
+    "Automatically set a certain value": "自动设置某个值",
+    "Set a certain value automatically in a given interval": "在给定的时间间隔内自动设置某个值",
+    "Trigger the send action every time the value is set automatically": "每次自动设置值时触发发送操作"
 }
