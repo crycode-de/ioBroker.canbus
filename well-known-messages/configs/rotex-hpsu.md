@@ -53,6 +53,9 @@ Request data starts with `21 0A`.
 
 ### latest
 
+- ❗ Version >= 2.0.0 vom canbus-Adapter wird benötigt
+- Added mode (fa0112) check to `fa0a20` to prevent set while in heating mode
+
 ### v1.8.0
 
 - Added `fa0694-set`

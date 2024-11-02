@@ -5048,7 +5048,7 @@
         "booleanMask": 0,
         "booleanInvert": false,
         "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x30, 0x00, 0xFA, 0x0A, 0x20, 0x01, 0x00]);\nif (value >= 3) buffer[5] |= 0b00001000; // T1\nif (value >= 6) buffer[5] |= 0b00001010; // T1 + T2\nif (value >= 9) buffer[5] |= 0b00001110; // T1 + T2 + T3",
+        "customScriptWrite": "// Modus prüfen\nconst mode = (await getStateAsync('180.fa0112'))?.val;\nif (mode === 3 /* heizen */) {\nlog.warn('Setzen der Heizstäbe im Modus Heizen nicht möglich, da dies zu einer Fehlpunktion des Gerätes führen würde.');\n  return false;\n}\nbuffer = Buffer.from([0x30, 0x00, 0xFA, 0x0A, 0x20, 0x01, 0x00]);\nif (value >= 3) buffer[5] |= 0b00001000; // T1\nif (value >= 6) buffer[5] |= 0b00001010; // T1 + T2\nif (value >= 9) buffer[5] |= 0b00001110; // T1 + T2 + T3",
         "customDataType": "number",
         "commonRole": "level.power",
         "commonStates": "0=0,3=3,6=6,9=9"
