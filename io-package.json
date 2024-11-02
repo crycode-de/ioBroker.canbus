@@ -151,7 +151,63 @@
       "sentry": {
         "dsn": "https://c1c0ecf339f94ad88e89770783e281fb@sentry.cryhost.de/4"
       }
-    }
+    },
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<2.0.0",
+            "newVersion>=2.0.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice!",
+          "de": "Wichtiger Hinweis!",
+          "ru": "Важное замечание!",
+          "pt": "Notícia importante!",
+          "nl": "Belangrijke mededeling!",
+          "fr": "Avis important!",
+          "it": "Avviso IMPORTANTE!",
+          "es": "Noticia importante!",
+          "pl": "Ważna uwaga!",
+          "zh-cn": "重要通知!",
+          "uk": "Важливе повідомлення!"
+        },
+        "text": {
+          "en": "Staring with v2.0.0 of this adapter the interpetion of custom parser scripts has changed. These scripte are now run in a limited scope. If you are not doing something fancy your scripts should continue to work. If you are using getStateAsync or getObjectAsync you may need to change them to getForeignStateAsync/getForeignObjectAsync. Check readme for details.",
+          "de": "Ab Version 2.0.0 dieses Adapters hat sich die Art der Ausführung der Skript von benutzerdefiniertenr Parsern geändert. Diese Skripte werden jetzt in einer eingeschränkten Umgebung ausgeführt. Sofern keine ausgefallenen Dinge in den Skripten geschehen, sollten diese weiterhin funktionieren. Wenn getStateAsync oder getObjectAsync verwendet werden, müssen diese möglicherweise in getForeignStateAsync/getForeignObjectAsync geändert werden. Weitere Informationen in der Readme-Datei.",
+          "ru": "Начиная с версии 2.0.0 этого адаптера, интерпретация пользовательских сценариев парсера изменилась. Эти сценарии теперь выполняются в ограниченном объеме. Если вы не делаете чего-то необычного, ваши сценарии должны продолжать работать. Если вы используете getStateAsync или getObjectAsync, вам может потребоваться изменить их на getForeignStateAsync/getForeignObjectAsync. Подробности смотрите в файле readme.",
+          "pt": "A partir da versão 2.0.0 deste adaptador, a interpretação dos scripts do analisador customizado mudou. Esses scripts agora são executados em um escopo limitado. Se você não estiver fazendo algo sofisticado, seus scripts deverão continuar funcionando. Se você estiver usando getStateAsync ou getObjectAsync, talvez seja necessário alterá-los para getForeignStateAsync/getForeignObjectAsync. Verifique o leia-me para obter detalhes.",
+          "nl": "Sinds v2.0.0 van deze adapter is de interpetatie van aangepaste parserscripts veranderd. Deze scripts worden nu in een beperkt bereik uitgevoerd. Als u niets bijzonders doet, moeten uw scripts blijven werken. Als u getStateAsync of getObjectAsync gebruikt, moet u deze mogelijk wijzigen in getForeignStateAsync/getForeignObjectAsync. Controleer het leesmij-bestand voor meer informatie.",
+          "fr": "Depuis la version 2.0.0 de cet adaptateur, l'interprétation des scripts d'analyseur personnalisés a changé. Ces scripts sont désormais exécutés dans une portée limitée. Si vous ne faites pas quelque chose d'extraordinaire, vos scripts devraient continuer à fonctionner. Si vous utilisez getStateAsync ou getObjectAsync, vous devrez peut-être les remplacer par getForeignStateAsync/getForeignObjectAsync. Consultez le fichier Lisez-moi pour plus de détails.",
+          "it": "A partire dalla versione 2.0.0 di questo adattatore, l'interpretazione degli script parser personalizzati è cambiata. Questi script vengono ora eseguiti in un ambito limitato. Se non stai facendo qualcosa di fantasioso, i tuoi script dovrebbero continuare a funzionare. Se utilizzi getStateAsync o getObjectAsync potrebbe essere necessario modificarli in getForeignStateAsync/getForeignObjectAsync. Controlla il file Leggimi per i dettagli.",
+          "es": "A partir de la versión 2.0.0 de este adaptador, la interpretación de los scripts del analizador personalizado ha cambiado. Estos scripts ahora se ejecutan en un ámbito limitado. Si no está haciendo algo sofisticado, sus scripts deberían seguir funcionando. Si está utilizando getStateAsync o getObjectAsync, es posible que deba cambiarlos a getForeignStateAsync/getForeignObjectAsync. Consulte el archivo Léame para obtener más detalles.",
+          "pl": "Począwszy od wersji 2.0.0 tego adaptera, zmieniło się interpretowanie niestandardowych skryptów analizatora składni. Te skrypty są teraz uruchamiane w ograniczonym zakresie. Jeśli nie robisz czegoś wymyślnego, Twoje skrypty powinny nadal działać. Jeśli używasz getStateAsync lub getObjectAsync, może być konieczna ich zmiana na getForeignStateAsync/getForeignObjectAsync. Sprawdź plik Readme, aby uzyskać szczegółowe informacje.",
+          "uk": "Починаючи з версії 2.0.0 цього адаптера, інтерпретація користувацьких сценаріїв синтаксичного аналізатора змінилася. Ці сценарії тепер виконуються в обмеженому обсязі. Якщо ви не робите нічого дивного, ваші сценарії повинні продовжувати працювати. Якщо ви використовуєте getStateAsync або getObjectAsync, вам може знадобитися змінити їх на getForeignStateAsync/getForeignObjectAsync. Подробиці перевірте в readme.",
+          "zh-cn": "从该适配器的 v2.0.0 开始，自定义解析器脚本的解释已发生变化。这些脚本现在在有限的范围内运行。如果您没有做一些奇特的事情，您的脚本应该继续工作。如果您使用 getStateAsync 或 getObjectAsync，您可能需要将它们更改为 getForeignStateAsync/getForeignObjectAsync。查看自述文件了解详细信息。"
+        },
+        "link": "https://github.com/crycode-de/ioBroker.discord#changelog",
+        "level": "warn",
+        "linkText": {
+          "en": "Changelog",
+          "de": "Änderungsprotokoll",
+          "ru": "Список изменений",
+          "pt": "Registro de alterações",
+          "nl": "Wijzigingslog",
+          "fr": "Journal des modifications",
+          "it": "Registro delle modifiche",
+          "es": "registro de cambios",
+          "pl": "Dziennik zmian",
+          "zh-cn": "变更日志",
+          "uk": "Журнал змін"
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ]
   },
   "native": {
     "interface": "can0",

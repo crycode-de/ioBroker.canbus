@@ -68,7 +68,7 @@ Additionally you may write you own scripts to read/write values with a *custom p
 ### Custom
 
 For a custom parser you have to provide you own read and write script.  
-These scripts should be pure javascript and will run in a sandbox.
+These scripts should be pure javascript and will run in a limited scope.
 
 In the scripts you are able to use the following features:
 
