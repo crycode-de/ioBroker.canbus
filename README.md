@@ -72,16 +72,20 @@ These scripts should be pure javascript and will run in a sandbox.
 
 In the scripts you are able to use the following features:
 
-* Most of Node.js build in functions
+* Globals `undefined`, `NaN`, `isNaN`, `Infinity`, `isFinite`, `atob`, `btoa`,
+  `encodeURI`, `encodeURIComponent`, `decodeURI`, `decodeURIComponent`, `parseFloat`,
+  `parseInt`, `JSON`, `Number`, `String`, `Array`, `BigInt`, `Blob`, `Boolean`,
+  `Date`, `Map`, `Math`, `Object`, `RegExp`, `Set`, `Intl`, `Buffer`, `Promise`
 * `async`/`await`
 * Adapter log functions `log.warn('something')`, `log.info('something')`, `log.debug('something')`
-* `getStateAsync('id')` and `getObjectAsync('id')` where `id` is the full ID of the state/object
+* `getStateAsync('id')` and `getObjectAsync('id')` where `id` is the partial ID of the state/object below the current adapter instance
+* `getForeignStateAsync('id')` and `getForeignObjectAsync('id')` where `id` is the full ID of the state/object
 * An object `sharedData` which is shared between all custom scripts of an adapter instance
 
 Errors in the scripts will be logged by the adapter.
 
 In both scripts the variables `buffer` and `value` are predefined.  
-`buffer` always contains the current CAN message content as a Node.js Buffer.  
+`buffer` always contains the current CAN message content as a Node.js Buffer.
 
 The `sharedData` object is empty by default and may be used to share some data between multiple calls of a single custom parser or even between multiple custom parsers.
 
@@ -89,7 +93,7 @@ The `sharedData` object is empty by default and may be used to share some data b
 
 In a read script you have to read the `value` from the `buffer` variable.
 
-At the beginning of the custom read script, `buffer` will be the received/current CAN message data (like in the `.json` state).
+At the beginning of the custom read script, `buffer` will be a copy of the received/current CAN message data (like in the `.json` state).
 `value` will be `undefined` and should be set by the script.
 
 The content of the `value` variable at the end of the custom read script will be used as new value for the state.  
@@ -112,10 +116,13 @@ Cause of `value` is only set when the first three bytes matched, all other data 
 
 In a write script you have to modify (or replace) the `buffer` variable.
 
-At the beginning of the custom write script, `buffer` will be the current CAN message data (like in the `.json` state).
+At the beginning of the custom write script, `buffer` will be a copy of the current CAN message data (like in the `.json` state).
 `value` is set to the value of the state which should be written into the `buffer`.
 
 The content of the `buffer` variable at the end of the custom write script will be used as new data for the CAN message.
+
+You may also cancel the write by calling `return false;` in the custom write script.
+This allows you to prevent writes if certain conditions are not met.
 
 ##### Example for a custom write script
 
@@ -160,6 +167,9 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 ### **WORK IN PROGRESS**
 
 * (crycode-de) Node.js >= 18, Admin >= 6.17, js-contoller >= 5.0.19 are required
+* (crycode-de) Changed how custom parser scripts are interpreted. Most custom parser scripts should work as before but they have a limited scope now.
+* (crycode-de) Custom parser scripts now support `getStateAsync`, `getForeignStateAsync`, `getObjectAsync` and `getForeignObjectAsync`. If you have used `getStateAsync`/`getObjectAsync` before you need to change them to `getForeignStateAsync`/`getForeignObjectAsync` or update the IDs if you get data from the same adapter instance.
+* (crycode-de) Custom write parser scripts an now return false to cancel the write
 * (crycode-de) Updated dependencies
 
 ### 1.3.1 (2022-04-19)

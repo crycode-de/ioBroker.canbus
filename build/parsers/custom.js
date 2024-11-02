@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,61 +17,68 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var custom_exports = {};
 __export(custom_exports, {
   ParserCustom: () => ParserCustom
 });
 module.exports = __toCommonJS(custom_exports);
-var import_vm2 = require("vm2");
+var import_scoped_eval = __toESM(require("scoped-eval"));
 var import_base = require("./base");
 const _ParserCustom = class _ParserCustom extends import_base.ParserBase {
   constructor(adapter, parserConfig) {
     super(adapter, parserConfig);
     this.scriptRead = null;
     this.scriptWrite = null;
-    if (_ParserCustom.vm === null) {
-      _ParserCustom.vm = new import_vm2.NodeVM({
-        sandbox: {
-          getStateAsync: this.adapter.getForeignStateAsync,
-          getObjectAsync: this.adapter.getForeignObjectAsync,
-          log: this.adapter.log,
-          sharedData: {}
-          // object to share some data between custom parsers
-        }
-      });
+    if (_ParserCustom.scopedEval === null) {
+      _ParserCustom.scopedEval = new import_scoped_eval.default();
+      _ParserCustom.scopedEval.allowGlobals([
+        "Buffer",
+        "Promise"
+      ]);
+      _ParserCustom.scopedEvalScope = {
+        getStateAsync: this.adapter.getStateAsync,
+        getForeignStateAsync: this.adapter.getForeignStateAsync,
+        getObjectAsync: this.adapter.getObjectAsync,
+        getForeignObjectAsync: this.adapter.getForeignObjectAsync,
+        log: this.adapter.log,
+        sharedData: {}
+        // object to share some data between all custom parsers of this adapter instance
+      };
     }
     if (this.cfg.customScriptRead) {
       try {
-        this.scriptRead = _ParserCustom.vm.run(`
-          module.exports = async (buffer) => {
+        this.scriptRead = _ParserCustom.scopedEval.build(`(
+          async () => {
             let value = undefined;
             ${this.cfg.customScriptRead}
             return value;
           }
-        `);
+        )()`, false).bind({});
       } catch (err) {
         this.adapter.log.warn(`Error loading custom read script for parser ${this.cfg.id}! ${err}`);
-        if (err instanceof Error && typeof err.stack === "string") {
-          this.adapter.log.warn(err.stack.replace(/^\s*vm\.js:\d+.*$(\n)/im, "").replace(/^\s*at new Script[^]*$/im, ""));
-        }
       }
     } else {
       this.adapter.log.warn(`No read script defined for parser ${this.cfg.id}! Data cannot be read.`);
     }
     if (this.cfg.customScriptWrite) {
       try {
-        this.scriptWrite = _ParserCustom.vm.run(`
-          module.exports = async (buffer, value) => {
+        this.scriptWrite = _ParserCustom.scopedEval.build(`(
+          async () => {
             ${this.cfg.customScriptWrite}
             return buffer;
           }
-        `);
+        )()`, false).bind({});
       } catch (err) {
         this.adapter.log.warn(`Error loading custom write script for parser ${this.cfg.id}! ${err}`);
-        if (err instanceof Error && typeof err.stack === "string") {
-          this.adapter.log.warn(err.stack.replace(/^\s*vm\.js:\d+.*$(\n)/im, "").replace(/^\s*at new Script[^]*$/im, ""));
-        }
       }
     } else {
       this.adapter.log.warn(`No write script defined for parser ${this.cfg.id}! Data cannot be written.`);
@@ -80,7 +89,11 @@ const _ParserCustom = class _ParserCustom extends import_base.ParserBase {
       return new Error("No read script defined");
     }
     try {
-      const value = await this.scriptRead(buf);
+      const value = await this.scriptRead({
+        ..._ParserCustom.scopedEvalScope,
+        buffer: Buffer.from(buf)
+        // pass a new buffer to prevent changes to the original one
+      });
       if (value !== void 0 && this.cfg.customDataType && this.cfg.customDataType !== "mixed" && typeof value !== this.cfg.customDataType) {
         this.adapter.log.warn(`Parser ${this.cfg.id} returned wrong data type ${typeof value}. (expected ${this.cfg.customDataType})`);
       }
@@ -94,7 +107,12 @@ const _ParserCustom = class _ParserCustom extends import_base.ParserBase {
       return new Error("No write script defined");
     }
     try {
-      return await this.scriptWrite(buf, val);
+      return await this.scriptWrite({
+        ..._ParserCustom.scopedEvalScope,
+        buffer: Buffer.from(buf),
+        // pass a new buffer to prevent changes to the original one
+        value: val
+      });
     } catch (err) {
       return err;
     }
@@ -103,7 +121,8 @@ const _ParserCustom = class _ParserCustom extends import_base.ParserBase {
 _ParserCustom.handledDataTypes = [
   "custom"
 ];
-_ParserCustom.vm = null;
+_ParserCustom.scopedEval = null;
+_ParserCustom.scopedEvalScope = null;
 let ParserCustom = _ParserCustom;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
