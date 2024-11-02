@@ -1365,7 +1365,7 @@
         "dataEncoding": "latin1",
         "booleanMask": 0,
         "booleanInvert": false,
-        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x0A && buffer[4] === 0x20) {\n  value = 0;\n  if (buffer[5] & 0b00001000) value += 3; // T1\n  if (buffer[5] & 0b00000010) value += 3; // T2\n  if (buffer[5] & 0b00000100) value += 3; // T3\n}",
+        "customScriptRead": "// Modus prüfen\nconst mode = (await getStateAsync('180.fa0112'))?.val;\nif (mode === 3 /* heizen */) {\nlog.warn('Setzen der Heizstäbe im Modus Heizen nicht möglich, da dies zu einer Fehlpunktion des Gerätes führen würde.');\n  return false;\n}\nif ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x0A && buffer[4] === 0x20) {\n  value = 0;\n  if (buffer[5] & 0b00001000) value += 3; // T1\n  if (buffer[5] & 0b00000010) value += 3; // T2\n  if (buffer[5] & 0b00000100) value += 3; // T3\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
         "commonRole": "value.power",
