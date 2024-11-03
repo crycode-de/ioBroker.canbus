@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "canbus",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "news": {
+      "2.1.0": {
+        "en": "Allow `setStateAsync` and `setForeignStateAsync` in custom parser scripts\nAllow `setTimeout` and `clearTimeout` in custom parser scripts (using the adapters setTimeout implementation)\nAdded `wait` function to custom parser scripts",
+        "de": "Funktionen `setStateAsync`, `setForeignStateAsync`, `setTimeout` und `clearTimeout` in Skripten benutzerdefinierter Parser hinzugefügt\n`wait` Funktion zu Skripten benutzerdefinierter Parser hinzugefügt",
+        "ru": "Разрешить \"setStateAsync\" и \"setForeignStateAsync\" в пользовательских сценариях\nРазрешение `setTimeout' и `clearTimeout' в пользовательских сценариях парсера (с использованием адаптеров setTimeout)\nДобавлена функция «wait» к пользовательским скриптам",
+        "pt": "Permitir `setStateAsync` e `setForeignStateAsync` em scripts de parser personalizados\nPermitir `setTimeout` e `clearTimeout` em scripts de parser personalizados (usando os adaptadores setTimeout implementação)\nAdicionada função `wait` para scripts de parser personalizados",
+        "nl": "Toestaan dat de StaatAsync en de StaatAsync in aangepaste parser scripts\nLaat de setTimeout en de duidelijkeTimeout scripts in aangepaste parser scripts (met behulp van de adapters setTimeout implementatie)\nToegevoegd functie van de wachtruimte aan aangepaste parser scripts",
+        "fr": "Autorise `setStateAsync` et `setForeignStateAsync` dans les scripts d'analyseurs personnalisés\nAutorise `setTimeout` et `clearTimeout` dans les scripts d'analyse personnalisés (en utilisant les adaptateurs setTimeout implementation)\nAjout de la fonction `Wait` aux scripts d'analyse personnalisés",
+        "it": "Consentire `setStateAsync` e `setForeignStateAsync` in script di parser personalizzati\nConsentire `setTimeout` e `clearTimeout` in script di parser personalizzati (utilizzando l'adattatore setEsecuzione timeout)\nAggiunto funzione `wait` a script parser personalizzati",
+        "es": "Permitir `setStateAsync` y `setForeignStateAsync` en scripts de parser personalizados\nPermitir `setTimeout` y `clearTimeout` en scripts de parser personalizados (utilizando los adaptadores setTimeout implementation)\nAñadido `espera` función a scripts de parser personalizados",
+        "pl": "Pozwól 'setStateAsync' i 'setForeignStateAsync' w niestandardowych skryptach parsera\nPozwól 'setTimeout' i 'clearTimeout' w skryptach parserów niestandardowych (za pomocą adapterów setTimeout implementacja)\nDodano funkcję \"czekać\" do własnych skryptów parserów",
+        "uk": "Allow `setStateAsync` і `setForeignStateAsync` у користувацьких сценаріях\nAllow `setTimeout` і `clearTimeout` в користувацьких сценаріїв парсера (встановлення адаптерів, що встановлюютьсяTimeout)\nДодано функцію `wait для користувальницьких сценаріїв",
+        "zh-cn": "在自定义解析脚本中允许“ set State Async” 和“ setForegn State Async ”\n允许自定义解析脚本中的“ 设置时断” 和“ 清晰时断” (使用适配器设置时断执行)\n添加到自定义解析脚本中的“ 等待” 函数"
+      },
       "2.0.0": {
         "en": "Node.js >= 18, Admin >= 6.17, js-contoller >= 5.0.19 are required\nChanged how custom parser scripts are interpreted. Most custom parser scripts should work as before but they have a limited scope now.\nCustom parser scripts now support `getStateAsync`, `getForeignStateAsync`, `getObjectAsync` and `getForeignObjectAsync`. If you have used `getStateAsync`/`getObjectAsync` before you need to change them to `getForeignStateAsync`/`getForeignObjectAsync` or update the IDs if you get data from the same adapter instance.\nCustom write parser scripts an now return false to cancel the write\nUpdated dependencies",
         "de": "Node.js >= 18, Admin >= 6.17, js-contoller >= 5.0.19 sind erforderlich\nArt der Ausführung der Skripte in benutzerdefinierten Parsern geändert. Skripte sollten wie früher funktionieren, aber sie werden jetzt in einer eingeschränkten Umgebung ausgeführt.\nSkripte benutzerdefinierter Parser unterstützen jetzt `getStateAsync`, `getForeignStateAsync`, `getObjectAsync` und `getForeignObjectAsync`. Wenn zuvor `getStateAsync`/`getObjectAsync` verwendet wurde, müssen diese ggf. auf `getForeignStateAsync`/`getForeignObjectAsync geändert werden oder die IDs müssen aktualisiert werden, wenn Sie Daten von der gleichen Adapterinstanz erhalten.\nSchreiben-Skripte benutzerdefinierter Parser können jetzt `false` zurückgeben, um das Schreiben abzubrechen\nAbhängigkeiten aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Dodano opcję automatycznego ustawiania określonej wartości w zadanym przedziale dla każdego parsera",
         "zh-cn": "添加了在给定间隔内为每个解析器自动设置特定值的选项",
         "uk": "Додана опція автоматичного встановлення певного значення в заданому інтервалі для кожного аналізатора"
-      },
-      "1.1.4": {
-        "en": "Added license information to import of well-known configurations, Fixed \"Parser returned wrong data type undefined\" log message",
-        "de": "Es wurden Lizenzinformationen zum Importieren bekannter Konfigurationen hinzugefügt, Die Protokollmeldung \"Parser returned wrong data type undefined\" wurde behoben",
-        "ru": "Добавлена информация о лицензии для импорта известных конфигураций, исправлено сообщение журнала «Парсер вернул неверный тип данных undefined»",
-        "pt": "Adicionadas informações de licença para importação de configurações conhecidas, mensagem de registro \"O analisador retornou tipo de dados incorreto indefinido\" corrigida",
-        "nl": "Licentie-informatie toegevoegd voor het importeren van bekende configuraties, Fixed \"Parser retourneerde verkeerd gegevenstype ongedefinieerd\" logbericht",
-        "fr": "Ajout d'informations sur la licence pour l'importation de configurations connues, correction du message de journal \"L'analyseur a renvoyé un type de données incorrect non défini\"",
-        "it": "Aggiunte informazioni sulla licenza per l'importazione di configurazioni note, corretto messaggio di registro \"Parser restituito tipo di dati errato non definito\"",
-        "es": "Se agregó información de licencia para importar configuraciones conocidas, se corrigió el mensaje de registro \"El analizador devolvió el tipo de datos incorrecto indefinido\"",
-        "pl": "Dodano informacje o licencji do importu dobrze znanych konfiguracji, naprawiono komunikat dziennika „Parser zwrócił nieprawidłowy typ danych, niezdefiniowany”",
-        "zh-cn": "添加了许可证信息以导入知名配置，修复了“解析器返回错误的数据类型未定义”日志消息",
-        "uk": "Додано інформацію про ліцензію для імпорту відомих конфігурацій, виправлено повідомлення журналу «Аналізатор повернув неправильний тип даних, не визначений»"
       }
     },
     "titleLang": {

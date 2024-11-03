@@ -34,6 +34,11 @@ The newest change log is in README.md
 
 ### 0.0.1
 * (crycode-de) initial development release
+## 1.2.2 (2021-08-22)
+
+* (crycode-de) Fixed text colors in dark theme of admin 5
+* (crycode-de) Updated dependencies
+
 ## 1.2.1 (2021-06-22)
 
 * (crycode-de) Added option to automatically set a certain value in a given interval for each parser

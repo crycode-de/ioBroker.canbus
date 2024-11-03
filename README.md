@@ -166,7 +166,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.0 (2024-11-03)
 
 * (crycode-de) Allow `setStateAsync` and `setForeignStateAsync` in custom parser scripts
 * (crycode-de) Allow `setTimeout` and `clearTimeout` in custom parser scripts (using the adapters setTimeout implementation)
@@ -194,11 +194,6 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 * (crycode-de) Added missing `autoSet...` parser options to csv export/import
 * (crycode-de) Fixed `TypeError: Method Promise.prototype.then called on incompatible receiver [object Object]` triggered by a bug in an old `vm2` version
-* (crycode-de) Updated dependencies
-
-### 1.2.2 (2021-08-22)
-
-* (crycode-de) Fixed text colors in dark theme of admin 5
 * (crycode-de) Updated dependencies
 
 ## License
