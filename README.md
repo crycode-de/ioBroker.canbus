@@ -75,11 +75,13 @@ In the scripts you are able to use the following features:
 * Globals `undefined`, `NaN`, `isNaN`, `Infinity`, `isFinite`, `atob`, `btoa`,
   `encodeURI`, `encodeURIComponent`, `decodeURI`, `decodeURIComponent`, `parseFloat`,
   `parseInt`, `JSON`, `Number`, `String`, `Array`, `BigInt`, `Blob`, `Boolean`,
-  `Date`, `Map`, `Math`, `Object`, `RegExp`, `Set`, `Intl`, `Buffer`, `Promise`
+  `Date`, `Map`, `Math`, `Object`, `RegExp`, `Set`, `Intl`, `Buffer`, `Promise`,
+  `setTimeout`, `clearTimeout`
 * `async`/`await`
 * Adapter log functions `log.warn('something')`, `log.info('something')`, `log.debug('something')`
-* `getStateAsync('id')` and `getObjectAsync('id')` where `id` is the partial ID of the state/object below the current adapter instance
-* `getForeignStateAsync('id')` and `getForeignObjectAsync('id')` where `id` is the full ID of the state/object
+* `getStateAsync('id')`, `getObjectAsync('id')`, `setStateAsync('id', 'value', ack)` where `id` is the partial ID of the state/object below the current adapter instance
+* `getForeignStateAsync('id')`, `getForeignObjectAsync('id')` and `setForeignStateAsync('id', 'value', ack)` where `id` is the full ID of the state/object
+* Function `wait(ms)` which returns a Promise which resolves after the given time
 * An object `sharedData` which is shared between all custom scripts of an adapter instance
 
 Errors in the scripts will be logged by the adapter.
@@ -164,6 +166,12 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+* (crycode-de) Allow `setStateAsync` and `setForeignStateAsync` in custom parser scripts
+* (crycode-de) Allow `setTimeout` and `clearTimeout` in custom parser scripts (using the adapters setTimeout implementation)
+* (crycode-de) Added `wait` function to custom parser scripts
+
 ### 2.0.0 (2024-11-02)
 
 * (crycode-de) Node.js >= 18, Admin >= 6.17, js-contoller >= 5.0.19 are required

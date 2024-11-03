@@ -49,6 +49,11 @@ const _ParserCustom = class _ParserCustom extends import_base.ParserBase {
         getForeignStateAsync: this.adapter.getForeignStateAsync,
         getObjectAsync: this.adapter.getObjectAsync,
         getForeignObjectAsync: this.adapter.getForeignObjectAsync,
+        setStateAsync: this.adapter.setState,
+        setForeignStateAsync: this.adapter.setForeignStateAsync,
+        setTimeout: this.adapter.setTimeout,
+        clearTimeout: this.adapter.clearTimeout,
+        wait: (ms) => new Promise((resolve) => this.adapter.setTimeout(resolve, ms)),
         log: this.adapter.log,
         sharedData: {}
         // object to share some data between all custom parsers of this adapter instance

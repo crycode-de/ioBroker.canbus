@@ -1,5 +1,5 @@
 import ScopedEval from 'scoped-eval';
-import type { AdapterClass } from '@iobroker/types/build/types';
+import type { AdapterClass, TimeoutCallback } from '@iobroker/types/build/types';
 import type { CanBusAdapter } from '../main';
 import { ParserBase } from './base';
 
@@ -8,6 +8,11 @@ interface ScopedEvalScope {
   getForeignStateAsync: (id: string, options?: unknown) => ioBroker.GetStatePromise;
   getObjectAsync: (id: string, options?: unknown) => ioBroker.GetObjectPromise;
   getForeignObjectAsync: (id: string, options?: unknown) => ioBroker.GetObjectPromise;
+  setStateAsync: (id: string, state: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState, ack?: boolean) => ioBroker.SetStatePromise;
+  setForeignStateAsync: (id: string, state: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState, ack?: boolean) => ioBroker.SetStatePromise;
+  setTimeout: <TCallback extends TimeoutCallback> (cb: TCallback, timeout: number, ...args: Parameters<TCallback>) => ioBroker.Timeout | undefined;
+  clearTimeout: (timer: ioBroker.Timeout | undefined) => void;
+  wait: (ms: number) => Promise<void>;
   log: AdapterClass['log'];
   sharedData: Record<string, unknown>;
 }
@@ -46,6 +51,11 @@ export class ParserCustom extends ParserBase {
         getForeignStateAsync: this.adapter.getForeignStateAsync,
         getObjectAsync: this.adapter.getObjectAsync,
         getForeignObjectAsync: this.adapter.getForeignObjectAsync,
+        setStateAsync: this.adapter.setState,
+        setForeignStateAsync: this.adapter.setForeignStateAsync,
+        setTimeout: this.adapter.setTimeout,
+        clearTimeout: this.adapter.clearTimeout,
+        wait: (ms: number) => new Promise((resolve) => this.adapter.setTimeout(resolve, ms)),
         log: this.adapter.log,
         sharedData: {}, // object to share some data between all custom parsers of this adapter instance
       };

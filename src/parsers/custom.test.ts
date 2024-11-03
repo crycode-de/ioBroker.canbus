@@ -61,6 +61,8 @@ const fakeAdapter = {
   getForeignStateAsync: fakeGetStateAsync,
   getObjectAsync: fakeGetObjectAsync,
   getForeignObjectAsync: fakeGetObjectAsync,
+  setTimeout: setTimeout, // real adapter uses adapter internal function here but this is ok for the tests
+  clearTimeout: clearTimeout, // real adapter uses adapter internal function here but this is ok for the tests
 } as unknown as CanBusAdapter;
 
 describe('ParserCustom', () => {
@@ -234,12 +236,15 @@ describe('ParserCustom', () => {
           typeof setState,
           typeof Promise,
           typeof sharedData,
+          typeof setTimeout,
+          typeof clearTimeout,
+          typeof wait,
         ].join(',');
         `,
       customScriptWrite: `/* ... */`,
     });
     const val = await parser.read(buf);
-    expect(val).to.equal('object,0,undefined,undefined,undefined,function,object');
+    expect(val).to.equal('object,0,undefined,undefined,undefined,function,object,function,function,function');
   });
 
 });
