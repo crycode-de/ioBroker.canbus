@@ -994,7 +994,7 @@
         "dataEncoding": "latin1",
         "booleanMask": 0,
         "booleanInvert": false,
-        "customScriptRead": "if ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x09 && buffer[4] === 0x30) {\n  value = buffer.readInt16BE(5);\n}",
+        "customScriptRead": "// fac2ee lesen und in sharedData für später speichern\nif ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0xC2 && buffer[4] === 0xEE) {\n  sharedData.fac2ee = buffer.readInt16BE(5);\n}\n// fa0930 lesen\nif ((buffer[0] & 0x0F) === 0x02 && buffer[2] === 0xFA && buffer[3] === 0x09 && buffer[4] === 0x30) {\n  value = buffer.readInt16BE(5);\n  // Überläufe aus fac2ee einrechnen, sofern vorhanden\n  if (sharedData.fac2ee) {\n    value += 32768 * sharedData.fac2ee;\n  }\n}",
         "customScriptWrite": "//",
         "customDataType": "number",
         "commonRole": "value.power.consumption",
@@ -3678,7 +3678,7 @@
         "booleanMask": 0,
         "booleanInvert": false,
         "customScriptRead": "//",
-        "customScriptWrite": "buffer = Buffer.from([0x31, 0x00, 0xFA, 0x09, 0x30, 0x00, 0x00]);",
+        "customScriptWrite": "// erst fac2ee durch direktes schreiben in den json-State abfragen\nbuffer = Buffer.from([0x31, 0x00, 0xFA, 0xC2, 0xEE, 0x00, 0x00]);\nawait setStateAsync('680.json', JSON.stringify([ ...buffer ]), false);\n// dann 1 Sekunde später fa0930 normal abfragen\nawait wait(1000);\nbuffer = Buffer.from([0x31, 0x00, 0xFA, 0x09, 0x30, 0x00, 0x00]);\n// Info: der entsprechende Lesen-Parser 180.fa0930 behandelt das Lesen von beiden IDs",
         "customDataType": "boolean",
         "commonRole": "button",
         "commonStates": false
