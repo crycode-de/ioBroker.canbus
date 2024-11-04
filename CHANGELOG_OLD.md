@@ -34,6 +34,12 @@ The newest change log is in README.md
 
 ### 0.0.1
 * (crycode-de) initial development release
+## 1.2.3 (2021-10-17)
+
+* (crycode-de) Added missing `autoSet...` parser options to csv export/import
+* (crycode-de) Fixed `TypeError: Method Promise.prototype.then called on incompatible receiver [object Object]` triggered by a bug in an old `vm2` version
+* (crycode-de) Updated dependencies
+
 ## 1.2.2 (2021-08-22)
 
 * (crycode-de) Fixed text colors in dark theme of admin 5

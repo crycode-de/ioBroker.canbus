@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "canbus",
-    "version": "2.1.0",
+    "version": "2.1.1",
     "news": {
+      "2.1.1": {
+        "en": "Fixed get/set functions in custom parser scripts",
+        "de": "Fehler in get/set-Funktionen in Skripten benutzerdefinierte Parser behoben",
+        "ru": "Исправленные функции получения / установки в пользовательских сценариях",
+        "pt": "Funções de get/set fixas em scripts de parser personalizados",
+        "nl": "Vaste get/set functies in aangepaste parser scripts",
+        "fr": "Correction des fonctions get/set dans les scripts d'analyseurs personnalisés",
+        "it": "Funzioni di get/set fissi in script di parser personalizzati",
+        "es": "Funciones fijas de get/set en scripts de parser personalizados",
+        "pl": "Naprawiono funkcje get / set w niestandardowych skryptach parsera",
+        "uk": "Виправлені функції get/set у користувацьких скриптах",
+        "zh-cn": "自定义解析脚本中的固定获取/设置函数"
+      },
       "2.1.0": {
         "en": "Allow `setStateAsync` and `setForeignStateAsync` in custom parser scripts\nAllow `setTimeout` and `clearTimeout` in custom parser scripts (using the adapters setTimeout implementation)\nAdded `wait` function to custom parser scripts",
         "de": "Funktionen `setStateAsync`, `setForeignStateAsync`, `setTimeout` und `clearTimeout` in Skripten benutzerdefinierter Parser hinzugefügt\n`wait` Funktion zu Skripten benutzerdefinierter Parser hinzugefügt",
@@ -80,19 +93,6 @@
         "pl": "Poprawiono kolory tekstu w ciemnym motywie admina 5 i zaktualizowano zależności",
         "zh-cn": "修复了 admin 5 深色主题中的文本颜色和更新的依赖项",
         "uk": "Виправлено кольори тексту в темній темі admin 5 і оновлено залежності"
-      },
-      "1.2.1": {
-        "en": "Added option to automatically set a certain value in a given interval for each parser",
-        "de": "Option hinzugefügt, um für jeden Parser automatisch einen bestimmten Wert in einem bestimmten Intervall zu setzen",
-        "ru": "Добавлена возможность автоматически устанавливать определенное значение в заданном интервале для каждого парсера.",
-        "pt": "Adicionada opção para definir automaticamente um certo valor em um determinado intervalo para cada analisador",
-        "nl": "Optie toegevoegd om automatisch een bepaalde waarde in te stellen in een bepaald interval voor elke parser",
-        "fr": "Ajout d'une option pour définir automatiquement une certaine valeur dans un intervalle donné pour chaque analyseur",
-        "it": "Aggiunta l'opzione per impostare automaticamente un determinato valore in un determinato intervallo per ogni parser",
-        "es": "Opción agregada para establecer automáticamente un cierto valor en un intervalo dado para cada analizador",
-        "pl": "Dodano opcję automatycznego ustawiania określonej wartości w zadanym przedziale dla każdego parsera",
-        "zh-cn": "添加了在给定间隔内为每个解析器自动设置特定值的选项",
-        "uk": "Додана опція автоматичного встановлення певного значення в заданому інтервалі для кожного аналізатора"
       }
     },
     "titleLang": {

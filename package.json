@@ -1,6 +1,6 @@
 {
   "name": "iobroker.canbus",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "CAN Bus integration",
   "author": {
     "name": "Peter Müller",
