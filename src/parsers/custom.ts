@@ -47,15 +47,15 @@ export class ParserCustom extends ParserBase {
         'Promise',
       ]);
       ParserCustom.scopedEvalScope = {
-        getStateAsync: this.adapter.getStateAsync,
-        getForeignStateAsync: this.adapter.getForeignStateAsync,
-        getObjectAsync: this.adapter.getObjectAsync,
-        getForeignObjectAsync: this.adapter.getForeignObjectAsync,
-        setStateAsync: this.adapter.setState,
-        setForeignStateAsync: this.adapter.setForeignStateAsync,
-        setTimeout: this.adapter.setTimeout,
-        clearTimeout: this.adapter.clearTimeout,
-        wait: (ms: number) => new Promise((resolve) => this.adapter.setTimeout(resolve, ms)),
+        getStateAsync: this.adapter.getStateAsync.bind(this.adapter),
+        getForeignStateAsync: this.adapter.getForeignStateAsync.bind(this.adapter),
+        getObjectAsync: this.adapter.getObjectAsync.bind(this.adapter),
+        getForeignObjectAsync: this.adapter.getForeignObjectAsync.bind(this.adapter),
+        setStateAsync: this.adapter.setState.bind(this.adapter),
+        setForeignStateAsync: this.adapter.setForeignStateAsync.bind(this.adapter),
+        setTimeout: this.adapter.setTimeout.bind(this.adapter),
+        clearTimeout: this.adapter.clearTimeout.bind(this.adapter),
+        wait: (ms: number) => new Promise((resolve) => this.adapter.setTimeout.bind(this.adapter)(resolve, ms)),
         log: this.adapter.log,
         sharedData: {}, // object to share some data between all custom parsers of this adapter instance
       };

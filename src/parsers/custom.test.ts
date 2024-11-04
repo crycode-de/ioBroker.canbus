@@ -20,17 +20,35 @@ const genericParserConfig: ioBroker.AdapterConfigMessageParser = {
   name: '',
 };
 
-const fakeGetStateAsync = (_id: string): Promise<ioBroker.State> => {
+/**
+ * Faked stated to be read/written by faked get/set state functions.
+ */
+const fakeStates: Record<string, ioBroker.State> = {
+  'canbus.0.some.id': {
+    val: 10,
+    ack: true,
+    from: 'canbus.0',
+    lc: Date.now(),
+    ts: Date.now(),
+  },
+  'test.0.some.id': {
+    val: 123,
+    ack: true,
+    from: 'test.0',
+    lc: Date.now(),
+    ts: Date.now(),
+  },
+};
+
+const fakeGetForeignStateAsync = (id: string): Promise<ioBroker.State> => {
   return new Promise((resolve) => {
-    const state: ioBroker.State = {
-      val: 123,
-      ack: true,
-      from: 'test.0',
-      lc: Date.now(),
-      ts: Date.now(),
-    };
+    const state: ioBroker.State = fakeStates[id];
     setTimeout(() => resolve(state), 10); // simulate async behavior
   });
+};
+
+const fakeGetStateAsync = (id: string): Promise<ioBroker.State> => {
+  return fakeGetForeignStateAsync(`canbus.0.${id}`);
 };
 
 const fakeGetObjectAsync = (id: string): Promise<ioBroker.Object> => {
@@ -52,15 +70,39 @@ const fakeGetObjectAsync = (id: string): Promise<ioBroker.Object> => {
   });
 };
 
+const fakeSetForeignStateAsync = (id: string, state: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState, ack?: boolean): ioBroker.SetStatePromise => {
+  return new Promise((resolve) => {
+    if (typeof state === 'object') {
+      fakeStates[id] = state as ioBroker.State;
+    } else {
+      fakeStates[id] = {
+        val: state,
+        ack: !!ack,
+        from: 'canbus.0',
+        lc: Date.now(),
+        ts: Date.now(),
+      };
+    }
+    resolve(id);
+  });
+};
+
+const fakeSetStateAsync = (id: string, state: ioBroker.State | ioBroker.StateValue | ioBroker.SettableState, ack?: boolean): ioBroker.SetStatePromise => {
+  return fakeSetForeignStateAsync(`canbus.0.${id}`, state, ack);
+};
+
 const fakeAdapter = {
   name: 'canbus',
   log: {
     warn: () => { /* just discard in this test */ },
   },
   getStateAsync: fakeGetStateAsync,
-  getForeignStateAsync: fakeGetStateAsync,
+  getForeignStateAsync: fakeGetForeignStateAsync,
   getObjectAsync: fakeGetObjectAsync,
   getForeignObjectAsync: fakeGetObjectAsync,
+  setState: fakeSetStateAsync,
+  setStateAsync: fakeSetStateAsync,
+  setForeignStateAsync: fakeSetForeignStateAsync,
   setTimeout: setTimeout, // real adapter uses adapter internal function here but this is ok for the tests
   clearTimeout: clearTimeout, // real adapter uses adapter internal function here but this is ok for the tests
 } as unknown as CanBusAdapter;
@@ -154,16 +196,61 @@ describe('ParserCustom', () => {
       ...genericParserConfig,
       customScriptRead: `/* ... */`,
       customScriptWrite: `
-        const state = await getStateAsync('test.0.some.id');
+        const state = await getStateAsync('some.id');
         buffer[0] = state.val;
-        const obj = await getObjectAsync('test.0.some.id');
+        const obj = await getObjectAsync('some.id');
         buffer[1] = obj.native.data;
         buffer[2] = (await getForeignStateAsync('test.0.some.id')).val;
         buffer[3] = (await getForeignObjectAsync('test.0.some.id')).native.data;
         `,
     });
     buf = (await parser.write(buf, null)) as Buffer;
-    assert.deepEqual([ buf[0], buf[1], buf[2], buf[3] ], [ 123, 42, 123, 42 ]);
+    assert.deepEqual([
+      buf[0],
+      buf[1],
+      buf[2],
+      buf[3],
+    ], [
+      10,
+      42,
+      123,
+      42,
+    ]);
+  });
+
+  it(`use setStateAsync, setForeignStateAsync`, async () => {
+    const parser = new ParserCustom(fakeAdapter, {
+      ...genericParserConfig,
+      customScriptRead: `/* ... */`,
+      customScriptWrite: `
+        await setStateAsync('set.id', 1337);
+        await setForeignStateAsync('test.0.set.id', 'test');
+        `,
+    });
+    buf = (await parser.write(buf, null)) as Buffer;
+
+    assert.deepEqual([
+      fakeStates['canbus.0.set.id']?.val,
+      fakeStates['test.0.set.id']?.val,
+    ], [
+      1337,
+      'test',
+    ]);
+  });
+
+  it(`use wait`, async () => {
+    const parser = new ParserCustom(fakeAdapter, {
+      ...genericParserConfig,
+      customScriptRead: `/* ... */`,
+      customScriptWrite: `
+        await wait(50);
+        `,
+    });
+    const start = Date.now();
+    buf = (await parser.write(buf, null)) as Buffer;
+    const end = Date.now();
+
+    expect(end - start).to.be.greaterThanOrEqual(50);
   });
 
   it(`script with syntax error should log a warning`, () => {
