@@ -27,7 +27,7 @@
     "linux"
   ],
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.2",
+    "@iobroker/adapter-core": "^3.2.3",
     "autobind-decorator": "^2.4.0",
     "scoped-eval": "^0.4.2",
     "socketcan": "^4.0.5",
