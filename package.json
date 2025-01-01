@@ -29,7 +29,7 @@
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.2",
     "autobind-decorator": "^2.4.0",
-    "scoped-eval": "^0.4.2",
+    "scoped-eval": "^0.4.3",
     "socketcan": "^4.0.5",
     "source-map-support": "^0.5.21"
   },
