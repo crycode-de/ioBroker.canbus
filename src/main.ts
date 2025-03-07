@@ -164,7 +164,9 @@ export class CanBusAdapter extends utils.Adapter {
 
         case 'json':
           // let the parsers read the data from json to keep the parsers data in sync with the json data
-          await this.processParsers(this.getBufferFromJsonState(state, msgCfg.idWithDlc), msgCfg);
+          if (msgCfg.receive) {
+            await this.processParsers(this.getBufferFromJsonState(state, msgCfg.idWithDlc), msgCfg);
+          }
 
           // send current json data
           if (msgCfg.autosend) {
@@ -590,9 +592,12 @@ export class CanBusAdapter extends utils.Adapter {
     if (!buf) return;
 
     for (const parserUuid in msgCfg.parsers) {
+
       // check if the parser is initialized
       const parser = msgCfg.parsers[parserUuid];
+
       if (parser.instance) {
+
         const readResult = await parser.instance.read(buf);
         // check if the parser has read a value (null indicates an error)
         if (readResult instanceof Error) {

@@ -76,7 +76,7 @@ export class ParserCustom extends ParserBase {
         this.adapter.log.warn(`Error loading custom read script for parser ${this.cfg.id}! ${err}`);
       }
     } else {
-      this.adapter.log.warn(`No read script defined for parser ${this.cfg.id}! Data cannot be read.`);
+      this.adapter.log.info(`No read script defined for parser ${this.cfg.id}! Data cannot be read.`);
     }
 
     // prepare write script
