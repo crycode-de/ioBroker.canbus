@@ -166,6 +166,11 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+* (crycode-de) Node.js >= 20, Admin >= 7.4.10 required
+* (crycode-de) Updated dependencies
+
 ### 2.1.1 (2024-11-04)
 
 * (crycode-de) Fixed get/set functions in custom parser scripts
@@ -198,4 +203,4 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
 
-Copyright (c) 2020-2024 Peter Müller <peter@crycode.de> (<https://crycode.de/>)
+Copyright (c) 2020-2025 Peter Müller <peter@crycode.de> (<https://crycode.de/>)

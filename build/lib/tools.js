@@ -38,8 +38,7 @@ function isObject(it) {
   return Object.prototype.toString.call(it) === "[object Object]";
 }
 function isArray(it) {
-  if (Array.isArray !== null)
-    return Array.isArray(it);
+  if (Array.isArray !== null) return Array.isArray(it);
   return Object.prototype.toString.call(it) === "[object Array]";
 }
 async function translateText(text, targetLang, yandexApiKey) {

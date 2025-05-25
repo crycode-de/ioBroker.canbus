@@ -30,6 +30,7 @@ class ParserNumber extends import_base.ParserBase {
   async read(buf) {
     try {
       switch (this.cfg.dataType) {
+        /* eslint-disable @stylistic/no-multi-spaces */
         case "int8":
           return buf.readInt8(this.cfg.dataOffset);
         case "uint8":
@@ -58,6 +59,7 @@ class ParserNumber extends import_base.ParserBase {
           return buf.readDoubleBE(this.cfg.dataOffset);
         case "double64_le":
           return buf.readDoubleLE(this.cfg.dataOffset);
+        /* eslint-enable @stylistic/no-multi-spaces */
         default:
           return new Error(`This parser can't handle the type ${this.cfg.dataType}`);
       }
@@ -69,6 +71,7 @@ class ParserNumber extends import_base.ParserBase {
   async write(buf, val) {
     try {
       switch (this.cfg.dataType) {
+        /* eslint-disable @stylistic/no-multi-spaces,@stylistic/max-statements-per-line */
         case "int8":
           buf.writeInt8(val, this.cfg.dataOffset);
           break;
@@ -111,6 +114,7 @@ class ParserNumber extends import_base.ParserBase {
         case "double64_le":
           buf.writeDoubleLE(val, this.cfg.dataOffset);
           break;
+        /* eslint-enable @stylistic/no-multi-spaces,@stylistic/max-statements-per-line */
         default:
           return new Error(`This parser can't handle the type ${this.cfg.dataType}`);
       }

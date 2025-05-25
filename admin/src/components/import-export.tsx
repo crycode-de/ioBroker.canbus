@@ -511,7 +511,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
               this.escapeCsvValue(parser.customScriptWrite),
               this.escapeCsvValue(parser.commonRole),
               parser.commonStates ? this.escapeCsvValue(parser.commonStates) : '',
-              parser.autoSetInterval ? parser.autoSetInterval : 0,
+              parser.autoSetInterval ?? 0,
               parser.dataType === 'boolean' ? (parser.autoSetValue ? 1 : 0) : (parser.dataType === 'string') ? this.escapeCsvValue(parser.autoSetValue) : parser.autoSetValue,
               parser.autoSetTriggerSend ? 1 : 0,
             ].join(';'));
@@ -733,9 +733,7 @@ export class ImportExport extends React.Component<ImportExportProps, ImportExpor
     }
 
     const { native } = this.props;
-    if (!native.messages) {
-      native.messages = {};
-    }
+    native.messages ??= {};
 
     for (const msgUuid in msgs) {
       // get the name from nameLang if available in the current language and remove nameLang attribute

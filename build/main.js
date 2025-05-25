@@ -31,8 +31,7 @@ var __decorateClass = (decorators, target, key, kind) => {
   for (var i = decorators.length - 1, decorator; i >= 0; i--)
     if (decorator = decorators[i])
       result = (kind ? decorator(target, key, result) : decorator(result)) || result;
-  if (kind && result)
-    __defProp(target, key, result);
+  if (kind && result) __defProp(target, key, result);
   return result;
 };
 var main_exports = {};
@@ -94,11 +93,10 @@ class CanBusAdapter extends utils.Adapter {
     }
   }
   async onStateChange(id, state) {
-    var _a, _b;
+    var _a, _b, _c, _d;
     if (state) {
       this.log.silly(`state ${id} changed: ${JSON.stringify(state)}`);
-      if (state.ack)
-        return;
+      if (state.ack) return;
       if (this.config.useRawStates && id === `${this.namespace}.raw.send`) {
         let canMsg;
         try {
@@ -115,7 +113,7 @@ class CanBusAdapter extends utils.Adapter {
           return;
         }
         this.log.debug(`sendig data from raw.send state`);
-        if (this.sendCanMsg(canMsg.id, canMsg.ext || false, canMsg.data, canMsg.rtr || false)) {
+        if (this.sendCanMsg(canMsg.id, (_a = canMsg.ext) != null ? _a : false, canMsg.data, (_b = canMsg.rtr) != null ? _b : false)) {
           if (!state.ack) {
             await this.setState(id, {
               ...state,
@@ -126,16 +124,13 @@ class CanBusAdapter extends utils.Adapter {
         return;
       }
       const [, , msgId, stateId] = id.split(".");
-      if (!msgId || !stateId || !msgId.match(import_consts.MESSAGE_ID_REGEXP_WITH_DLC))
-        return;
+      if (!msgId || !stateId || !msgId.match(import_consts.MESSAGE_ID_REGEXP_WITH_DLC)) return;
       const msgCfg = this.canId2Message[msgId];
-      if (!(msgCfg == null ? void 0 : msgCfg.send))
-        return;
+      if (!(msgCfg == null ? void 0 : msgCfg.send)) return;
       switch (stateId) {
         case "send":
-          if (state.val !== true)
-            return;
-          void ((_a = msgCfg.actionQueue) == null ? void 0 : _a.enqueue(async () => {
+          if (state.val !== true) return;
+          void ((_c = msgCfg.actionQueue) == null ? void 0 : _c.enqueue(async () => {
             if (await this.sendMessageJsonData(msgCfg)) {
               await this.setState(`${msgCfg.idWithDlc}.send`, {
                 ...state,
@@ -153,21 +148,17 @@ class CanBusAdapter extends utils.Adapter {
         case "rtr":
           break;
         default:
-          if (!stateId.match(import_consts.PARSER_ID_REGEXP))
-            return;
+          if (!stateId.match(import_consts.PARSER_ID_REGEXP)) return;
           for (const parserUuid in msgCfg.parsers) {
-            if (msgCfg.parsers[parserUuid].id !== stateId)
-              continue;
+            if (msgCfg.parsers[parserUuid].id !== stateId) continue;
             const parser = msgCfg.parsers[parserUuid];
-            await ((_b = msgCfg.actionQueue) == null ? void 0 : _b.enqueue(async () => {
+            await ((_d = msgCfg.actionQueue) == null ? void 0 : _d.enqueue(async () => {
               if (!parser.instance) {
                 return;
               }
               const jsonState = await this.getStateAsync(`${msgCfg.idWithDlc}.json`);
               let data = this.getBufferFromJsonState(jsonState, msgCfg.idWithDlc);
-              if (data === null) {
-                data = Buffer.alloc(msgCfg.dlc >= 0 ? msgCfg.dlc : 8);
-              }
+              data != null ? data : data = Buffer.alloc(msgCfg.dlc >= 0 ? msgCfg.dlc : 8);
               data = await parser.instance.write(data, state.val);
               if (data === false) {
                 this.log.debug(`Parser writing data for message ID ${msgCfg.idWithDlc} parser ID ${parser.id} decided to cancel write`);
@@ -306,17 +297,13 @@ class CanBusAdapter extends utils.Adapter {
         endkey: `${this.namespace}.\u9999`
       });
       for (const obj of objList.rows) {
-        if (obj.value.type !== "channel")
-          continue;
+        if (obj.value.type !== "channel") continue;
         const idParts = obj.id.split(".");
-        if (idParts.length !== 3)
-          continue;
-        if (!idParts[2].match(import_consts.MESSAGE_ID_REGEXP_WITH_DLC))
-          continue;
+        if (idParts.length !== 3) continue;
+        if (!idParts[2].match(import_consts.MESSAGE_ID_REGEXP_WITH_DLC)) continue;
         const [id, dlcStr] = idParts[2].split("-");
         const dlc = dlcStr === void 0 ? -1 : parseInt(dlcStr, 10);
-        if (((_b = (_a = this.config.messages) == null ? void 0 : _a[obj.value.native.uuid]) == null ? void 0 : _b.id) === id && this.config.messages[obj.value.native.uuid].dlc === dlc)
-          continue;
+        if (((_b = (_a = this.config.messages) == null ? void 0 : _a[obj.value.native.uuid]) == null ? void 0 : _b.id) === id && this.config.messages[obj.value.native.uuid].dlc === dlc) continue;
         this.log.debug(`delete unconfigured message ${obj.id}`);
         await this.delForeignObjectAsync(obj.id, { recursive: true });
       }
@@ -463,8 +450,7 @@ class CanBusAdapter extends utils.Adapter {
    * @param msgCfg The config for the Message.
    */
   async processReceivedCanMsg(msg, msgCfg) {
-    if (!msgCfg.receive)
-      return;
+    if (!msgCfg.receive) return;
     await this.setState(`${msgCfg.idWithDlc}.json`, JSON.stringify([...msg.data]), true);
     if (this.config.useRtrFlag) {
       void this.setState(`${msgCfg.idWithDlc}.rtr`, !!msg.rtr, true);
@@ -477,8 +463,7 @@ class CanBusAdapter extends utils.Adapter {
    * @param msgCfg The message config to use.
    */
   async processParsers(buf, msgCfg) {
-    if (!buf)
-      return;
+    if (!buf) return;
     for (const parserUuid in msgCfg.parsers) {
       const parser = msgCfg.parsers[parserUuid];
       if (parser.instance) {
@@ -622,15 +607,11 @@ class CanBusAdapter extends utils.Adapter {
       endkey: `${this.namespace}.${msgCfg.idWithDlc}.\u9999`
     });
     for (const obj of objList.rows) {
-      if (obj.value.type !== "state")
-        continue;
+      if (obj.value.type !== "state") continue;
       const idParts = obj.id.split(".");
-      if (idParts.length !== 4)
-        continue;
-      if (import_consts.PARSER_ID_RESERVED.includes(idParts[3]))
-        continue;
-      if (((_a = msgCfg.parsers[obj.value.native.uuid]) == null ? void 0 : _a.id) === idParts[3])
-        continue;
+      if (idParts.length !== 4) continue;
+      if (import_consts.PARSER_ID_RESERVED.includes(idParts[3])) continue;
+      if (((_a = msgCfg.parsers[obj.value.native.uuid]) == null ? void 0 : _a.id) === idParts[3]) continue;
       this.log.debug(`delete unconfigured parser ${obj.id}`);
       await this.delForeignObjectAsync(obj.id);
     }

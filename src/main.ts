@@ -121,7 +121,7 @@ export class CanBusAdapter extends utils.Adapter {
 
         // send the message
         this.log.debug(`sendig data from raw.send state`);
-        if (this.sendCanMsg(canMsg.id, canMsg.ext || false, canMsg.data, canMsg.rtr || false)) {
+        if (this.sendCanMsg(canMsg.id, canMsg.ext ?? false, canMsg.data, canMsg.rtr ?? false)) {
           // set ack flag if the message was send and not already acked
           if (!state.ack) {
             await this.setState(id, {
@@ -196,10 +196,9 @@ export class CanBusAdapter extends utils.Adapter {
               // load the current json from state
               const jsonState = await this.getStateAsync(`${msgCfg.idWithDlc}.json`);
               let data: Buffer | false | Error | null = this.getBufferFromJsonState(jsonState, msgCfg.idWithDlc);
-              if (data === null) {
-                // state not found or invalid json in state... create default buffer for the parser
-                data = Buffer.alloc(msgCfg.dlc >= 0 ? msgCfg.dlc : 8);
-              }
+
+              // if state not found or invalid json in state... create default buffer for the parser
+              data ??= Buffer.alloc(msgCfg.dlc >= 0 ? msgCfg.dlc : 8);
 
               // write to data using the parser
               data = await parser.instance.write(data, state.val);
@@ -453,7 +452,6 @@ export class CanBusAdapter extends utils.Adapter {
     }
 
     // generic data types
-    // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
     switch (parser.dataType) {
       case 'int8':
       case 'uint8':
@@ -799,7 +797,6 @@ export class CanBusAdapter extends utils.Adapter {
         let val = msgCfg.parsers[parserUuid].autoSetValue;
         // use defaults if autoSetValue is undefined
         if (val === undefined) {
-          // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
           switch (msgCfg.parsers[parserUuid].dataType) {
             case 'boolean':
               val = false;

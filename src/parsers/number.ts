@@ -30,7 +30,6 @@ export class ParserNumber extends ParserBase {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async read (buf: Buffer): Promise<number | Error> {
     try {
-      // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
       switch (this.cfg.dataType) {
         /* eslint-disable @stylistic/no-multi-spaces */
         case 'int8':        return buf.readInt8(this.cfg.dataOffset);
@@ -58,7 +57,6 @@ export class ParserNumber extends ParserBase {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async write (buf: Buffer, val: number): Promise<Buffer | Error> {
     try {
-      // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
       switch (this.cfg.dataType) {
         /* eslint-disable @stylistic/no-multi-spaces,@stylistic/max-statements-per-line */
         case 'int8':        buf.writeInt8(val, this.cfg.dataOffset); break;
