@@ -43,6 +43,8 @@ This adapter connects ioBroker to a Controller Area Network (CAN bus).
 * CAN Hardware which is supported by the kernel and creates an interface like `can0`
 * Some knowledge about the messages send on you CAN bus
 
+**Caution:** Currently only Node.js >=20 and <23 are supported. This is a temporary limitation because of the used `socketcan` library.
+
 ## Parsers
 
 Using parsers you are able to read data from or write data to the CAN message buffer.
@@ -168,7 +170,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 -->
 ### **WORK IN PROGRESS**
 
-* (crycode-de) Node.js >= 20, Admin >= 7.4.10 required
+* (crycode-de) Node.js >= 20 and <23, Admin >= 7.4.10 required
 * (crycode-de) Updated dependencies
 
 ### 2.1.1 (2024-11-04)
