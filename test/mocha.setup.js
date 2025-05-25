@@ -16,8 +16,8 @@ process.on('unhandledRejection', (e) => {
 // and load chai-as-promised and sinon-chai by default
 const sinonChai = require('sinon-chai');
 const chaiAsPromised = require('chai-as-promised');
-const { should, use } = require('chai');
+const chai = require('chai');
 
-should();
-use(sinonChai);
-use(chaiAsPromised);
+chai.should();
+chai.use(sinonChai.default || sinonChai);
+chai.use(chaiAsPromised.default || chaiAsPromised);
