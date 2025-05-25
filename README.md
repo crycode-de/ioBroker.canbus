@@ -171,6 +171,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 ### **WORK IN PROGRESS**
 
 * (crycode-de) Node.js >= 20 and <23, Admin >= 7.4.10 required
+* (crycode-de) Optimized admin layout for smaller devices and added a warning on very small devices
 * (crycode-de) Updated dependencies
 
 ### 2.1.1 (2024-11-04)

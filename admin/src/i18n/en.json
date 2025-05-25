@@ -111,5 +111,6 @@
     "Value to set": "Value to set",
     "The value to set automatically in the given interval (%s)": "The value to set automatically in the given interval (%s)",
     "Trigger send": "Trigger send",
-    "Trigger the send action every time the value is set automatically": "Trigger the send action every time the value is set automatically"
+    "Trigger the send action every time the value is set automatically": "Trigger the send action every time the value is set automatically",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit."
 }

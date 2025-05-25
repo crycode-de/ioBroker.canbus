@@ -111,5 +111,6 @@
     "The value to set automatically in the given interval (%s)": "Der Wert, der automatisch im vorgegebenen Intervall gesetzt werden soll (%s)",
     "Trigger send": "Senden auslösen",
     "Set a certain value automatically in a given interval": "Setze automatisch einen bestimmten Wert in einem vorgegebenen Intervall",
-    "Trigger the send action every time the value is set automatically": "Bei jedem automatischen Setzen des Wertes die senden-Aktion auslösen"
+    "Trigger the send action every time the value is set automatically": "Bei jedem automatischen Setzen des Wertes die senden-Aktion auslösen",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Achtung: Es wird dringend empfohlen, ein größeres Gerät zum Bearbeiten der Einstellungen zu verwenden. Bei der Verwendung eines kleinen Geräts werden die Einstellungen möglicherweise nicht korrekt angezeigt und einige Optionen sind schwer zu bearbeiten."
 }

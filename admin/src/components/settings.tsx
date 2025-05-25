@@ -47,6 +47,22 @@ const styles = (theme: Theme): Record<string, CreateCSSProperties> => ({
     position: 'absolute',
     top: theme.spacing(2),
     right: theme.spacing(2),
+    [theme.breakpoints.down('md')]: {
+      position: 'relative',
+      paddingBottom: theme.spacing(2),
+      textAlign: 'right',
+    },
+  },
+  smallDeviceInfo: {
+    display: 'none',
+    border: '2px dotted red',
+    padding: theme.spacing(1),
+    margin: theme.spacing(2),
+    textAlign: 'justify',
+    fontWeight: 'bold',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+    },
   },
 });
 
@@ -178,125 +194,131 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     const knownMessageIds = Object.keys(this.state.messages).map((uuid) => ({ id: this.state.messages[uuid].id, dlc: this.state.messages[uuid].dlc, uuid: uuid }));
 
     return (
-      <div className={classes.root}>
-        <Tabs
-          orientation='vertical'
-          variant='scrollable'
-          value={this.state.tabIndex}
-          onChange={this.handleTabChange}
-          className={classes.tabs}
-        >
-          <Tab
-            label={I18n.t('General')}
-            id='tab-0'
-            className={classes.tab}
-            style={{
-              color: this.state.generalValid === false ? 'red' : undefined,
-            }}
-          />
-          <Tab
-            label={I18n.t('Import / Export')}
-            id='tab-1'
-            className={classes.tab}
-          />
+      <React.Fragment>
+        <div className={classes.smallDeviceInfo}>
+          {I18n.t(`Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.`)}
+        </div>
 
-          <Box textAlign='center'>{I18n.t('Messages')}</Box>
-          {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
+        <div className={classes.root}>
+          <Tabs
+            orientation='vertical'
+            variant='scrollable'
+            value={this.state.tabIndex}
+            onChange={this.handleTabChange}
+            className={classes.tabs}
+          >
             <Tab
-              key={`tab-${i + 1}`}
-              label={this.getMessageTabLabel(this.state.messages[msgUuid])}
-              id={`tab-${i + 1}`}
+              label={I18n.t('General')}
+              id='tab-0'
               className={classes.tab}
               style={{
-                color: this.state.messagesValid[msgUuid] === false ? 'red' : undefined,
-                fontStyle: this.state.messages[msgUuid].id ? undefined : 'italic',
+                color: this.state.generalValid === false ? 'red' : undefined,
               }}
             />
+            <Tab
+              label={I18n.t('Import / Export')}
+              id='tab-1'
+              className={classes.tab}
+            />
+
+            <Box textAlign='center'>{I18n.t('Messages')}</Box>
+            {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
+              <Tab
+                key={`tab-${i + 1}`}
+                label={this.getMessageTabLabel(this.state.messages[msgUuid])}
+                id={`tab-${i + 1}`}
+                className={classes.tab}
+                style={{
+                  color: this.state.messagesValid[msgUuid] === false ? 'red' : undefined,
+                  fontStyle: this.state.messages[msgUuid].id ? undefined : 'italic',
+                }}
+              />
+            ))}
+
+            {this.state.messagesUnconfiguredKeys.length > 0 && (
+              <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>
+            )}
+            {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
+              <Tab
+                key={`tab-unconf-${i}`}
+                label={this.getMessageTabLabel(this.state.messagesUnconfigured[id])}
+                id={`tab-unconf-${i}`}
+                className={classes.tab}
+              />
+            ))}
+
+            <Button color='primary' startIcon={<AddIcon />} onClick={this.onMessageAdd}>
+              {I18n.t('Add')}
+            </Button>
+          </Tabs>
+
+          <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
+            <General
+              common={common}
+              context={context}
+              native={native}
+              onChange={this.onGeneralChange}
+              onError={this.props.onError}
+              onValidate={this.onGeneralValidate}
+              setNative={this.props.setNative}
+            />
+          </TabPanel>
+
+          <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
+            <ImportExport
+              context={context}
+              native={native}
+              onError={this.props.onError}
+              setNative={this.props.setNative}
+              showToast={this.props.showToast}
+            />
+          </TabPanel>
+
+          <TabPanel value={this.state.tabIndex} index={tabIndex++}>
+            {/* dummy for messages divider */}
+          </TabPanel>
+
+          {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
+            <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
+              <Message
+                key={msgUuid}
+                context={context}
+                classes={classes}
+                uuid={msgUuid}
+                config={this.state.messages[msgUuid]}
+                knownMessageIds={knownMessageIds}
+                onChange={this.onMessageChange}
+                onDelete={this.onMessageDelete}
+                onValidate={this.onMessageValidate}
+                showToast={this.props.showToast}
+              />
+            </TabPanel>
           ))}
 
           {this.state.messagesUnconfiguredKeys.length > 0 && (
-            <Box textAlign='center'>{I18n.t('Unconfigured messages')}</Box>
+            <TabPanel value={this.state.tabIndex} index={tabIndex++}>
+              {/* dummy for unconfigured messages divider */}
+            </TabPanel>
           )}
+
           {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
-            <Tab
-              key={`tab-unconf-${i}`}
-              label={this.getMessageTabLabel(this.state.messagesUnconfigured[id])}
-              id={`tab-unconf-${i}`}
-              className={classes.tab}
-            />
+            <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
+              <Message
+                key={id}
+                context={context}
+                classes={classes}
+                uuid={id}
+                config={this.state.messagesUnconfigured[id]}
+                knownMessageIds={[]}
+                readonly={true}
+                onAdd={this.onMessageAddFromUnconfigured}
+                showToast={this.props.showToast}
+              />
+            </TabPanel>
           ))}
 
-          <Button color='primary' startIcon={<AddIcon />} onClick={this.onMessageAdd}>
-            {I18n.t('Add')}
-          </Button>
-        </Tabs>
-
-        <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
-          <General
-            common={common}
-            context={context}
-            native={native}
-            onChange={this.onGeneralChange}
-            onError={this.props.onError}
-            onValidate={this.onGeneralValidate}
-            setNative={this.props.setNative}
-          />
-        </TabPanel>
-
-        <TabPanel value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
-          <ImportExport
-            context={context}
-            native={native}
-            onError={this.props.onError}
-            setNative={this.props.setNative}
-            showToast={this.props.showToast}
-          />
-        </TabPanel>
-
-        <TabPanel value={this.state.tabIndex} index={tabIndex++}>
-          {/* dummy for messages divider */}
-        </TabPanel>
-
-        {this.state.messagesKeys.map((msgUuid, i) => this.state.messages[msgUuid] && (
-          <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
-            <Message
-              key={msgUuid}
-              context={context}
-              classes={classes}
-              uuid={msgUuid}
-              config={this.state.messages[msgUuid]}
-              knownMessageIds={knownMessageIds}
-              onChange={this.onMessageChange}
-              onDelete={this.onMessageDelete}
-              onValidate={this.onMessageValidate}
-              showToast={this.props.showToast}
-            />
-          </TabPanel>
-        ))}
-
-        {this.state.messagesUnconfiguredKeys.length > 0 && (
-          <TabPanel value={this.state.tabIndex} index={tabIndex++}>
-            {/* dummy for unconfigured messages divider */}
-          </TabPanel>
-        )}
-
-        {this.state.messagesUnconfiguredKeys.map((id, i) => this.state.messagesUnconfigured[id] && (
-          <TabPanel key={`tabpanel-${i}`} value={this.state.tabIndex} index={tabIndex++} className={classes.tabpanel}>
-            <Message
-              key={id}
-              context={context}
-              classes={classes}
-              uuid={id}
-              config={this.state.messagesUnconfigured[id]}
-              knownMessageIds={[]}
-              readonly={true}
-              onAdd={this.onMessageAddFromUnconfigured}
-              showToast={this.props.showToast}
-            />
-          </TabPanel>
-        ))}
-
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 
