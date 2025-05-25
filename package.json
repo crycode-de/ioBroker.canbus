@@ -21,7 +21,7 @@
     "url": "https://github.com/crycode-de/ioBroker.canbus.git"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <23"
   },
   "os": [
     "linux"
