@@ -112,5 +112,6 @@
     "Value to set": "Waarde om in te stellen",
     "The value to set automatically in the given interval (%s)": "De waarde die automatisch moet worden ingesteld binnen het opgegeven interval (%s)",
     "Trigger send": "Trigger verzenden",
-    "Trigger the send action every time the value is set automatically": "Activeer de verzendactie telkens wanneer de waarde automatisch wordt ingesteld"
+    "Trigger the send action every time the value is set automatically": "Activeer de verzendactie telkens wanneer de waarde automatisch wordt ingesteld",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Aandacht: het wordt ten zeerste aanbevolen om een ​​pilsapparaat te gebruiken voor het bewerken van de instellingen. Wanneer u een klein apparaat gebruikt, kunnen de instellingen niet correct worden weergegeven en kunnen sommige opties moeilijk te bewerken zijn."
 }

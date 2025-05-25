@@ -113,5 +113,6 @@
     "Value to set": "Valeur à définir",
     "The value to set automatically in the given interval (%s)": "La valeur à définir automatiquement dans l'intervalle donné (%s)",
     "Trigger send": "Déclencher l'envoi",
-    "Trigger the send action every time the value is set automatically": "Déclenchez l'action d'envoi à chaque fois que la valeur est définie automatiquement"
+    "Trigger the send action every time the value is set automatically": "Déclenchez l'action d'envoi à chaque fois que la valeur est définie automatiquement",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "ATTENTION: Il est fortement recommandé d'utiliser un périphérique Lager pour modifier les paramètres. Lorsque vous utilisez un petit appareil, les paramètres peuvent ne pas être affichés correctement et certaines options peuvent être difficiles à modifier."
 }

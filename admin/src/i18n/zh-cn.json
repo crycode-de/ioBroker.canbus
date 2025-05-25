@@ -112,5 +112,6 @@
     "Information about the state roles in ioBroker on GitHub": "GitHub 上有关 ioBroker 中状态角色的信息",
     "Automatically set a certain value": "自动设置某个值",
     "Set a certain value automatically in a given interval": "在给定的时间间隔内自动设置某个值",
-    "Trigger the send action every time the value is set automatically": "每次自动设置值时触发发送操作"
+    "Trigger the send action every time the value is set automatically": "每次自动设置值时触发发送操作",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "注意：强烈建议使用啤酒设备来编辑设置。使用小设备时，可能无法正确显示设置，并且可能很难编辑某些选项。"
 }

@@ -111,5 +111,6 @@
     "Value to set": "Значення для встановлення",
     "The value to set automatically in the given interval (%s)": "Значення, яке автоматично встановлюється в заданому інтервалі (%s)",
     "Trigger send": "Тригер надсилання",
-    "Trigger the send action every time the value is set automatically": "Запускати дію надсилання кожного разу, коли значення встановлюється автоматично"
+    "Trigger the send action every time the value is set automatically": "Запускати дію надсилання кожного разу, коли значення встановлюється автоматично",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Увага: настійно рекомендується використовувати лагерний пристрій для редагування налаштувань. При використанні невеликого пристрою параметри можуть бути не правильно відображені, а деякі параметри можуть бути важкими для редагування."
 }

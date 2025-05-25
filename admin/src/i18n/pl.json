@@ -112,5 +112,6 @@
     "Value to set": "Wartość do ustawienia",
     "The value to set automatically in the given interval (%s)": "Wartość ustawiana automatycznie w zadanym przedziale (%s)",
     "Trigger send": "Wyzwalanie wysyłania",
-    "Trigger the send action every time the value is set automatically": "Wyzwalaj akcję wysyłania za każdym razem, gdy wartość jest ustawiana automatycznie"
+    "Trigger the send action every time the value is set automatically": "Wyzwalaj akcję wysyłania za każdym razem, gdy wartość jest ustawiana automatycznie",
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Uwaga: Zaleca się użycie urządzenia lagerów do edytowania ustawień. Podczas korzystania z małego urządzenia ustawienia mogą nie być poprawnie wyświetlane, a niektóre opcje mogą być trudne do edycji."
 }
