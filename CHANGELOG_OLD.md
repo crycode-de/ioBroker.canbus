@@ -34,6 +34,10 @@ The newest change log is in README.md
 
 ### 0.0.1
 * (crycode-de) initial development release
+## 1.3.0 (2022-02-07)
+
+* (crycode-de) Added `sharedData` object in custom parsers
+
 ## 1.2.3 (2021-10-17)
 
 * (crycode-de) Added missing `autoSet...` parser options to csv export/import

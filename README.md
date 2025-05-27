@@ -168,7 +168,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.2.0 (2025-05-27)
 
 * (crycode-de) Node.js >= 20 and <23, Admin >= 7.4.10 required
 * (crycode-de) Optimized admin layout for smaller devices and added a warning on very small devices
@@ -197,10 +197,6 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 * (crycode-de) Fixed `autoSetValue` defaults for parsers
 * (crycode-de) Fixed sentry admin integration
 * (crycode-de) Updated dependencies
-
-### 1.3.0 (2022-02-07)
-
-* (crycode-de) Added `sharedData` object in custom parsers
 
 ## License
 
