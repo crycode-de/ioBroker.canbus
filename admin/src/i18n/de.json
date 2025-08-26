@@ -61,7 +61,7 @@
     "Use rtr flag": "RTR-Flag nutzen",
     "Add an additional Remote Transmission Request (rtr) state on each message.": "Fügt jeder Nachricht einen zusätzlichen Remote Transmission Request (rtr) State hinzu.",
     "Import / Export": "Import / Export",
-    "Import": "Import",
+    "Import": "Importieren",
     "Export": "Export",
     "Using this import feature you are able to import message configurations to extend your existing configuration.": "Mit dieser Importfunktion können Nachrichtenkonfigurationen importiert werden, um die vorhandene Konfiguration zu erweitern.",
     "You may use a predefined configuration from GitHub or upload a custom file.": "Es können vorgefertigte Konfigurationen von GitHub genutzt oder eigene Dateien hochgeladen werden.",
