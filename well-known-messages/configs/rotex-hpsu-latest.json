@@ -4600,6 +4600,22 @@
         "commonRole": "button",
         "commonStates": false
       },
+      "a3f12d86-e815-4ddc-ad41-355c3654811b": {
+        "id": "fa0116-set",
+        "name": "Heizgrenze Tag setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x16, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
+        "commonStates": false
+      },
       "2552cd29-0fd7-42df-b238-9405d3980a6e": {
         "id": "fa0117",
         "name": "Heizgrenze Nacht abfragen",
@@ -4614,6 +4630,22 @@
         "customScriptWrite": "buffer = Buffer.from([0x61, 0x00, 0xFA, 0x01, 0x17, 0x00, 0x00]);",
         "customDataType": "boolean",
         "commonRole": "button",
+        "commonStates": false
+      },
+      "c00a9ed3-d717-4251-bde0-5591d29f6d50": {
+        "id": "fa0117-set",
+        "name": "Heizgrenze Nacht setzen",
+        "dataType": "custom",
+        "dataLength": 8,
+        "dataOffset": 0,
+        "dataUnit": "°C",
+        "dataEncoding": "latin1",
+        "booleanMask": 0,
+        "booleanInvert": false,
+        "customScriptRead": "//",
+        "customScriptWrite": "buffer = Buffer.from([0x60, 0x00, 0xFA, 0x01, 0x17, 0x00, 0x00]);\nbuffer.writeInt16BE(Math.round(value * 10), 5);",
+        "customDataType": "number",
+        "commonRole": "level.temperature",
         "commonStates": false
       },
       "bea48cf5-46eb-43c4-a251-f84197e2ab2d": {
