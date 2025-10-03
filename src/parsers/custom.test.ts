@@ -133,7 +133,7 @@ describe('ParserCustom', () => {
         buffer[2] = 0x42;
         `,
     });
-    buf = (await parser.write(buf, 0b11111111)) as Buffer;
+    buf = (await parser.write(buf, 0b11111111)) as Buffer<ArrayBuffer>;
     assert.deepEqual([ buf[1], buf[2] ], [ 0b11001100, 0x42 ]);
   });
 
@@ -145,7 +145,7 @@ describe('ParserCustom', () => {
         return false;
         `,
     });
-    const ret = (await parser.write(buf, null)) as Buffer;
+    const ret = (await parser.write(buf, null));
     expect(ret).to.equal(false);
   });
 
@@ -157,7 +157,7 @@ describe('ParserCustom', () => {
         buffer = Buffer.from([1, 2, 3, 4]);
         `,
     });
-    buf = (await parser.write(buf, null)) as Buffer;
+    buf = (await parser.write(buf, null)) as Buffer<ArrayBuffer>;
     expect(buf.length).to.equal(4);
   });
 
@@ -181,7 +181,7 @@ describe('ParserCustom', () => {
         buffer[0] = sharedData.test;
         `,
     });
-    buf = (await parser.write(buf, null)) as Buffer;
+    buf = (await parser.write(buf, null)) as Buffer<ArrayBuffer>;
     expect(buf[0]).to.equal(42);
   });
 
@@ -204,7 +204,7 @@ describe('ParserCustom', () => {
         buffer[3] = (await getForeignObjectAsync('test.0.some.id')).native.data;
         `,
     });
-    buf = (await parser.write(buf, null)) as Buffer;
+    buf = (await parser.write(buf, null)) as Buffer<ArrayBuffer>;
     assert.deepEqual([
       buf[0],
       buf[1],
@@ -227,7 +227,7 @@ describe('ParserCustom', () => {
         await setForeignStateAsync('test.0.set.id', 'test');
         `,
     });
-    buf = (await parser.write(buf, null)) as Buffer;
+    buf = (await parser.write(buf, null)) as Buffer<ArrayBuffer>;
 
     assert.deepEqual([
       fakeStates['canbus.0.set.id']?.val,
@@ -247,7 +247,7 @@ describe('ParserCustom', () => {
         `,
     });
     const start = Date.now();
-    buf = (await parser.write(buf, null)) as Buffer;
+    buf = (await parser.write(buf, null)) as Buffer<ArrayBuffer>;
     const end = Date.now();
 
     expect(end - start).to.be.greaterThanOrEqual(50);
