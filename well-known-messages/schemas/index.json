@@ -15,7 +15,7 @@
         },
         "nameLang": {
           "description": "Optional localized names",
-          "$ref": "#/definitions/Partial<Record<ioBroker.Languages,string>>"
+          "$ref": "#/definitions/Partial_Record_ioBroker.Languages,string__"
         },
         "description": {
           "description": "Description, optionally formated with markdown",
@@ -23,7 +23,7 @@
         },
         "descriptionLang": {
           "description": "Optional localized descriptions, optionally formated with markdown",
-          "$ref": "#/definitions/Partial<Record<ioBroker.Languages,string>>"
+          "$ref": "#/definitions/Partial_Record_ioBroker.Languages,string__"
         },
         "authors": {
           "description": "Array of authors, optionally formated with markdown",
@@ -51,7 +51,7 @@
         "releases"
       ]
     },
-    "Partial<Record<ioBroker.Languages,string>>": {
+    "Partial_Record_ioBroker.Languages,string__": {
       "type": "object",
       "properties": {
         "en": {

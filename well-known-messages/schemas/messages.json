@@ -28,7 +28,7 @@
           "type": "boolean"
         },
         "parsers": {
-          "$ref": "#/definitions/ioBroker.AdapterConfigMessageParsers<ioBroker.AdapterConfigMessageParser>"
+          "$ref": "#/definitions/ioBroker.AdapterConfigMessageParsers_ioBroker.AdapterConfigMessageParser_"
         }
       },
       "required": [
@@ -41,7 +41,7 @@
         "send"
       ]
     },
-    "ioBroker.AdapterConfigMessageParsers<ioBroker.AdapterConfigMessageParser>": {
+    "ioBroker.AdapterConfigMessageParsers_ioBroker.AdapterConfigMessageParser_": {
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/T_1"

@@ -57,7 +57,24 @@ for (const s of schemas) {
     continue;
   }
 
-  fs.writeFileSync(path.join(outDir, s.file), JSON.stringify(schema, undefined, 2), { encoding: 'utf8' });
+  let json = JSON.stringify(schema, undefined, 2);
+
+  // fix $ref containing invalid characters
+  // e.g. $ref: "#/definitions/Message<Foo>"
+  // we replace < and > with _
+  // e.g. $ref: "#/definitions/Message_Foo_"
+  // because the json schema validator in the frontend cannot handle these characters
+  const refs = json.match(/"\$ref": "(.+?)"/g) ?? [];
+  for (const ref of refs) {
+    const m = /"\$ref": "#\/definitions\/(.+?)"/.exec(ref);
+    if (m) {
+      const def = m[1];
+      const fixedDef = def.replace(/[<>]/g, '_');
+      json = json.replaceAll(def, fixedDef);
+    }
+  }
+
+  fs.writeFileSync(path.join(outDir, s.file), json, { encoding: 'utf8' });
   console.log(`Schema ${s.file} created.`);
 }
 
