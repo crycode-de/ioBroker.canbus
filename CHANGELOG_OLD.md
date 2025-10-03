@@ -34,6 +34,12 @@ The newest change log is in README.md
 
 ### 0.0.1
 * (crycode-de) initial development release
+## 1.3.1 (2022-04-19)
+
+* (crycode-de) Fixed `autoSetValue` defaults for parsers
+* (crycode-de) Fixed sentry admin integration
+* (crycode-de) Updated dependencies
+
 ## 1.3.0 (2022-02-07)
 
 * (crycode-de) Added `sharedData` object in custom parsers

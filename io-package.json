@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "canbus",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "news": {
+      "2.3.0": {
+        "en": "Support for Node.js 24\njs-controller >= 6.0.11, Admin >= 7.6.17 required\nFixed issue with importing configurations\nUpdated dependencies",
+        "de": "Unterstützung für Node.js 24\njs-controller >= 6.0.11, Admin >= 7.6.17 erforderlich\nProblem beim Konfigurationsimport behoben\nAbhängigkeiten aktualisiert",
+        "ru": "Поддержка Node.js 24\njs-контроллер >= 6.0.11, администратор >= 7.6.17 требуется\nФиксированная проблема с конфигурациями импорта\nОбновленные зависимости",
+        "pt": "Suporte para Node.js 24\njs-controller >= 6,0.11, Admin >= 7,617\nProblema fixo com as configurações de importação\nDependências atualizadas",
+        "nl": "Ondersteuning voor Node.js 24\nvoor de toepassing van deze onderverdeling wordt verstaan onder:\nVast probleem met importeren van configuraties\nBijgewerkte afhankelijkheden",
+        "fr": "Soutien à Node.js 24\njs-contrôleur >= 6.0.11, Admin >= 7.6.17 requis\nProblème corrigé avec les configurations d'importation\nDépendances actualisées",
+        "it": "Supporto per Node.js 24\njs-controller >= 6.0.11, Admin >= 7.6.17 richiesto\nProblema fisso con l'importazione di configurazioni\nDipendenze aggiornate",
+        "es": "Soporte para Node.js 24\njs-controller н= 6.0.11, Admin √= 7.6.17 requerido\nEdición fija con configuraciones de importación\nDependencias actualizadas",
+        "pl": "Wsparcie dla Node.js 24\nss- controller > = 6.0.11, Admin > = 7.6.17 wymagane\nNaprawiono problem z konfiguracją przywozu\nAktualizacja zależności",
+        "uk": "Підтримка Node.js 24\njs-controller >= 6.0.11, Admin >= 7.6.17 потрібно\nВиправлено проблему з налаштуваннями імпорту\nОновлені залежності",
+        "zh-cn": "支持节点.js 24\njs控制器 >= 6.0.11, 所需管理员 >= 7.6.17\n进口配置的固定问题\n更新的依赖关系"
+      },
       "2.2.0": {
         "en": "Node.js >= 20 and <23, Admin >= 7.4.10 required\nOptimized admin layout for smaller devices and added a warning on very small devices\nUpdated dependencies",
         "de": "Node.js >= 20 und <23, sowie Admin >= 7.4.10 erforderlich\nOptimiertes Admin-Layout für kleinere Geräte und eine Warnung auf sehr kleinen Geräten hinzugefügt\nAbhängigkeiten aktualisiert",
@@ -80,19 +93,6 @@
         "pl": "Dodano obiekt sharedData w niestandardowych parserach.",
         "zh-cn": "在自定义解析器中添加了 sharedData 对象。",
         "uk": "Додано об’єкт sharedData в настроюваних парсерах."
-      },
-      "1.2.3": {
-        "en": "Added missing `autoSet...` parser options to csv export/import",
-        "de": "Fehlende `autoSet...`-Parser-Optionen zum CSV-Export/-Import hinzugefügt",
-        "ru": "В экспорт / импорт CSV добавлены отсутствующие параметры парсера autoSet ...",
-        "pt": "Adicionadas opções do analisador `autoSet ...` ausentes para exportar / importar csv",
-        "nl": "Ontbrekende `autoSet...` parser-opties toegevoegd aan csv export/import",
-        "fr": "Ajout d'options d'analyseur manquantes \"autoSet...\" à l'export/import csv",
-        "it": "Aggiunte opzioni del parser `autoSet...` mancanti all'esportazione/importazione csv",
-        "es": "Se agregaron opciones faltantes del analizador `autoSet ...` a la exportación / importación de csv",
-        "pl": "Dodano brakujące opcje parsera `autoSet...` do eksportu/importu csv",
-        "zh-cn": "向 csv 导出/导入添加了缺少的 `autoSet...` 解析器选项",
-        "uk": "Додано відсутні параметри аналізатора `autoSet...` для експорту/імпорту CSV"
       }
     },
     "titleLang": {

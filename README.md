@@ -166,7 +166,7 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.3.0 (2025-10-03)
 
 * (crycode-de) Support for Node.js 24
 * (crycode-de) js-controller >= 6.0.11, Admin >= 7.6.17 required
@@ -195,12 +195,6 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 * (crycode-de) Changed how custom parser scripts are interpreted. Most custom parser scripts should work as before but they have a limited scope now.
 * (crycode-de) Custom parser scripts now support `getStateAsync`, `getForeignStateAsync`, `getObjectAsync` and `getForeignObjectAsync`. If you have used `getStateAsync`/`getObjectAsync` before you need to change them to `getForeignStateAsync`/`getForeignObjectAsync` or update the IDs if you get data from the same adapter instance.
 * (crycode-de) Custom write parser scripts an now return false to cancel the write
-* (crycode-de) Updated dependencies
-
-### 1.3.1 (2022-04-19)
-
-* (crycode-de) Fixed `autoSetValue` defaults for parsers
-* (crycode-de) Fixed sentry admin integration
 * (crycode-de) Updated dependencies
 
 ## License
