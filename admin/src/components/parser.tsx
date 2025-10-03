@@ -469,7 +469,7 @@ export class Parser extends React.PureComponent<ParserProps, ParserState> {
             color='primary'
             aria-label='delete'
             title={I18n.t('Remove')}
-            onClick={() => this.props.onDelete && this.props.onDelete(this.props.uuid)}
+            onClick={() => this.props.onDelete?.(this.props.uuid)}
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={this.props.readonly || !this.props.onDelete}
           >

@@ -1,4 +1,5 @@
 .cache
+.commitinfo
 .git
 .idea
 *.code-workspace

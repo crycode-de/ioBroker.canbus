@@ -1,16 +1,25 @@
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 import crycode from '@crycode/eslint-config';
 
-export default tseslint.config(
+export default defineConfig(
   ...crycode.configs.ts,
   ...crycode.configs.stylistic,
 
   {
     ignores: [
-      'admin/build/',
-      'build/',
-      'test/',
+      '.dev-server/',
+      '.vscode/',
+      '*.test.js',
+      'test/**/*.js',
+      '*.config.mjs',
+      'build',
+      'dist',
+      'admin/build',
+      'admin/words.js',
+      'admin/admin.d.ts',
+      'admin/blockly.js',
+      '**/adapter-config.d.ts',
     ],
   },
 

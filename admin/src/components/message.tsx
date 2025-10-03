@@ -177,7 +177,7 @@ export class Message extends React.Component<MessageProps, MessageState> {
               color='primary'
               aria-label='add'
               title={I18n.t('Add')}
-              onClick={() => this.props.onAdd && this.props.onAdd(this.props.uuid)}
+              onClick={() => this.props.onAdd?.(this.props.uuid)}
             >
               <AddIcon />
             </Fab>
