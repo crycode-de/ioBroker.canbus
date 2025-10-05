@@ -2,7 +2,9 @@ import * as utils from '@iobroker/adapter-core';
 import { boundMethod } from 'autobind-decorator';
 import { CanMessage } from 'socketcan';
 
-import { CanInterface } from './can-interface';
+import type { CanInterface } from './can-interface';
+import { CanInterfaceSocketcan } from './can-interface-socketcan';
+import { CanInterfaceWaveshareCan2eth } from './can-interface-waveshare-can2eth';
 import { getHexId, PromiseQueue } from './helpers';
 
 import { knownParsers } from './parsers';
@@ -22,7 +24,7 @@ export class CanBusAdapter extends utils.Adapter {
   /**
    * Mapping of CAN hex message IDs to the message configs.
    * The IDs must be hex strings (3 or 8 chars) to differentiate between
-   * stanard frame and extended frame messages.
+   * standard frame and extended frame messages.
    */
   private canId2Message: Record<string, MessageConfig> = {};
 
@@ -52,14 +54,25 @@ export class CanBusAdapter extends utils.Adapter {
 
     await this.setupObjects();
 
-    this.canInterface = new CanInterface(this);
-    this.canInterface.on('stopped', () => this.setState('info.connection', false, true));
+    // create interface instance depending on interface type
+    if (this.config.interfaceType === 'socketcan') {
+      this.canInterface = new CanInterfaceSocketcan(this);
+    } else {
+      this.canInterface = new CanInterfaceWaveshareCan2eth(this);
+    }
+
+    this.canInterface.on('started', () => {
+      this.log.debug('can interface started');
+      void this.setState('info.connection', false, true);
+    });
+    this.canInterface.on('stopped', () => {
+      this.log.debug('can interface stopped');
+      void this.setState('info.connection', false, true);
+    });
+
     this.canInterface.on('message', this.handleCanMsg);
 
-    if (this.canInterface.start()) {
-      this.log.debug('can interface started');
-      await this.setState('info.connection', true, true);
-    }
+    await this.canInterface.start();
 
     await this.subscribeStatesAsync('*');
   }
@@ -68,10 +81,10 @@ export class CanBusAdapter extends utils.Adapter {
    * Is called when adapter shuts down - callback has to be called under any circumstances!
    */
   @boundMethod
-  private onUnload (callback: () => void): void {
+  private async onUnload (callback: () => void): Promise<void> {
     try {
       if (this.canInterface) {
-        this.canInterface.stop();
+        await this.canInterface.stop();
       }
 
       // stop intervals

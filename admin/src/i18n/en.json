@@ -112,5 +112,13 @@
     "The value to set automatically in the given interval (%s)": "The value to set automatically in the given interval (%s)",
     "Trigger send": "Trigger send",
     "Trigger the send action every time the value is set automatically": "Trigger the send action every time the value is set automatically",
-    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit."
+    "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.": "Attention: It's highly recommended to use a lager device for editing the settings. When using a small device, the settings may not be displayed correctly and some options may be hard to edit.",
+    "Invalid IP address" : "Invalid IP address",
+    "Invalid port" : "Invalid port",
+    "Interface type" : "Interface type",
+    "Type of the CAN interface to use": "Type of the CAN interface to use",
+    "socketcan" : "Socketcan",
+    "waveshare-can2eth" : "Waveshare CAN to Ethernet Server (TCP)",
+    "IP address" : "IP address",
+    "Port" : "Port"
 }

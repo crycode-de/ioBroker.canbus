@@ -1,20 +1,19 @@
 import * as socketcan from 'socketcan';
-import { boundMethod } from 'autobind-decorator';
 import { EventEmitter } from 'events';
 import type { CanBusAdapter } from './main';
 
 interface CanInterfaceEvents {
   message: [msg: socketcan.CanMessage];
+  started: [];
   stopped: [];
 }
 
 /**
  * Interface to the CAN bus using socketcan.
  */
-export class CanInterface extends EventEmitter<CanInterfaceEvents> {
-  private adapter: CanBusAdapter;
-  private channel: socketcan.RawChannel | null = null;
-  private started: boolean = false;
+export abstract class CanInterface extends EventEmitter<CanInterfaceEvents> {
+  protected adapter: CanBusAdapter;
+  protected started: boolean = false;
 
   constructor (adapter: CanBusAdapter) {
     super();
@@ -27,40 +26,20 @@ export class CanInterface extends EventEmitter<CanInterfaceEvents> {
    * Need to be called before we can send/receive any messages.
    * @return `true` if the channel is started, `false` in case of an error.
    */
-  public start (): boolean {
-    try {
-      this.channel = socketcan.createRawChannel(this.adapter.config.interface, false);
-      this.channel.addListener('onMessage', this.handleCanMsg);
-      this.channel.addListener('onStopped', this.handleStopped);
-      this.channel.start();
-    } catch (err) {
-      this.adapter.log.error(`Error starting can interface: ${err}`);
-      return false;
-    }
-
-    this.started = true;
-    return true;
-  }
+  public abstract start (): Promise<boolean>;
 
   /**
    * Stop the channel of the CAN interface.
    * If stopped no more messages will be received but it may be possible to send
    * messages anyways.
    */
-  public stop (): void {
-    if (this.channel) {
-      this.channel.stop();
-      this.started = false;
-    }
-  }
+  public abstract stop (): Promise<void>;
 
   /**
    * Check if the interface is ready to send/receive data.
    * @return `true` if ready.
    */
-  public isReady (): boolean {
-    return this.started && this.channel !== null;
-  }
+  public abstract isReady (): boolean;
 
   /**
    * Send a can message with the given properties.
@@ -70,35 +49,5 @@ export class CanInterface extends EventEmitter<CanInterfaceEvents> {
    * @param rtr Remote transmission request flag.
    * @return `true` if the message is sent.
    */
-  public send (id: number, ext: boolean, data: Buffer, rtr?: boolean): boolean {
-    if (!this.channel) {
-      this.adapter.log.warn(`Could not send data because channel is not initialized.`);
-      return false;
-    }
-
-    const msg: socketcan.CanMessage = {
-      id: id,
-      ext: ext,
-      rtr: !!rtr,
-      data: data,
-    };
-    this.adapter.log.debug(`sending can message: ${JSON.stringify(msg)}`);
-
-    this.channel.send(msg);
-
-    return true;
-  }
-
-  @boundMethod
-  private handleCanMsg (msg: socketcan.CanMessage): void {
-    this.adapter.log.debug(`received can message: ${JSON.stringify(msg)}`);
-
-    this.emit('message', msg);
-  }
-
-  @boundMethod
-  private handleStopped (): void {
-    this.started = false;
-    this.emit('stopped');
-  }
+  public abstract send (id: number, ext: boolean, data: Buffer, rtr?: boolean): boolean;
 }

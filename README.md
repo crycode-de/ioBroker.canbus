@@ -166,6 +166,10 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+* (crycode-de) Support for Waveshare CAN-to-Ethernet adapter via TCP
+
 ### 2.3.0 (2025-10-03)
 
 * (crycode-de) Support for Node.js 24

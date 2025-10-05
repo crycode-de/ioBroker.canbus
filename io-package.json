@@ -223,7 +223,10 @@
     ]
   },
   "native": {
+    "interfaceType": "socketcan",
     "interface": "can0",
+    "ip": "192.168.0.201",
+    "port": 20001,
     "autoAddSeenMessages": false,
     "deleteUnconfiguredMessages": false,
     "messages": {},

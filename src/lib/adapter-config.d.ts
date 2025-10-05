@@ -8,7 +8,23 @@ declare global {
     }
 
     interface AdapterConfigMainSettings {
+      interfaceType: 'socketcan' | 'waveshare-can2eth';
+
+      /**
+       * Can bus interface to use for socketcan, e.g. `can0`.
+       */
       interface: string;
+
+      /**
+       * IP address of a CAN to Ethernet adapter.
+       */
+      ip: string;
+
+      /**
+       * Port of a CAN to Ethernet adapter.
+       */
+      port: number;
+
       autoAddSeenMessages: boolean;
       deleteUnconfiguredMessages: boolean;
       useRawStates: boolean;

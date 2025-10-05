@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var consts_exports = {};
 __export(consts_exports, {
   INTERFACE_REGEXP: () => INTERFACE_REGEXP,
+  IP_REGEXP: () => IP_REGEXP,
   MESSAGE_ID_REGEXP: () => MESSAGE_ID_REGEXP,
   MESSAGE_ID_REGEXP_WITH_DLC: () => MESSAGE_ID_REGEXP_WITH_DLC,
   PARSER_COMMON_STATES_REGEXP: () => PARSER_COMMON_STATES_REGEXP,
@@ -27,6 +28,7 @@ __export(consts_exports, {
 });
 module.exports = __toCommonJS(consts_exports);
 const INTERFACE_REGEXP = /^[\w-/]{1,}$/;
+const IP_REGEXP = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 const MESSAGE_ID_REGEXP = /^([0-7][0-9A-F]{2}|[01][0-9A-F]{7})$/;
 const MESSAGE_ID_REGEXP_WITH_DLC = /^([0-7][0-9A-F]{2}|[01][0-9A-F]{7})(-[0-8])?$/;
 const PARSER_ID_REGEXP = /^[0-9a-z-_]{1,64}$/;
@@ -35,6 +37,7 @@ const PARSER_COMMON_STATES_REGEXP = /^([^=]+=[^,]+,)*([^=]+=[^,]+)$/;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   INTERFACE_REGEXP,
+  IP_REGEXP,
   MESSAGE_ID_REGEXP,
   MESSAGE_ID_REGEXP_WITH_DLC,
   PARSER_COMMON_STATES_REGEXP,

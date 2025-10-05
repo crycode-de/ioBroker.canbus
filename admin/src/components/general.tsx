@@ -9,8 +9,9 @@ import type { AppContext, CommonObj } from '../common';
 
 import { InputCheckbox } from './input-checkbox';
 import { InputText } from './input-text';
+import { InputSelect } from './input-select';
 
-import { INTERFACE_REGEXP } from '../../../src/consts';
+import { INTERFACE_REGEXP, IP_REGEXP } from '../../../src/consts';
 
 interface GeneralProps {
   /**
@@ -57,6 +58,16 @@ interface GeneralState extends ioBroker.AdapterConfigMainSettings {
    * Error string to display for the interface option or `null` if no error.
    */
   interfaceError: string | null;
+
+  /**
+   * Error string to display for the ip option or `null` if no error.
+   */
+  ipError: string | null;
+
+  /**
+   * Error string to display for the port option or `null` if no error.
+   */
+  portError: string | null;
 }
 
 export class General extends React.Component<GeneralProps, GeneralState> {
@@ -66,8 +77,13 @@ export class General extends React.Component<GeneralProps, GeneralState> {
     this.state = this.validateState({
       autoAddSeenMessages: this.props.native.autoAddSeenMessages,
       deleteUnconfiguredMessages: this.props.native.deleteUnconfiguredMessages,
+      interfaceType: this.props.native.interfaceType,
       interface: this.props.native.interface,
+      ip: this.props.native.ip,
+      port: this.props.native.port,
       interfaceError: null,
+      ipError: null,
+      portError: null,
       useRawStates: this.props.native.useRawStates,
       useRtrFlag: this.props.native.useRtrFlag,
     });
@@ -88,19 +104,66 @@ export class General extends React.Component<GeneralProps, GeneralState> {
           }}
         />
         <Grid container spacing={3}>
-          <InputText
+          <InputSelect
             xs={12}
-            sm={12}
-            md={6}
-            lg={4}
-            label={I18n.t('Interface')}
-            value={this.state.interface}
-            errorMsg={this.state.interfaceError}
-            required
-            onChange={(v) => this.handleChange('interface', v)}
+            sm={6}
+            md={4}
+            lg={2}
+            label={I18n.t('Interface type')}
+            value={this.state.interfaceType}
+            onChange={(v) => this.handleChange('interfaceType', v as ioBroker.AdapterConfig['interfaceType'])}
+            options={{
+              socketcan: I18n.t('socketcan'),
+              'waveshare-can2eth': I18n.t('waveshare-can2eth'),
+            }}
           >
-            {I18n.t('e.g.')} <code>can0</code>
-          </InputText>
+            {I18n.t('Type of the CAN interface to use')}
+          </InputSelect>
+          {this.state.interfaceType === 'socketcan' && (
+            <InputText
+              xs={12}
+              sm={12}
+              md={6}
+              lg={4}
+              label={I18n.t('Interface')}
+              value={this.state.interface}
+              errorMsg={this.state.interfaceError}
+              required
+              onChange={(v) => this.handleChange('interface', v)}
+            >
+              {I18n.t('e.g.')} <code>can0</code>
+            </InputText>
+          )}
+          {this.state.interfaceType === 'waveshare-can2eth' && (
+            <>
+              <InputText
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                label={I18n.t('IP address')}
+                value={this.state.ip}
+                errorMsg={this.state.ipError}
+                required
+                onChange={(v) => this.handleChange('ip', v)}
+              >
+                {I18n.t('e.g.')} <code>192.168.0.201</code>
+              </InputText>
+              <InputText
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+                label={I18n.t('Port')}
+                value={!isNaN(this.state.port) ? String(this.state.port) : ''}
+                errorMsg={this.state.portError}
+                required
+                onChange={(v) => this.handleChange('port', parseInt(v, 10))}
+              >
+                {I18n.t('e.g.')} <code>20001</code>
+              </InputText>
+            </>
+          )}
         </Grid>
         <Grid container spacing={3}>
           <InputCheckbox
@@ -176,18 +239,59 @@ export class General extends React.Component<GeneralProps, GeneralState> {
    */
   private validateState<T extends Partial<GeneralState>>(state: T = {} as T): T {
     let isValid = true;
+    const interfaceType = state.interfaceType ?? this.state.interfaceType;
 
-    // check own states
-    if (state.interface !== undefined) {
-      // check this
-      if (state.interface.match(INTERFACE_REGEXP)) {
-        state.interfaceError = null;
-      } else {
-        state.interfaceError = I18n.t('Only allowed chars: %s', '0-9a-zA-Z-_/');
+    if (interfaceType === 'socketcan') {
+      // socketcan
+
+      // check own states
+      if (state.interface !== undefined) {
+        // check this
+        if (state.interface.match(INTERFACE_REGEXP)) {
+          state.interfaceError = null;
+        } else {
+          state.interfaceError = I18n.t('Only allowed chars: %s', '0-9a-zA-Z-_/');
+          isValid = false;
+        }
+      } else if (this.state?.interfaceError !== null) {
+        // use result from previous check
         isValid = false;
       }
-    } else if (this.state?.interfaceError !== null) {
-      // use result from previous check
+
+    } else if (interfaceType === 'waveshare-can2eth') {
+      // Waveshare CAN to Ethernet Server
+
+      // check ip
+      if (state.ip !== undefined) {
+        // check this
+        if (state.ip.match(IP_REGEXP)) {
+          state.ipError = null;
+        } else {
+          state.ipError = I18n.t('Invalid IP address');
+          isValid = false;
+        }
+      } else if (this.state?.ipError !== null) {
+        // use result from previous check
+        isValid = false;
+      }
+
+      // check port
+      if (state.port !== undefined) {
+        // check this
+        if (typeof state.port === 'number' && state.port > 0 && state.port < 65536) {
+          state.portError = null;
+        } else {
+          state.portError = I18n.t('Invalid port');
+          isValid = false;
+        }
+      } else if (this.state?.portError !== null) {
+        // use result from previous check
+        isValid = false;
+      }
+
+    } else {
+      // unknown interface type
+      console.warn(`Unknown interface type "${interfaceType}"`);
       isValid = false;
     }
 

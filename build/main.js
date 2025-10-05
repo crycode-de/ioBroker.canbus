@@ -41,7 +41,8 @@ __export(main_exports, {
 module.exports = __toCommonJS(main_exports);
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_autobind_decorator = require("autobind-decorator");
-var import_can_interface = require("./can-interface");
+var import_can_interface_socketcan = require("./can-interface-socketcan");
+var import_can_interface_waveshare_can2eth = require("./can-interface-waveshare-can2eth");
 var import_helpers = require("./helpers");
 var import_parsers = require("./parsers");
 var import_consts = require("./consts");
@@ -55,7 +56,7 @@ class CanBusAdapter extends utils.Adapter {
     /**
      * Mapping of CAN hex message IDs to the message configs.
      * The IDs must be hex strings (3 or 8 chars) to differentiate between
-     * stanard frame and extended frame messages.
+     * standard frame and extended frame messages.
      */
     this.canId2Message = {};
     /**
@@ -69,19 +70,27 @@ class CanBusAdapter extends utils.Adapter {
   async onReady() {
     await this.setState("info.connection", false, true);
     await this.setupObjects();
-    this.canInterface = new import_can_interface.CanInterface(this);
-    this.canInterface.on("stopped", () => this.setState("info.connection", false, true));
-    this.canInterface.on("message", this.handleCanMsg);
-    if (this.canInterface.start()) {
-      this.log.debug("can interface started");
-      await this.setState("info.connection", true, true);
+    if (this.config.interfaceType === "socketcan") {
+      this.canInterface = new import_can_interface_socketcan.CanInterfaceSocketcan(this);
+    } else {
+      this.canInterface = new import_can_interface_waveshare_can2eth.CanInterfaceWaveshareCan2eth(this);
     }
+    this.canInterface.on("started", () => {
+      this.log.debug("can interface started");
+      void this.setState("info.connection", false, true);
+    });
+    this.canInterface.on("stopped", () => {
+      this.log.debug("can interface stopped");
+      void this.setState("info.connection", false, true);
+    });
+    this.canInterface.on("message", this.handleCanMsg);
+    await this.canInterface.start();
     await this.subscribeStatesAsync("*");
   }
-  onUnload(callback) {
+  async onUnload(callback) {
     try {
       if (this.canInterface) {
-        this.canInterface.stop();
+        await this.canInterface.stop();
       }
       for (const interv of this.intervals) {
         clearInterval(interv);
