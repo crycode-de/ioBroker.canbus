@@ -162,7 +162,7 @@
     ],
     "plugins": {
       "sentry": {
-        "dsn": "https://c1c0ecf339f94ad88e89770783e281fb@sentry.cryhost.de/4"
+        "dsn": "https://693ef18c0bce43f8be78baec68087226@glitchtip.crymg.de/2"
       }
     },
     "messages": [
