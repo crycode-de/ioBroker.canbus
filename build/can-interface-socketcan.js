@@ -40,16 +40,15 @@ __export(can_interface_socketcan_exports, {
 });
 module.exports = __toCommonJS(can_interface_socketcan_exports);
 var import_autobind_decorator = require("autobind-decorator");
-var socketcan = __toESM(require("socketcan"));
 var import_can_interface = require("./can-interface");
 class CanInterfaceSocketcan extends import_can_interface.CanInterface {
   constructor(adapter) {
     super(adapter);
     this.channel = null;
   }
-  // eslint-disable-next-line @typescript-eslint/require-await
   async start() {
     try {
+      const socketcan = await Promise.resolve().then(() => __toESM(require("socketcan")));
       this.channel = socketcan.createRawChannel(this.adapter.config.interface, false);
       this.channel.addListener("onMessage", this.handleCanMsg);
       this.channel.addListener("onStopped", this.handleStopped);

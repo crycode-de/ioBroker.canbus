@@ -1,6 +1,6 @@
 import * as utils from '@iobroker/adapter-core';
 import { boundMethod } from 'autobind-decorator';
-import { CanMessage } from 'socketcan';
+import type { CanMessage } from 'socketcan';
 
 import type { CanInterface } from './can-interface';
 import { CanInterfaceSocketcan } from './can-interface-socketcan';

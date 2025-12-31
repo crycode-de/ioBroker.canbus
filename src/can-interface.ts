@@ -1,9 +1,9 @@
-import * as socketcan from 'socketcan';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
+import type { CanMessage } from 'socketcan';
 import type { CanBusAdapter } from './main';
 
 interface CanInterfaceEvents {
-  message: [msg: socketcan.CanMessage];
+  message: [msg: CanMessage];
   started: [];
   stopped: [];
 }

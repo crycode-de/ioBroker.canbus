@@ -21,8 +21,8 @@ __export(can_interface_exports, {
   CanInterface: () => CanInterface
 });
 module.exports = __toCommonJS(can_interface_exports);
-var import_events = require("events");
-class CanInterface extends import_events.EventEmitter {
+var import_node_events = require("node:events");
+class CanInterface extends import_node_events.EventEmitter {
   constructor(adapter) {
     super();
     this.started = false;

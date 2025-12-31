@@ -2,7 +2,7 @@
  * CAN interface for socketcan (Linux native CAN support)
  */
 import { boundMethod } from 'autobind-decorator';
-import * as socketcan from 'socketcan';
+import type { CanMessage, RawChannel } from 'socketcan';
 import type { CanBusAdapter } from './main';
 import { CanInterface } from './can-interface';
 
@@ -10,16 +10,17 @@ import { CanInterface } from './can-interface';
  * Interface to the CAN bus using socketcan.
  */
 export class CanInterfaceSocketcan extends CanInterface {
-  private channel: socketcan.RawChannel | null = null;
+  private channel: RawChannel | null = null;
 
   constructor (adapter: CanBusAdapter) {
     super(adapter);
 
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async start (): Promise<boolean> {
     try {
+      // use a dynamic import to make sure the adapter can also be installed on non-linux systems
+      const socketcan = await import('socketcan');
       this.channel = socketcan.createRawChannel(this.adapter.config.interface, false);
       this.channel.addListener('onMessage', this.handleCanMsg);
       this.channel.addListener('onStopped', this.handleStopped);
@@ -73,7 +74,7 @@ export class CanInterfaceSocketcan extends CanInterface {
     }
     if (dlc < 0) dlc = 0; // defensive
 
-    const msg: socketcan.CanMessage = {
+    const msg: CanMessage = {
       id,
       ext,
       rtr,
@@ -87,7 +88,7 @@ export class CanInterfaceSocketcan extends CanInterface {
   }
 
   @boundMethod
-  private handleCanMsg (msg: socketcan.CanMessage): void {
+  private handleCanMsg (msg: CanMessage): void {
     this.adapter.log.debug(`Received can message: ${JSON.stringify(msg)}`);
 
     this.emit('message', msg);
