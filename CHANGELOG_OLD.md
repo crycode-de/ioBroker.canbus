@@ -34,6 +34,14 @@ The newest change log is in README.md
 
 ### 0.0.1
 * (crycode-de) initial development release
+## 2.0.0 (2024-11-02)
+
+* (crycode-de) Node.js >= 18, Admin >= 6.17, js-contoller >= 5.0.19 are required
+* (crycode-de) Changed how custom parser scripts are interpreted. Most custom parser scripts should work as before but they have a limited scope now.
+* (crycode-de) Custom parser scripts now support `getStateAsync`, `getForeignStateAsync`, `getObjectAsync` and `getForeignObjectAsync`. If you have used `getStateAsync`/`getObjectAsync` before you need to change them to `getForeignStateAsync`/`getForeignObjectAsync` or update the IDs if you get data from the same adapter instance.
+* (crycode-de) Custom write parser scripts an now return false to cancel the write
+* (crycode-de) Updated dependencies
+
 ## 1.3.1 (2022-04-19)
 
 * (crycode-de) Fixed `autoSetValue` defaults for parsers
