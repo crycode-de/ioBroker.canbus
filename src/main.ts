@@ -63,7 +63,7 @@ export class CanBusAdapter extends utils.Adapter {
 
     this.canInterface.on('started', () => {
       this.log.debug('can interface started');
-      void this.setState('info.connection', false, true);
+      void this.setState('info.connection', true, true);
     });
     this.canInterface.on('stopped', () => {
       this.log.debug('can interface stopped');
