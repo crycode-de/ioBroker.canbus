@@ -193,6 +193,8 @@ By writing JSON data to the `raw.send` state you are able to send CAN messages c
 * (crycode-de) Allow `setTimeout` and `clearTimeout` in custom parser scripts (using the adapters setTimeout implementation)
 * (crycode-de) Added `wait` function to custom parser scripts
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
