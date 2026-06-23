@@ -1,6 +1,6 @@
 import * as socketcan from 'socketcan';
 import { boundMethod } from 'autobind-decorator';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import type { CanBusAdapter } from './main';
 
 interface CanInterfaceEvents {
