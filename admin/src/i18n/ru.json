@@ -40,7 +40,7 @@
     "Add": "Добавить",
     "Remove": "Удалить",
     "Reload": "Перезагрузить",
-    "General": "Общая",
+    "General": "Основные",
     "Message": "Сообщение",
     "Not set": "Не установлено",
     "Optionally set a fixed data length for this message": "При необходимости установите фиксированную длину данных для этого сообщения",
