@@ -36,7 +36,7 @@
     "Remove this message?": "Видалити це повідомлення?",
     "Are you sure you want to remove this message? This will also remove all it's parsers. The message will be treated as unconfigured and may be deleted on adapter restart.": "Ви впевнені, що хочете видалити це повідомлення? Це також видалить усі його аналізатори. Повідомлення вважатиметься неналаштованим і може бути видалено після перезавантаження адаптера.",
     "Parser ID": "Ідентифікатор аналізатора",
-    "Temperature": "температура",
+    "Temperature": "Температура",
     "Data type": "Тип даних",
     "Data type in the can message": "Тип даних у повідомленні can",
     "Data type in ioBroker": "Тип даних в ioBroker",
